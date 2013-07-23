@@ -21,6 +21,8 @@ using System.Web.Script.Serialization;
 using GooCooAdmin.Properties;
 using GooCooAdmin.Util;
 using GooCooServer.Entity.Ex;
+using System.Web.Configuration;
+using System.ComponentModel;
 
 namespace GooCooAdmin
 {
@@ -61,8 +63,7 @@ namespace GooCooAdmin
             lb_user.Items.Clear();
             foreach (UserEx e in user_list.ToList())
             {
-                int index = lb_user.Items.Add(e);
-                //if (user_list["borrow"].Contains(e))lb_user.selection
+                int index = lb_user.Items.Add(e);                
             }
         }
 
@@ -168,20 +169,8 @@ namespace GooCooAdmin
 
         void lb_book_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DealDialog dlg = new DealDialog();
-            bool? ret = null;
-            if (sel_user != null)
-            {
-                dlg.user = sel_user;
-                dlg.tb_user.Text = sel_user.ToString(); ;
-            }
-            if (sel_book != null)
-            {
-                dlg.bookInfo = sel_book;
-                String s = sel_book.ToString();
-                dlg.tb_book.Text = s;
-            }
-            ret = dlg.ShowDialog();
+            DealDialog dlg = new DealDialog(sel_book, sel_user);
+            dlg.ShowDialog();
         }
 
         async void lb_book_SelectionChanged(object sender, SelectionChangedEventArgs e)

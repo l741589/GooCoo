@@ -11,6 +11,13 @@ namespace GooCooServer.Entity.Ex
     {
         private String owner_id = null;
         private String orderer_id = null;
+        private String mark = null;
+
+        public String Mark
+        {
+            get { return mark; }
+            set { mark = value; }
+        }
 
         public String Owner_id
         {
@@ -45,7 +52,9 @@ namespace GooCooServer.Entity.Ex
 
         public override string ToString()
         {
-            return Isbn + " " + Name + " " + new DateTime(Timestamp).ToString("yyyy:MM:dd hh:mm:ss");
+            String s = Isbn + " " + Name + " " + new DateTime(Timestamp).ToString("yyyy:MM:dd hh:mm:ss");
+            if (Mark != null) return Mark + " " + s;
+            return s;
         }
     }
 }

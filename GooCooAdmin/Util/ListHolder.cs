@@ -93,11 +93,20 @@ namespace GooCooAdmin.Util
             foreach (var e in plist)
             {
                 var list = lists[e.Key];
-                for (int i = 0; i < list.Count; ++i)
+                foreach (var f in list)
                 {
-                    T f = list[i];
                     if (!ret.Contains(f))
+                    {
+                        String mark = "";
+                        switch (e.Key)
+                        {
+                            case "search": mark = null; break;
+                            case "borrow": mark = "B"; break;
+                            case "order": mark = "O"; break;
+                        }
+                        f.GetType().GetProperty("Mark").SetValue(f, mark);
                         ret.Add(f);
+                    }
                 }
             }
             return ret;

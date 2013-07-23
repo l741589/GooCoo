@@ -8,8 +8,15 @@ namespace GooCooServer.Entity.Ex
 {
     public class UserEx : User
     {
-        private List<String> holds;
-        private List<String> orders;
+        private List<String> holds = new List<string>();
+        private List<String> orders = new List<string>();
+        private String mark = null;
+
+        public String Mark
+        {
+            get { return mark; }
+            set { mark = value; }
+        }
 
         public List<String> Holds
         {
@@ -44,7 +51,9 @@ namespace GooCooServer.Entity.Ex
 
         public override string ToString()
         {
-            return Id + " " + Name + " " + Authority;
+            String s = Id + " " + Name + " " + Authority;
+            if (Mark != null) return Mark + " " + s;
+            return s;
         }
     }
 }

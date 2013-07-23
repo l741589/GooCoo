@@ -39,6 +39,7 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     BookEx b = Util.CloneEntity<BookEx>(e);
+                    //这里没有判断是否是最后预订的
                     b.Orderer_id = user_id;
                     books.Add(b);
                 }
@@ -52,6 +53,7 @@ namespace GooCooServer.Handler
                 book.Name = "sdfergw34sdsfdd";
                 book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = 322343423243;
+                book.Orderer_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
@@ -59,6 +61,7 @@ namespace GooCooServer.Handler
                 book.Name = "供sa热为复se位";
                 book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow.Ticks;
+                book.Orderer_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
@@ -66,6 +69,7 @@ namespace GooCooServer.Handler
                 book.Name = "而谷歌";
                 book.Tags = new String[] { "432433232we", "dffdfdf" };
                 book.Timestamp = 232546788755455657L;
+                book.Orderer_id = user_id;
                 books.Add(book);
             }
             StringBuilder ret = new StringBuilder();
