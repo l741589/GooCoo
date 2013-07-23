@@ -8,6 +8,21 @@ namespace GooCooServer.Entity.Ex
 {
     public class UserEx : User
     {
+        private List<String> holds;
+        private List<String> orders;
+
+        public List<String> Holds
+        {
+            get { return holds; }
+            set { holds = value; }
+        }        
+
+        public List<String> Orders
+        {
+            get { return orders; }
+            set { orders = value; }
+        }
+
         public string ToString(String[] fields)
         {
             StringBuilder s = new StringBuilder();

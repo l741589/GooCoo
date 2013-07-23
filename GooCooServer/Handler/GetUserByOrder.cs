@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -29,30 +31,37 @@ namespace GooCooServer.Handler
         public void ProcessRequest(HttpContext context)
         {
             IUser_BookInfoDAO ub = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
-            List<User> users = new List<User>();
+            List<UserEx> users = new List<UserEx>();
+            String book_isbn = context.Request["isbn"];
             if (ub != null)
             {
-                List<User> lbs = ub.GetUser(context.Request["isbn"]);
+                List<User> lus = ub.GetUser(book_isbn);
+                foreach (var e in lus)
+                {
+                    UserEx u = Util.CloneEntity<UserEx>(e);
+                    u.Orders.Add(book_isbn);
+                    users.Add(u);
+                }
             }
             else
             {
                 if (context.Request["isbn"] == null) throw new BMException("参数错误");
-                User user = new User();
+                UserEx user = new UserEx();
                 user.Id = "2223435";
                 user.Name = "kjkjkyuy";
-                user.Authority = User.EAuthority.USER;
+                user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
 
-                user = new User();
+                user = new UserEx();
                 user.Id = "2789665";
                 user.Name = "李年华";
-                user.Authority = User.EAuthority.USER;
+                user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
 
-                user = new User();
+                user = new UserEx();
                 user.Id = "1123345";
                 user.Name = "孙建华";
-                user.Authority = User.EAuthority.ADMIN;
+                user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
             }
             StringBuilder ret = new StringBuilder();

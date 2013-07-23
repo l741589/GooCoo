@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 
@@ -8,8 +9,8 @@ namespace GooCooServer.Entity.Ex
 {
     public class BookEx : BookInfo
     {
-        private String owner_id;
-        private String orderer_id;
+        private String owner_id = null;
+        private String orderer_id = null;
 
         public String Owner_id
         {

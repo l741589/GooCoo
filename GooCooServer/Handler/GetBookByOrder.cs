@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -29,30 +31,37 @@ namespace GooCooServer.Handler
         public void ProcessRequest(HttpContext context)
         {
             IUser_BookInfoDAO ub = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
-            List<BookInfo> books = new List<BookInfo>();
+            List<BookEx> books = new List<BookEx>();
+            String user_id = context.Request["user"];
             if (ub != null)
             {
-                List<BookInfo> lbs = ub.GetBookInfo(context.Request["user"]);
+                List<BookInfo> lbs = ub.GetBookInfo(user_id);
+                foreach (var e in lbs)
+                {
+                    BookEx b = Util.CloneEntity<BookEx>(e);
+                    b.Orderer_id = user_id;
+                    books.Add(b);
+                }
             }
             else
             {
                 if (context.Request["user"] == null) throw new BMException("参数错误");
-                BookInfo book;
-                book = new BookInfo();
+                BookEx book;
+                book = new BookEx();
                 book.Isbn = "wwweweeww32ee2";
                 book.Name = "sdfergw34sdsfdd";
                 book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = 322343423243;
                 books.Add(book);
 
-                book = new BookInfo();
+                book = new BookEx();
                 book.Isbn = "sd34t344rt3e";
                 book.Name = "供sa热为复se位";
                 book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow.Ticks;
                 books.Add(book);
 
-                book = new BookInfo();
+                book = new BookEx();
                 book.Isbn = "额";
                 book.Name = "而谷歌";
                 book.Tags = new String[] { "432433232we", "dffdfdf" };

@@ -46,7 +46,7 @@ namespace GooCooAdmin
             mi_login.Click += bn_login_Click;
             mi_logout.Click += mi_logout_Click;
             mi_exit.Click += mi_exit_Click;
-            mn_user.Opened += mn_user_Opened;
+            //mn_user.Opened += mn_user_Opened;
             lb_user.SelectionChanged += lb_user_SelectionChanged;
             lb_book.SelectionChanged += lb_book_SelectionChanged;
             lb_book.MouseDoubleClick += lb_book_MouseDoubleClick;
@@ -61,7 +61,8 @@ namespace GooCooAdmin
             lb_user.Items.Clear();
             foreach (UserEx e in user_list.ToList())
             {
-                lb_user.Items.Add(e);
+                int index = lb_user.Items.Add(e);
+                //if (user_list["borrow"].Contains(e))lb_user.selection
             }
         }
 
@@ -214,5 +215,6 @@ namespace GooCooAdmin
             
             Update_Book_List();
         }
+
     }
 }
