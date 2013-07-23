@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GooCooServer.Entity;
 
 namespace GooCooAdmin
 {
@@ -19,6 +20,8 @@ namespace GooCooAdmin
     /// </summary>
     public partial class DealDialog : Window
     {
+        public BookInfo bookInfo = null;
+        public User user = null;
         public DealDialog()
         {
             InitializeComponent();

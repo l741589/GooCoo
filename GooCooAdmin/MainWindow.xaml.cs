@@ -18,9 +18,9 @@ using System.Windows.Shapes;
 using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Script.Serialization;
-using GooCooServer.Entity;
 using GooCooAdmin.Properties;
 using GooCooAdmin.Util;
+using GooCooServer.Entity.Ex;
 
 namespace GooCooAdmin
 {
@@ -29,10 +29,12 @@ namespace GooCooAdmin
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ListHolder<User> user_list;
-        private ListHolder<BookInfo> book_list;
+        private ListHolder<UserEx> user_list;
+        private ListHolder<BookEx> book_list;
         private readonly String[] user_field = null;
         private readonly String[] book_field = null;
+        private BookEx sel_book = null;
+        private UserEx sel_user = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -50,16 +52,25 @@ namespace GooCooAdmin
             lb_book.MouseDoubleClick += lb_book_MouseDoubleClick;
             lb_user.MouseDoubleClick += lb_book_MouseDoubleClick;
             Title = Properties.Resources.Title;
-            user_list = new ListHolder<User>();
-            book_list = new ListHolder<BookInfo>();
+            user_list = new ListHolder<UserEx>();
+            book_list = new ListHolder<BookEx>();
         }
 
-        private void Update_List<T>(ListBox lb, ListHolder<T> holder, String[] field)
+        private void Update_User_List()
         {
-            lb.Items.Clear();
-            foreach (T e in holder.ToList())
+            lb_user.Items.Clear();
+            foreach (UserEx e in user_list.ToList())
             {
-                lb.Items.Add(new ObjectItem(e, field));
+                lb_user.Items.Add(e);
+            }
+        }
+
+        private void Update_Book_List()
+        {
+            lb_book.Items.Clear();
+            foreach (BookEx e in book_list.ToList())
+            {
+                lb_book.Items.Add(e);
             }
         }
 
@@ -112,8 +123,8 @@ namespace GooCooAdmin
                 }
                 else
                 {
-                    User user = new JavaScriptSerializer().Deserialize<User>(s);
-                    if (user.Authority == User.EAuthority.ADMIN || user.Authority == User.EAuthority.SUPERADMIN)
+                    UserEx user = new JavaScriptSerializer().Deserialize<UserEx>(s);
+                    if (user.Authority == UserEx.EAuthority.ADMIN || user.Authority == UserEx.EAuthority.SUPERADMIN)
                     {
                         pn_main.IsEnabled = true;
                         Title = user.Name + "(" + user.Authority + ")";
@@ -135,10 +146,11 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK,cv);
-            book_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookInfo>)) as List<BookInfo>;
+            book_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
             book_list.Priorities["search"] = 1;
-            Update_List(lb_book, book_list, book_field);
+            sel_book = null;
+            Update_Book_List();
         }
 
         async void tb_user_TextChanged(object sender, TextChangedEventArgs e)
@@ -146,43 +158,61 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER,cv);
-            user_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<User>)) as List<User>;
+            user_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
             user_list.Priorities["search"] = 1;
-            Update_List(lb_user, user_list, user_field);
+            sel_user = null;
+            Update_User_List();
         }
 
         void lb_book_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            DealDialog dlg = new DealDialog();
+            bool? ret = null;
+            if (sel_user != null)
+            {
+                dlg.user = sel_user;
+                dlg.tb_user.Text = sel_user.ToString(); ;
+            }
+            if (sel_book != null)
+            {
+                dlg.bookInfo = sel_book;
+                String s = sel_book.ToString();
+                dlg.tb_book.Text = s;
+            }
+            ret = dlg.ShowDialog();
         }
 
         async void lb_book_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListBox).SelectedItem == null) return;
             Dictionary<String, String> cv = new Dictionary<string, string>();
-            cv.Add("isbn", (((sender as ListBox).SelectedValue as ObjectItem).Obj as BookInfo).Isbn);
+            sel_book = (sender as ListBox).SelectedValue as BookEx;
+            cv.Add("isbn", sel_book.Isbn);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYBORROW, cv);
-            user_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<User>)) as List<User>;
+            user_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.Priorities["borrow"] = 2;
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
-            user_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<User>)) as List<User>;
+            user_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.Priorities["order"] = 2;
-            Update_List(lb_user, user_list, user_field);
+            
+            Update_User_List();
         }
 
         async void lb_user_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListBox).SelectedItem == null) return;
             Dictionary<String, String> cv = new Dictionary<string, string>();
-            cv.Add("user", (((sender as ListBox).SelectedValue as ObjectItem).Obj as User).Id);
+            sel_user = (sender as ListBox).SelectedValue as UserEx;
+            cv.Add("user", sel_user.Id);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYBORROW, cv);
-            book_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookInfo>)) as List<BookInfo>;
+            book_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["borrow"] = 2;
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYORDER, cv);
-            book_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookInfo>)) as List<BookInfo>;
+            book_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["order"] = 2;
-            Update_List(lb_book, book_list, book_field);
+            
+            Update_Book_List();
         }
     }
 }

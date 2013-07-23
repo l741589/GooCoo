@@ -15,7 +15,6 @@ namespace GooCooAdmin.Util
         public delegate string ToStringDelegate();
 
         public ToStringDelegate doToString = null;
-       
 
         public ObjectItem(Object obj, params String[] fields) : this(obj,' ',fields)
         {
@@ -60,8 +59,7 @@ namespace GooCooAdmin.Util
             else
             {
                 return DefaultToString();
-            }
-           
+            }           
         }
 
         public String DefaultToString()

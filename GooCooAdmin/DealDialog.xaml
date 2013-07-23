@@ -1,13 +1,13 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Entity="clr-namespace:GooCooServer.Entity;assembly=GooCooServer" x:Class="GooCooAdmin.DealDialog"
+        xmlns:Entity="clr-namespace:GooCooServer.Entity;assembly=GooCooServer" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GooCooAdmin.DealDialog"
         Title="业务" Height="170.99" Width="312.285">
     <Canvas>
         <ComboBox x:Name="cb_relation" Canvas.Left="49" Canvas.Top="14" Width="232" SelectedIndex="0" HorizontalContentAlignment="Left">
-            <Button Content="借书"/>
-            <Button Content="还书"/>
-            <Button Content="捐书"/>
+            <Label Content="借书"/>
+            <Label Content="还书"/>
+            <Label Content="捐书"/>
         </ComboBox>
         <TextBox x:Name="tb_book" Canvas.Left="49" Canvas.Top="68" Width="232"/>
         <TextBox x:Name="tb_user" Canvas.Left="49" Canvas.Top="43" Width="232"/>

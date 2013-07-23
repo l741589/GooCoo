@@ -32,16 +32,17 @@ namespace GooCooServer.Entity
 
         public static bool operator ==(Comment lhs, Comment rhs)
         {
-            return lhs.Equals(rhs);
+            return Object.Equals(lhs, rhs);
         }
 
         public static bool operator !=(Comment lhs, Comment rhs)
         {
-            return !lhs.Equals(rhs);
+            return !Object.Equals(lhs, rhs);
         }
 
         public override bool Equals(object obj)
         {
+            if (Object.Equals(obj, null)) return false;
             if (obj is Comment)
             {
                 return Id == (obj as Comment).Id;
