@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooAdmin", "GooCooAdmin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooServer", "GooCooServer\GooCooServer.csproj", "{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooWeb", "GooCooWeb\GooCooWeb\GooCooWeb.csproj", "{0C119BB8-E724-4D11-A21A-AC60816C6B73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooWeb", "GooCooWeb\GooCooWeb.csproj", "{87B280EA-3753-46C5-A91A-60070B5B328B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +24,10 @@ Global
 		{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C119BB8-E724-4D11-A21A-AC60816C6B73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C119BB8-E724-4D11-A21A-AC60816C6B73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C119BB8-E724-4D11-A21A-AC60816C6B73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C119BB8-E724-4D11-A21A-AC60816C6B73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B280EA-3753-46C5-A91A-60070B5B328B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B280EA-3753-46C5-A91A-60070B5B328B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B280EA-3753-46C5-A91A-60070B5B328B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B280EA-3753-46C5-A91A-60070B5B328B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
