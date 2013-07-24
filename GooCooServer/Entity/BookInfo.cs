@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -39,16 +39,17 @@ namespace GooCooServer.Entity
 
         public static bool operator ==(BookInfo lhs, BookInfo rhs)
         {
-            return lhs.Equals(rhs);
+            return Object.Equals(lhs, rhs);
         }
 
         public static bool operator !=(BookInfo lhs, BookInfo rhs)
         {
-            return !lhs.Equals(rhs);
+            return !Object.Equals(lhs,rhs);
         }
 
         public override bool Equals(object obj)
         {
+            if (Object.Equals(obj, null)) return false;
             if (obj is BookInfo)
             {
                 return Isbn == (obj as BookInfo).Isbn;

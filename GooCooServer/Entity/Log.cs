@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -32,16 +32,17 @@ namespace GooCooServer.Entity
 
         public static bool operator ==(Log lhs, Log rhs)
         {
-            return lhs.Equals(rhs);
+            return Object.Equals(lhs, rhs);
         }
 
         public static bool operator !=(Log lhs, Log rhs)
         {
-            return !lhs.Equals(rhs);
+            return !Object.Equals(lhs, rhs);
         }
 
         public override bool Equals(object obj)
         {
+            if (Object.Equals(obj, null)) return false;
             if (obj is Log)
             {
                 return Id == (obj as Log).Id;
