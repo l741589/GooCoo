@@ -13,6 +13,7 @@ namespace GooCooServer.Utility
         //对所有属性均采用“=”复制，若想修改值请自己复制属性值。
         public static T CloneEntity<T>(Object obj)
         {
+            if (obj == null) return default(T);
             Type type = typeof(T);
             T ret = (T)type.GetConstructor(new Type[0]).Invoke(new Object[0]);
             PropertyInfo[] properties = obj.GetType().GetProperties();

@@ -15,11 +15,12 @@ namespace GooCooServer.Entity.Ex
             public int Id { get; set; }
         }
 
-        public String[] orders { get; set; }
-        public Book[] Books { get; set; }
+        public List<String> Orderers { get; set; }
+        public List<Book> Books { get; set; }
         public String Mark { get; set; }
         public String Owner_id { get; set; }
         public String Orderer_id { get; set; }
+        public int? Count { get; set; }
         
         public string ToString(String[] fields)
         {
@@ -43,7 +44,9 @@ namespace GooCooServer.Entity.Ex
         public override string ToString()
         {
             String s = Isbn + " " + Name + " " + new DateTime(Timestamp).ToString("yyyy:MM:dd hh:mm:ss");
-            if (Mark != null) return Mark + " " + s;
+            s = Mark + " " + s;
+            if (Orderers != null && Books != null && Count != null) s += "\n" + Orderers.Count + "/" + Books.Count + "/" + Count;
+            if (Owner_id != null) s += "\n" + "Owner: " + Owner_id;
             return s;
         }
     }

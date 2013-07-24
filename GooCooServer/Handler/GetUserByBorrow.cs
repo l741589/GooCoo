@@ -34,15 +34,23 @@ namespace GooCooServer.Handler
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
             List<UserEx> users = new List<UserEx>();
             BookEx book = new BookEx();
+            book.Books = new List<BookEx.Book>();
             String book_isbn = context.Request["isbn"];
             if (bb != null && ub != null)
             {
                 List<Book> lbs = bb.GetBook(book_isbn);
+                book.Count = lbs.Count;
                 foreach (var e in lbs)
                 {
-                    UserEx u = Util.CloneEntity<UserEx>(ub.GetUser(e.Id));
+                    User owner = ub.GetUser(e.Id);
+                    if (owner == null) continue;
+                    UserEx u = Util.CloneEntity<UserEx>(owner);
                     u.Holds.Add(book_isbn);
                     users.Add(u);
+                    BookEx.Book b=new BookEx.Book();
+                    b.Id=e.Id;
+                    b.Owner=u.Id;
+                    book.Books.Add(b);
                 }
             }
             else
@@ -52,20 +60,34 @@ namespace GooCooServer.Handler
                 user.Name = "ewrwrew";
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
+                BookEx.Book b = new BookEx.Book();
+                b.Id = 23;
+                b.Owner = user.Id;
+                book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "2342132";
                 user.Name = "书而已";
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
+                b = new BookEx.Book();
+                b.Id = 24;
+                b.Owner = user.Id;
+                book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "1123345";
                 user.Name = "孙建华";
                 user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
+                b = new BookEx.Book();
+                b.Id = 25;
+                b.Owner = user.Id;
+                book.Books.Add(b);
+
+                book.Count = 3;
             }
-            context.Response.Output.Write(Util.EncodeJson(users));
+            context.Response.Output.Write(Util.EncodeJson(users,book));
         }
         #endregion
     }

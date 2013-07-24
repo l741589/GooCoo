@@ -22,7 +22,21 @@ namespace GooCooAdmin.Utility
         public List<T> this[String key]
         {
             get { if (!lists.ContainsKey(key)) AddList(key); return lists[key]; }
-            set { if (!lists.ContainsKey(key)) AddList(key, value); else lists[key] = value; }
+            set
+            {
+                if (!lists.ContainsKey(key)) AddList(key, value);
+                else
+                {
+                    List<T> list = lists[key];
+                    lists[key] = value;
+                    foreach (T e in list)
+                    {
+                        T f=value.Find((match) => { return Object.Equals(e, match); });
+                        if (f != null) Util.Merge(f, e);
+                    }
+                    
+                }
+            }
         }
 
         public Dictionary<String, int> Priorities

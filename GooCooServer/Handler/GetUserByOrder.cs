@@ -33,14 +33,20 @@ namespace GooCooServer.Handler
             IUser_BookInfoDAO ub = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
             List<UserEx> users = new List<UserEx>();
             String book_isbn = context.Request["isbn"];
+            BookEx book = new BookEx();
+            book.Orderers=new List<String>();
             if (ub != null)
             {
                 List<User> lus = ub.GetUser(book_isbn);
+                User avaliableuser = ub.GetAvaliableUser(book_isbn);
+                if (avaliableuser!=null)
+                    book.Orderer_id = avaliableuser.Id;
                 foreach (var e in lus)
                 {
                     UserEx u = Util.CloneEntity<UserEx>(e);
                     u.Orders.Add(book_isbn);
                     users.Add(u);
+                    book.Orderers.Add(e.Id);
                 }
             }
             else
@@ -51,20 +57,24 @@ namespace GooCooServer.Handler
                 user.Name = "kjkjkyuy";
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
+                book.Orderers.Add(user.Id);
 
                 user = new UserEx();
                 user.Id = "2789665";
                 user.Name = "李年华";
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
+                book.Orderer_id = user.Id;
+                book.Orderers.Add(user.Id);
 
                 user = new UserEx();
                 user.Id = "1123345";
                 user.Name = "孙建华";
                 user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
+                book.Orderers.Add(user.Id);
             }
-            context.Response.Output.Write(Util.EncodeJson(users));
+            context.Response.Output.Write(Util.EncodeJson(users,book));
         }
 
         #endregion

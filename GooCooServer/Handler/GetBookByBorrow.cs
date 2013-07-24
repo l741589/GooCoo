@@ -30,7 +30,6 @@ namespace GooCooServer.Handler
 
         public void ProcessRequest(HttpContext context)
         {
-            //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
             HashSet<BookEx> books = new HashSet<BookEx>();

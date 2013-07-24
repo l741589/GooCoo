@@ -38,7 +38,7 @@ namespace GooCooServer.Handler
                 {
                     String session = userDao.Login(id, pw);
                     user = userDao.Get(session);
-                    
+
                 }
                 else
                 {
@@ -56,10 +56,10 @@ namespace GooCooServer.Handler
                 }
                 context.Response.Output.Write(Util.EncodeJson(user));
             }
-            catch(BMException)
+            catch (BMException)
             {
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
             }
         }
