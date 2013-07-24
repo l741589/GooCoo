@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -31,38 +33,43 @@ namespace GooCooServer.Handler
             //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
-            HashSet<BookInfo> books = new HashSet<BookInfo>();
+            HashSet<BookEx> books = new HashSet<BookEx>();
+            String user_id=context.Request["user"];
             if (bb != null && ub != null)
             {
-                List<Book> lbs = ub.GetBook(context.Request["user"]);
+                List<Book> lbs = ub.GetBook(user_id);
                 foreach (var e in lbs)
                 {
-                    books.Add(bb.GetBookInfo(e.Id));
+                    BookEx bookex = Util.CloneEntity<BookEx>(bb.GetBookInfo(e.Id));
+                    bookex.Owner_id = user_id;
+                    books.Add(bookex);
                 }
             }
             else
             {
-                if (context.Request["user"] == null) throw new BMException("参数错误");
-                BookInfo book;
-                book = new BookInfo();
+                BookEx book;
+                book = new BookEx();
                 book.Isbn = "wwwewew32ee2";
                 book.Name = "sdfergw34sdsfdd";
                 book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = 322343423243;
+                book.Owner_id = user_id;
                 books.Add(book);
 
-                book = new BookInfo();
+                book = new BookEx();
                 book.Isbn = "sd34t344rt3e";
                 book.Name = "供热为复位";
                 book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow.Ticks;
+                book.Owner_id = user_id;
                 books.Add(book);
 
-                book = new BookInfo();
+                book = new BookEx();
                 book.Isbn = "2323ewew3232";
                 book.Name = "sdfergw34fdd";
                 book.Tags = new String[] { "432433232we", "dffdfdf" };
                 book.Timestamp = 232546788755455657L;
+                book.Owner_id = user_id;
                 books.Add(book);
             }
             StringBuilder ret = new StringBuilder();

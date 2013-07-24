@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -30,34 +32,36 @@ namespace GooCooServer.Handler
         {
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
-            List<User> users = new List<User>();
+            List<UserEx> users = new List<UserEx>();
+            String book_isbn = context.Request["isbn"];
             if (bb != null && ub != null)
             {
-                List<Book> lbs = bb.GetBook(context.Request["isbn"]);
+                List<Book> lbs = bb.GetBook(book_isbn);
                 foreach (var e in lbs)
                 {
-                    users.Add(ub.GetUser(e.Id));
+                    UserEx u = Util.CloneEntity<UserEx>(ub.GetUser(e.Id));
+                    u.Holds.Add(book_isbn);
+                    users.Add(u);
                 }
             }
             else
             {
-                if (context.Request["isbn"] == null) throw new BMException("参数错误");
-                User user = new User();
+                UserEx user = new UserEx();
                 user.Id = "1123435";
                 user.Name = "ewrwrew";
-                user.Authority = User.EAuthority.USER;
+                user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
 
-                user = new User();
+                user = new UserEx();
                 user.Id = "2342132";
                 user.Name = "书而已";
-                user.Authority = User.EAuthority.USER;
+                user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
 
-                user = new User();
+                user = new UserEx();
                 user.Id = "1123345";
                 user.Name = "孙建华";
-                user.Authority = User.EAuthority.ADMIN;
+                user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
             }
             StringBuilder ret = new StringBuilder();
