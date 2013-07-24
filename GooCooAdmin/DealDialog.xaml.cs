@@ -43,10 +43,21 @@ namespace GooCooAdmin
                 tb_book.Content = this.book.ToString(new String[] { "Name", "Isbn" });
             }
 
-            if (book.Owner_id == user.Id) cb_relation.SelectedIndex = 1;
-            else
-                if (book.Orderer_id != null && book.Orderer_id != user.Id) cb_relation.SelectedIndex = 2;
-                else cb_relation.SelectedIndex = 0;
+            if (book != null && user != null)
+            {
+                if (book.Owner_id == user.Id) cb_relation.SelectedIndex = 1;
+                else
+                    if (book.Orderer_id != null && book.Orderer_id != user.Id) cb_relation.SelectedIndex = 2;
+                    else cb_relation.SelectedIndex = 0;
+            }
+            else if (user != null)
+            {
+                cb_relation.SelectedIndex = 2;
+            }
+            else if (book != null)
+            {
+                cb_relation.SelectedIndex = 0;
+            }
         }
     }
 }

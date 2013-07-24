@@ -1,0 +1,19 @@
+﻿<Window x:Class="GooCooAdmin.UserInfoDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="用户信息" Height="206" Width="271">
+    <Canvas>
+        <Label Content="1111111" Canvas.Left="49" Canvas.Top="36" Width="136"/>
+        <TextBlock Canvas.Left="54" Canvas.Top="74" Width="198" Height="14"><Run Language="zh-cn" Text="测试丙"/></TextBlock>
+        <ComboBox Canvas.Left="49" Canvas.Top="103" Width="203" SelectedIndex="0" IsEnabled="False">
+            <Label Content="USER"></Label>
+            <Label Content="ADMIN"></Label>
+        </ComboBox>
+        <Button Content="确定" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="177" Canvas.Top="141"/>
+        <Button Content="取消" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="84" Canvas.Top="141"/>
+        <Label Content="学号" Canvas.Left="10" Canvas.Top="36" Width="39"/>
+        <Label Content="姓名" Canvas.Left="10" Canvas.Top="69" Width="39"/>
+        <Label Content="权限" Canvas.Left="10" Canvas.Top="99" Width="39"/>
+
+    </Canvas>
+</Window>

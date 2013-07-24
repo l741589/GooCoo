@@ -9,28 +9,18 @@ namespace GooCooServer.Entity.Ex
 {
     public class BookEx : BookInfo
     {
-        private String owner_id = null;
-        private String orderer_id = null;
-        private String mark = null;
-
-        public String Mark
+        public class Book
         {
-            get { return mark; }
-            set { mark = value; }
+            public String Owner { get; set; }
+            public int Id { get; set; }
         }
 
-        public String Owner_id
-        {
-            get { return owner_id; }
-            set { owner_id = value; }
-        }
+        public String[] orders { get; set; }
+        public Book[] Books { get; set; }
+        public String Mark { get; set; }
+        public String Owner_id { get; set; }
+        public String Orderer_id { get; set; }
         
-        public String Orderer_id
-        {
-            get { return orderer_id; }
-            set { orderer_id = value; }
-        
-        }
         public string ToString(String[] fields)
         {
             StringBuilder s = new StringBuilder();

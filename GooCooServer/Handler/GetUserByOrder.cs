@@ -64,9 +64,7 @@ namespace GooCooServer.Handler
                 user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
             }
-            StringBuilder ret = new StringBuilder();
-            new JavaScriptSerializer().Serialize(users, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(users));
         }
 
         #endregion

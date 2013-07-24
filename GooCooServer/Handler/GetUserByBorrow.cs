@@ -33,6 +33,7 @@ namespace GooCooServer.Handler
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
             List<UserEx> users = new List<UserEx>();
+            BookEx book = new BookEx();
             String book_isbn = context.Request["isbn"];
             if (bb != null && ub != null)
             {
@@ -64,9 +65,7 @@ namespace GooCooServer.Handler
                 user.Authority = UserEx.EAuthority.ADMIN;
                 users.Add(user);
             }
-            StringBuilder ret = new StringBuilder();
-            new JavaScriptSerializer().Serialize(users, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(users));
         }
         #endregion
     }

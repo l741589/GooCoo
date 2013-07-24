@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GooCooAdmin.Util
+namespace GooCooAdmin.Utility
 {
-    public class Util
+    public class Util : GooCooServer.Utility.Util
     {
 
     }

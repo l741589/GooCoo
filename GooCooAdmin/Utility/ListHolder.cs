@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GooCooServer.Exception;
 
-namespace GooCooAdmin.Util
+namespace GooCooAdmin.Utility
 {
     public class ListHolder<T>
     {

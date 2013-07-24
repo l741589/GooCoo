@@ -72,9 +72,7 @@ namespace GooCooServer.Handler
                 book.Owner_id = user_id;
                 books.Add(book);
             }
-            StringBuilder ret = new StringBuilder();
-            new JavaScriptSerializer().Serialize(books, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(books));
         }
 
         #endregion

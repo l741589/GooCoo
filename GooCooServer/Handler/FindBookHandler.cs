@@ -7,6 +7,7 @@ using GooCooServer.DAO;
 using GooCooServer.Entity;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -62,9 +63,7 @@ namespace GooCooServer.Handler
                 books.Add(book);
 
             }
-            StringBuilder ret = new StringBuilder();
-            new JavaScriptSerializer().Serialize(books, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(books));
         }
 
         #endregion

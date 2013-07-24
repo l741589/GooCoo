@@ -19,7 +19,7 @@ using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Script.Serialization;
 using GooCooAdmin.Properties;
-using GooCooAdmin.Util;
+using GooCooAdmin.Utility;
 using GooCooServer.Entity.Ex;
 using System.Web.Configuration;
 using System.ComponentModel;
@@ -40,6 +40,7 @@ namespace GooCooAdmin
         public MainWindow()
         {
             InitializeComponent();
+            new UserInfoDialog().Show();
             user_field = new String[] { "Id", "Name", "Authority" };
             book_field = new String[] { "Isbn", "Name", "Timestamp" };
             tb_user.TextChanged += tb_user_TextChanged;
@@ -125,7 +126,7 @@ namespace GooCooAdmin
                 }
                 else
                 {
-                    UserEx user = new JavaScriptSerializer().Deserialize<UserEx>(s);
+                    UserEx user = Util.DecodeJson<UserEx>(s);
                     if (user.Authority == UserEx.EAuthority.ADMIN || user.Authority == UserEx.EAuthority.SUPERADMIN)
                     {
                         pn_main.IsEnabled = true;
@@ -148,7 +149,7 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK,cv);
-            book_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
+            book_list["search"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
             book_list.Priorities["search"] = 1;
             sel_book = null;
@@ -160,7 +161,7 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER,cv);
-            user_list["search"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
+            user_list["search"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
             user_list.Priorities["search"] = 1;
             sel_user = null;
@@ -180,10 +181,10 @@ namespace GooCooAdmin
             sel_book = (sender as ListBox).SelectedValue as BookEx;
             cv.Add("isbn", sel_book.Isbn);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYBORROW, cv);
-            user_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
+            user_list["borrow"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.Priorities["borrow"] = 2;
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
-            user_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<UserEx>)) as List<UserEx>;
+            user_list["order"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.Priorities["order"] = 2;
             
             Update_User_List();
@@ -196,10 +197,10 @@ namespace GooCooAdmin
             sel_user = (sender as ListBox).SelectedValue as UserEx;
             cv.Add("user", sel_user.Id);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYBORROW, cv);
-            book_list["borrow"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
+            book_list["borrow"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["borrow"] = 2;
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYORDER, cv);
-            book_list["order"] = new JavaScriptSerializer().Deserialize(s, typeof(List<BookEx>)) as List<BookEx>;
+            book_list["order"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["order"] = 2;
             
             Update_Book_List();
