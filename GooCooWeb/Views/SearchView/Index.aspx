@@ -6,38 +6,47 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+    <div class="row-fluid offset3">
+    <form action="#">
         <div class="input-prepend">
             <div class="btn-group">
                 <button class="btn dropdown-toggle" data-toggle="dropdown">                    
-                        标题                   
+                        <span id="searchTypeText">标题</span>                   
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li>标题</li>
-                    <li>作者</li>
-                    <li>模糊</li>
+                    <li onclick="changeSearchType('标题')"><a href="#">标题</a></li>
+                    <li onclick="changeSearchType('作者')"><a href="#">作者</a></li>
+                    <li onclick="changeSearchType('模糊')"><a href="#">模糊</a></li>                                                            
                 </ul>
             </div>
-            <input class="span2" name="keyword" id="prependedDropdownButton" type="text">
+            <input class="input-xlarge" placeholder="关键字" name="keyword" id="prependedDropdownButton" type="text">
             <button class="btn" type="button">Search</button>
         </div>
 
+        <input type="text" id="searchType" name="type" value="标题" style="display:none"/>    
+    </form>       
+    </div>
+     
+    <div class="alert alert-info">
+         搜索结果不存在
+    </div>
 
-    <div class="input-prepend">
-  <div class="btn-group">
-    <button class="btn dropdown-toggle" data-toggle="dropdown">
-      Action
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="#">aaa</a></li>
-      <li><a href="#">bbb</a></li>
-    </ul>
-  </div>
-  <input class="span2" id="Text1" type="text">
-</div>
 
-    
+
+    <div class="row-fluid offset3">
+    <div class="pagination">
+        <ul>
+            <li><a href="#">Prev</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">Next</a></li>
+        </ul>
+    </div>
+    </div>
 
 </asp:Content>
 
@@ -51,4 +60,15 @@
 </asp:Content>
 
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
+    <script type="text/javascript">
+        function changeSearchType(type)
+        {
+            var text = document.getElementById("searchTypeText");
+            text.innerHTML = type;
+
+            var typeChoose = document.getElementById("searchType");
+            typeChoose.value = type;
+        }
+    </script>
+
 </asp:Content>
