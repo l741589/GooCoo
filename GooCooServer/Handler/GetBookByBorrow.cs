@@ -40,7 +40,7 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     BookEx bookex = Util.CloneEntity<BookEx>(bb.GetBookInfo(e.Id));
-                    bookex.Owner_id = user_id;
+                    //bookex.Owner_id = user_id;
                     books.Add(bookex);
                 }
             }
@@ -52,7 +52,7 @@ namespace GooCooServer.Handler
                 book.Name = "sdfergw34sdsfdd";
                 book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = 322343423243;
-                book.Owner_id = user_id;
+                //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
@@ -60,7 +60,7 @@ namespace GooCooServer.Handler
                 book.Name = "供热为复位";
                 book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow.Ticks;
-                book.Owner_id = user_id;
+                //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
@@ -68,7 +68,7 @@ namespace GooCooServer.Handler
                 book.Name = "sdfergw34fdd";
                 book.Tags = new String[] { "432433232we", "dffdfdf" };
                 book.Timestamp = 232546788755455657L;
-                book.Owner_id = user_id;
+                //book.Owner_id = user_id;
                 books.Add(book);
             }
             context.Response.Output.Write(Util.EncodeJson(books));

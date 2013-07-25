@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using GooCooServer.Entity;
 using GooCooServer.Entity.Ex;
 
 namespace GooCooAdmin
@@ -21,12 +10,18 @@ namespace GooCooAdmin
     /// </summary>
     public partial class DealDialog : Window
     {
-        public BookEx book = null;
-        public UserEx user = null;
+        public readonly BookEx book = null;
+        public readonly UserEx user = null;
+        private int lastsel = 0;
+
         public DealDialog()
         {
             InitializeComponent();
             this.Owner = this.Parent as Window;
+            cb_relation.SelectionChanged += cb_relation_SelectionChanged;
+            bn_cancel.Click += bn_cancel_Click;
+            bn_ok.Click += bn_ok_Click;
+            tb_num.TextChanged += tb_num_TextChanged;
         }
 
         public DealDialog(BookEx book, UserEx user)
@@ -37,27 +32,167 @@ namespace GooCooAdmin
             if (user != null)
             {
                 tb_user.Content = this.user.ToString(new String[] { "Id", "Name" });
+                tb_user.ToolTip = this.user.ToString();
             }
             if (book != null)
             {
                 tb_book.Content = this.book.ToString(new String[] { "Name", "Isbn" });
+                tb_book.ToolTip = this.book.ToString();
+            }
+            ManageSelect();
+        }
+
+        void tb_num_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            TextChange[] change = new TextChange[e.Changes.Count];
+            e.Changes.CopyTo(change, 0);
+
+            int offset = change[0].Offset;
+            if (change[0].AddedLength > 0)
+            {
+                uint num = 0;
+                if (!uint.TryParse(textBox.Text, out num))
+                {
+                    textBox.Text = textBox.Text.Remove(offset, change[0].AddedLength);
+                    textBox.Select(offset, 0);
+                }
+            }
+        }
+
+        void bn_ok_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
+        void bn_cancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        private void HideAll()
+        {
+            dp_user.Visibility = Visibility.Collapsed;
+            dp_book.Visibility = Visibility.Collapsed;
+            dp_isbn.Visibility = Visibility.Collapsed;
+            dp_num.Visibility = Visibility.Collapsed;
+            dp_bookid.Visibility = Visibility.Collapsed;
+        }
+
+        void cb_relation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!((sender as ComboBox).SelectedItem as Label).IsEnabled)
+                (sender as ComboBox).SelectedIndex = lastsel;
+            lastsel = (sender as ComboBox).SelectedIndex;
+            HideAll();
+            if (lastsel == 0)
+            {
+                dp_user.Visibility = Visibility.Visible;
+                dp_bookid.Visibility = Visibility.Visible;
+                cb_bookid.Items.Clear();
+                foreach (BookEx.Book b in book.Books)
+                {
+                    if (b.Owner == null)
+                    {
+                        Label label = new Label();
+                        label.Content = b.Id.ToString();
+                        cb_bookid.Items.Add(label);
+                    }
+                }
+                if (cb_bookid.Items.Count > 0)
+                {
+                    cb_bookid.SelectedIndex = 0;
+                }
+                else ManageSelect();
             }
 
+            if (lastsel == 1)
+            {
+                dp_book.Visibility = Visibility.Visible;
+                dp_bookid.Visibility = Visibility.Visible;
+                cb_bookid.Items.Clear();
+                Label item = null;
+                foreach (BookEx.Book b in book.Books)
+                {
+                    if (b.Owner != null)
+                    {
+                        Label label = new Label();
+                        label.Content = b.Id.ToString();
+                        cb_bookid.Items.Add(label);
+                        if (user != null && b.Owner == user.Id) item = label;
+                    }
+                }
+                if (cb_bookid.Items.Count > 0 && item != null)
+                {
+                    cb_bookid.SelectedItem = item;
+                }
+                else if (item == null)
+                {
+                    cb_bookid.SelectedIndex = 0;
+                }
+                else ManageSelect();
+            }
+
+            if (lastsel == 2)
+            {
+                dp_num.Visibility = Visibility.Visible;
+                dp_isbn.Visibility = Visibility.Visible;
+                if (user != null) dp_user.Visibility = Visibility.Visible;
+                tb_num.Text = "1";
+                if (book != null) tb_isbn.Text = book.Isbn;
+            }
+        }
+
+        private void ManageSelect()
+        {
             if (book != null && user != null)
             {
-                if (book.Owner_id == user.Id) cb_relation.SelectedIndex = 1;
+                //如果user是book的持有者之一，该还书
+                if (null != book[user.Id])
+                {
+                    cb_relation.SelectedIndex = 1;
+                    //如果书籍没有多余的书,且不是该用户预定，那么不能借书。
+                    if (book.Count <= book.BorrowedBook || (book.Count <= book.Orderers.Count + book.BorrowedBook && !(book.Orderer_id == user.Id)))
+                    {
+                        (cb_relation.Items[0] as Label).IsEnabled = false;
+                    }
+                }
                 else
-                    if (book.Orderer_id != null && book.Orderer_id != user.Id) cb_relation.SelectedIndex = 2;
+                {
+                    //没有持有那么就不能还
+                    (cb_relation.Items[1] as Label).IsEnabled = false;
+                    //如果书籍没有多余的书
+                    if (book.Count <= book.BorrowedBook || book.Count <= book.Orderers.Count + book.BorrowedBook)
+                    {
+                        //如果是该用户预定，那么为借书，否则为捐书
+                        if (book.Count > book.BorrowedBook && book.Orderer_id == user.Id) cb_relation.SelectedIndex = 0;
+                        else
+                        {
+                            //因为不能借
+                            (cb_relation.Items[0] as Label).IsEnabled = false;
+                            cb_relation.SelectedIndex = 2;
+                        }
+                    }
+                    //如果有多余的书
                     else cb_relation.SelectedIndex = 0;
+                }
             }
             else if (user != null)
             {
+                //如果只选择了用户，那么之只能捐书（有用户型
+                (cb_relation.Items[0] as Label).IsEnabled = false;
+                (cb_relation.Items[1] as Label).IsEnabled = false;
                 cb_relation.SelectedIndex = 2;
             }
             else if (book != null)
             {
-                cb_relation.SelectedIndex = 0;
+                //如果只选择了书那么只能还书和捐书(无用户型
+                (cb_relation.Items[0] as Label).IsEnabled = false;
+                //(cb_relation.Items[1] as Label).IsEnabled = false;
+                dp_user.Visibility = Visibility.Collapsed;
+                cb_relation.SelectedIndex = 1;
             }
+            lastsel = cb_relation.SelectedIndex;
         }
     }
 }

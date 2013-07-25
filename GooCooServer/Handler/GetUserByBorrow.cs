@@ -43,14 +43,23 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     User owner = ub.GetUser(e.Id);
-                    if (owner == null) continue;
-                    UserEx u = Util.CloneEntity<UserEx>(owner);
-                    u.Holds.Add(book_isbn);
-                    users.Add(u);
-                    BookEx.Book b=new BookEx.Book();
-                    b.Id=e.Id;
-                    b.Owner=u.Id;
-                    book.Books.Add(b);
+                    if (owner == null)
+                    {
+                        BookEx.Book b = new BookEx.Book();
+                        b.Id = e.Id;
+                        b.Owner = null;
+                        book.Books.Add(b);
+                    }
+                    else
+                    {
+                        UserEx u = Util.CloneEntity<UserEx>(owner);
+                        u.Holds.Add(book_isbn);
+                        users.Add(u);
+                        BookEx.Book b = new BookEx.Book();
+                        b.Id = e.Id;
+                        b.Owner = u.Id;
+                        book.Books.Add(b);
+                    }
                 }
             }
             else
@@ -63,7 +72,7 @@ namespace GooCooServer.Handler
                 BookEx.Book b = new BookEx.Book();
                 b.Id = 23;
                 b.Owner = user.Id;
-                //book.Books.Add(b);
+                book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "2342132";
@@ -73,7 +82,7 @@ namespace GooCooServer.Handler
                 b = new BookEx.Book();
                 b.Id = 24;
                 b.Owner = user.Id;
-                //book.Books.Add(b);
+                book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "1123345";
@@ -82,7 +91,7 @@ namespace GooCooServer.Handler
                 users.Add(user);
                 b = new BookEx.Book();
                 b.Id = 25;
-                b.Owner = user.Id;
+                b.Owner = null;
                 book.Books.Add(b);
 
                 book.Count = 3;

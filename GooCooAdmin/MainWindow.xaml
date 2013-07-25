@@ -10,7 +10,7 @@
                 <MenuItem Header="退出" x:Name="mi_exit"></MenuItem>
             </MenuItem>
         </Menu>
-        <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top"/>
+        <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
         <UniformGrid x:Name="pn_main" Columns="2" Rows="1" DockPanel.Dock="Bottom" IsEnabled="False">
             <DockPanel LastChildFill="True">
                 <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap" Text="搜索用户"  DockPanel.Dock="Top"/>

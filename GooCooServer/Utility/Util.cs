@@ -39,11 +39,14 @@ namespace GooCooServer.Utility
             PropertyInfo[] properties = obj.GetType().GetProperties();
             foreach (var property in properties)
             {
-                var left = property.GetValue(target);
-                var right = property.GetValue(obj);
-                if (left == null) property.SetValue(target, right);
-                else
-                    if (right != null && cover) property.SetValue(target, right);
+                if (property.CanRead && property.CanWrite)
+                {
+                    var left = property.GetValue(target);
+                    var right = property.GetValue(obj);
+                    if (left == null) property.SetValue(target, right);
+                    else
+                        if (right != null && cover) property.SetValue(target, right);
+                }
             }
             return target;
         }

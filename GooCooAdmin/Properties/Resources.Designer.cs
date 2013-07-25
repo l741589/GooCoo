@@ -70,6 +70,24 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 BorrowHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_BORROW {
+            get {
+                return ResourceManager.GetString("URL_BORROW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DonateHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_DONATE {
+            get {
+                return ResourceManager.GetString("URL_DONATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 FindBookHandler 的本地化字符串。
         /// </summary>
         internal static string URL_FINDBOOK {
@@ -129,6 +147,15 @@ namespace GooCooAdmin.Properties {
         internal static string URL_LOGIN {
             get {
                 return ResourceManager.GetString("URL_LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ReturnHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_RETURN {
+            get {
+                return ResourceManager.GetString("URL_RETURN", resourceCulture);
             }
         }
     }

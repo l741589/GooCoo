@@ -2,19 +2,41 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Entity="clr-namespace:GooCooServer.Entity;assembly=GooCooServer" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GooCooAdmin.DealDialog"
-        Title="业务" Height="166.99" Width="302.285">
-    <Canvas>
-        <ComboBox x:Name="cb_relation" Canvas.Left="49" Canvas.Top="14" Width="232" SelectedIndex="0" HorizontalContentAlignment="Left">
-            <Label Content="借书"/>
-            <Label Content="还书"/>
-            <Label Content="捐书"/>
-        </ComboBox>
-        <Label x:Name="tb_book" Canvas.Left="49" Canvas.Top="70"/>
-        <Label x:Name="tb_user" Canvas.Left="49" Canvas.Top="40"/>
-        <Label Content="操作" Canvas.Left="10" Canvas.Top="10"/>
-        <Label Content="用户" Canvas.Left="10" Canvas.Top="40"/>
-        <Label Content="书籍" Canvas.Left="10" Canvas.Top="70"/>
-        <Button x:Name="bn_ok" Content="确定" Canvas.Left="206" Canvas.Top="100" Width="75" IsDefault="True"/>
-        <Button x:Name="bn_cancel" Content="取消" Canvas.Left="126" Canvas.Top="100" Width="75"/>
-    </Canvas>
+        Title="业务" Height="303.99" Width="372.285" ResizeMode="NoResize" UseLayoutRounding="False"
+        SizeToContent="Height">
+    <StackPanel Margin="16">
+        <DockPanel LastChildFill="True">
+            <Label Content="操作" Canvas.Left="10" Canvas.Top="10" DockPanel.Dock="Left"/>
+            <ComboBox x:Name="cb_relation" HorizontalContentAlignment="Left">
+                <Label Content="借书"/>
+                <Label Content="还书"/>
+                <Label Content="捐书"/>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel x:Name="dp_user" LastChildFill="True" Margin="0,8,0,0">
+            <Label Content="用户" DockPanel.Dock="Left"/>
+            <Label x:Name="tb_user"/>
+        </DockPanel>
+        <DockPanel x:Name="dp_book" LastChildFill="True" Margin="0,8,0,0">
+            <Label Content="书籍" DockPanel.Dock="Left"/>
+            <Label x:Name="tb_book"/>
+        </DockPanel>
+        <DockPanel x:Name="dp_isbn" LastChildFill="True" Margin="0,8,0,0" Visibility="Visible">
+            <Label Content="ISBN" DockPanel.Dock="Left"/>
+            <TextBox x:Name="tb_isbn" Height="23" TextWrapping="NoWrap" Text=""/>
+        </DockPanel>
+        <DockPanel x:Name="dp_num" LastChildFill="True" Margin="0,8,0,0" Visibility="Visible">
+            <Label Content="数量" DockPanel.Dock="Left"/>
+            <TextBox x:Name="tb_num" Height="23" TextWrapping="NoWrap" Text=""/>
+        </DockPanel>        
+        <DockPanel x:Name="dp_bookid" LastChildFill="True" Margin="0,8,0,0" Visibility="Visible">
+            <Label Content="书籍编号" DockPanel.Dock="Left"/>
+            <ComboBox x:Name="cb_bookid" Height="23"/>
+        </DockPanel>
+        <DockPanel LastChildFill="True" Margin="0,16,0,0">
+            <Button x:Name="bn_ok" Content="确定" Width="72" IsDefault="True" DockPanel.Dock="Right"/>
+            <Button x:Name="bn_cancel" Content="取消" Width="72" DockPanel.Dock="Right" Margin="0,0,16,0"/>
+            <Rectangle/>
+        </DockPanel>
+    </StackPanel>
 </Window>

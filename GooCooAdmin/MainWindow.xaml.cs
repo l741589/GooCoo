@@ -157,7 +157,6 @@ namespace GooCooAdmin
             book_list["search"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
             book_list.Priorities["search"] = 1;
-            sel_book = null;
             Update_Book_List();
         }
 
@@ -169,14 +168,47 @@ namespace GooCooAdmin
             user_list["search"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
             user_list.Priorities["search"] = 1;
-            sel_user = null;
             Update_User_List();
         }
 
-        void lb_book_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        bool Author
         {
+            get
+            {
+                return true;
+            }
+        }
+
+        async void lb_book_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sel_book != null && !sel_book.Filled) return;
             DealDialog dlg = new DealDialog(sel_book, sel_user);
-            dlg.ShowDialog();
+            if (dlg.ShowDialog() == true)
+            {
+                String ret = null;
+                String url = null;
+                Dictionary<String, String> cv = new Dictionary<string, string>();
+                switch (dlg.cb_relation.SelectedIndex)
+                {
+                    case 0: if (sel_user == null || !Author) { MessageBox.Show("操作失败"); return; }
+                        url = Properties.Resources.URL_BORROW;
+                        cv.Add("user", sel_user.Id);
+                        cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
+                        break;
+                    case 1:
+                        url = Properties.Resources.URL_RETURN;
+                        cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
+                        break;
+                    case 2:
+                        url = Properties.Resources.URL_DONATE;
+                        cv.Add("book", dlg.tb_isbn.Text);
+                        cv.Add("num", dlg.tb_num.Text);
+                        if (sel_user != null) cv.Add("user",sel_user.Id);
+                        break;
+                }
+                ret = await HttpHelper.Post(url, cv);
+                MessageBox.Show(ret);
+            }
         }
 
         async void lb_book_SelectionChanged(object sender, SelectionChangedEventArgs e)
