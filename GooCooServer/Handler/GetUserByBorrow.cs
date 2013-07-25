@@ -63,7 +63,7 @@ namespace GooCooServer.Handler
                 BookEx.Book b = new BookEx.Book();
                 b.Id = 23;
                 b.Owner = user.Id;
-                book.Books.Add(b);
+                //book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "2342132";
@@ -73,7 +73,7 @@ namespace GooCooServer.Handler
                 b = new BookEx.Book();
                 b.Id = 24;
                 b.Owner = user.Id;
-                book.Books.Add(b);
+                //book.Books.Add(b);
 
                 user = new UserEx();
                 user.Id = "1123345";
