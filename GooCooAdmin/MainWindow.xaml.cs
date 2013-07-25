@@ -40,7 +40,6 @@ namespace GooCooAdmin
         public MainWindow()
         {
             InitializeComponent();
-            new UserInfoDialog().Show();
             user_field = new String[] { "Id", "Name", "Authority" };
             book_field = new String[] { "Isbn", "Name", "Timestamp" };
             tb_user.TextChanged += tb_user_TextChanged;
@@ -179,14 +178,21 @@ namespace GooCooAdmin
             if ((sender as ListBox).SelectedItem == null) return;
             Dictionary<String, String> cv = new Dictionary<string, string>();
             sel_book = (sender as ListBox).SelectedValue as BookEx;
+
             cv.Add("isbn", sel_book.Isbn);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYBORROW, cv);
-            user_list["borrow"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
+            object[] objs = Util.DecodeJson(s, typeof(List<UserEx>),typeof(BookEx));
+            user_list["borrow"] = objs[0] as List<UserEx>;
+            Util.Merge(sel_book, objs[1] as BookEx);
             user_list.Priorities["borrow"] = 2;
+
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
-            user_list["order"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
+            objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
+            user_list["order"] = objs[0] as List<UserEx>;
+            if ((objs[1] as BookEx).Orderer_id != null) sel_book.Orderer_id = null;
+            Util.Merge(sel_book, objs[1] as BookEx);
             user_list.Priorities["order"] = 2;
-            
+            lb_book.UpdateLayout();
             Update_User_List();
         }
 

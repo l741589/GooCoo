@@ -39,7 +39,6 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     BookEx b = Util.CloneEntity<BookEx>(e);
-                    //这里没有判断是否是最后预订的
                     b.Orderer_id = user_id;
                     books.Add(b);
                 }
