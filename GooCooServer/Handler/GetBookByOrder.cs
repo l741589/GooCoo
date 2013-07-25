@@ -45,7 +45,7 @@ namespace GooCooServer.Handler
             }
             else
             {
-                if (context.Request["user"] == null) throw new BMException("参数错误");
+                if (user_id == null||user_id=="") throw new BMException("参数错误");
                 BookEx book;
                 book = new BookEx();
                 book.Isbn = "wwweweeww32ee2";

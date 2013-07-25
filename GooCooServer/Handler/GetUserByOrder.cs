@@ -57,7 +57,7 @@ namespace GooCooServer.Handler
                 user.Name = "kjkjkyuy";
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
-                book.Orderers.Add(user.Id);
+                //book.Orderers.Add(user.Id);
 
                 user = new UserEx();
                 user.Id = "2789665";
@@ -65,7 +65,7 @@ namespace GooCooServer.Handler
                 user.Authority = UserEx.EAuthority.USER;
                 users.Add(user);
                 book.Orderer_id = user.Id;
-                book.Orderers.Add(user.Id);
+                //book.Orderers.Add(user.Id);
 
                 user = new UserEx();
                 user.Id = "1123345";
