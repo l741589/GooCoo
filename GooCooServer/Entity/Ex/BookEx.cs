@@ -47,6 +47,8 @@ namespace GooCooServer.Entity.Ex
             s = Mark + " " + s;
             if (Orderers != null && Books != null && Count != null) s += "\n" + Orderers.Count + "/" + Books.Count + "/" + Count;
             if (Owner_id != null) s += "\n" + "Owner: " + Owner_id;
+            if (Orderer_id != null) s += "\n" + "Orderer: " + Orderer_id;
+            s += "\n----------------------------------";
             return s;
         }
     }

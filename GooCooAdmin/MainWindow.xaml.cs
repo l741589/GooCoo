@@ -65,6 +65,9 @@ namespace GooCooAdmin
             {
                 int index = lb_user.Items.Add(e);                
             }
+            lb_user.SelectionChanged -= lb_user_SelectionChanged;
+            if (lb_user.Items.Contains(sel_user)) lb_user.SelectedItem = sel_user; else sel_user = null;
+            lb_user.SelectionChanged += lb_user_SelectionChanged;
         }
 
         private void Update_Book_List()
@@ -74,6 +77,9 @@ namespace GooCooAdmin
             {
                 lb_book.Items.Add(e);
             }
+            lb_book.SelectionChanged -= lb_book_SelectionChanged;
+            if (lb_book.Items.Contains(sel_book)) lb_book.SelectedItem = sel_book; else sel_book = null;
+            lb_book.SelectionChanged += lb_book_SelectionChanged;
         }
 
         void mi_exit_Click(object sender, RoutedEventArgs e)
