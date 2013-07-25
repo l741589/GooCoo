@@ -43,9 +43,9 @@
                             <input type="submit" style="display:none" />
                         </form>
                     </li>
-
+                                                            
                     <li><a href="#">登陆</a></li>
-                    <li><a href="#">注册</a></li>
+                    <li><a href="#">注册</a></li>                                       
 
                 </ul>
 
@@ -61,7 +61,6 @@
         </asp:ContentPlaceHolder>
     </div>
     </form>
-    <p>container</p>
 
     <asp:ContentPlaceHolder ID="HtmlBody" runat="server"></asp:ContentPlaceHolder>
 
