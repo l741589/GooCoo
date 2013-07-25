@@ -117,6 +117,7 @@ namespace GooCooAdmin.Utility
                             case "search": mark = null; break;
                             case "borrow": mark = "B"; break;
                             case "order": mark = "O"; break;
+                            case "favor": mark = "F"; break;
                         }
                         f.GetType().GetProperty("Mark").SetValue(f, mark);
                         ret.Add(f);

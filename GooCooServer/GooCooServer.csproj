@@ -86,8 +86,10 @@
     <Compile Include="Handler\DonateHandler.cs" />
     <Compile Include="Handler\FindBookHandler.cs" />
     <Compile Include="Handler\GetBookByBorrow.cs" />
+    <Compile Include="Handler\GetBookByFavor.cs" />
     <Compile Include="Handler\GetBookByOrder.cs" />
     <Compile Include="Handler\GetUserByBorrow.cs" />
+    <Compile Include="Handler\GetUserByFavor.cs" />
     <Compile Include="Handler\GetUserByOrder.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\ReturnHandler.cs" />

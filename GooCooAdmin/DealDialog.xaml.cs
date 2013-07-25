@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using GooCooServer.Entity.Ex;
@@ -17,6 +18,7 @@ namespace GooCooAdmin
         public DealDialog()
         {
             InitializeComponent();
+            Debug.Assert(book==null||book.Filled, "书籍信息不完整。");
             this.Owner = this.Parent as Window;
             cb_relation.SelectionChanged += cb_relation_SelectionChanged;
             bn_cancel.Click += bn_cancel_Click;
@@ -145,54 +147,43 @@ namespace GooCooAdmin
 
         private void ManageSelect()
         {
+            
+            //处理Enable
+            (cb_relation.Items[0] as Label).IsEnabled =
+                (book.Orderers.Count + book.BorrowedBook < book.Count) ||
+                (book.BorrowedBook < book.Count && user != null && book.Orderer_id == user.Id);
+
+            (cb_relation.Items[1] as Label).IsEnabled = book.BorrowedBook > 0;
+            (cb_relation.Items[2] as Label).IsEnabled = true;
+
+            //处理默认选项
             if (book != null && user != null)
             {
-                //如果user是book的持有者之一，该还书
-                if (null != book[user.Id])
+                if (book[user.Id]!=null)//如果user是book的持有者之一，该还书
                 {
                     cb_relation.SelectedIndex = 1;
-                    //如果书籍没有多余的书,且不是该用户预定，那么不能借书。
-                    if (book.Count <= book.BorrowedBook || (book.Count <= book.Orderers.Count + book.BorrowedBook && !(book.Orderer_id == user.Id)))
-                    {
-                        (cb_relation.Items[0] as Label).IsEnabled = false;
-                    }
                 }
                 else
-                {
-                    //没有持有那么就不能还
-                    (cb_relation.Items[1] as Label).IsEnabled = false;
-                    //如果书籍没有多余的书
+                {//如果书籍没有多余的书                    
                     if (book.Count <= book.BorrowedBook || book.Count <= book.Orderers.Count + book.BorrowedBook)
-                    {
-                        //如果是该用户预定，那么为借书，否则为捐书
+                    {//如果是该用户预定，那么为借书，否则为捐书                        
                         if (book.Count > book.BorrowedBook && book.Orderer_id == user.Id) cb_relation.SelectedIndex = 0;
-                        else
-                        {
-                            //因为不能借
-                            (cb_relation.Items[0] as Label).IsEnabled = false;
-                            cb_relation.SelectedIndex = 2;
-                        }
-                    }
-                    //如果有多余的书
+                        else cb_relation.SelectedIndex = 2;
+                    }//如果有多余的书借书                  
                     else cb_relation.SelectedIndex = 0;
                 }
             }
             else if (user != null)
-            {
-                //如果只选择了用户，那么之只能捐书（有用户型
-                (cb_relation.Items[0] as Label).IsEnabled = false;
-                (cb_relation.Items[1] as Label).IsEnabled = false;
+            {                
                 cb_relation.SelectedIndex = 2;
             }
             else if (book != null)
-            {
-                //如果只选择了书那么只能还书和捐书(无用户型
-                (cb_relation.Items[0] as Label).IsEnabled = false;
-                //(cb_relation.Items[1] as Label).IsEnabled = false;
-                dp_user.Visibility = Visibility.Collapsed;
+            {                
                 cb_relation.SelectedIndex = 1;
             }
             lastsel = cb_relation.SelectedIndex;
+
+            Debug.Assert((cb_relation.SelectedItem as Label).IsEnabled, "该选项无效");
         }
     }
 }

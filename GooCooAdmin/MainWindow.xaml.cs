@@ -23,6 +23,9 @@ using GooCooAdmin.Utility;
 using GooCooServer.Entity.Ex;
 using System.Web.Configuration;
 using System.ComponentModel;
+using GooCooServer.Entity;
+using System.Diagnostics;
+using System.Threading;
 
 namespace GooCooAdmin
 {
@@ -37,25 +40,64 @@ namespace GooCooAdmin
         private readonly String[] book_field = null;
         private BookEx sel_book = null;
         private UserEx sel_user = null;
+        private UserEx authorisedUser = null;
+        private UserEx adminUser = null;
+
         public MainWindow()
         {
             InitializeComponent();
             user_field = new String[] { "Id", "Name", "Authority" };
             book_field = new String[] { "Isbn", "Name", "Timestamp" };
+
             tb_user.TextChanged += tb_user_TextChanged;
             tb_book.TextChanged += tb_book_TextChanged;
             bn_login.Click += bn_login_Click;
             mi_login.Click += bn_login_Click;
             mi_logout.Click += mi_logout_Click;
             mi_exit.Click += mi_exit_Click;
-            //mn_user.Opened += mn_user_Opened;
             lb_user.SelectionChanged += lb_user_SelectionChanged;
             lb_book.SelectionChanged += lb_book_SelectionChanged;
             lb_book.MouseDoubleClick += lb_book_MouseDoubleClick;
             lb_user.MouseDoubleClick += lb_book_MouseDoubleClick;
+
             Title = Properties.Resources.Title;
             user_list = new ListHolder<UserEx>();
             book_list = new ListHolder<BookEx>();
+        }
+
+        private async void AuthorisedLifeCount()
+        {
+            while (authorisedUser != null && adminUser != null)
+            {
+                Title = adminUser.Name + "(" + adminUser.Authority + ") | " +
+                    authorisedUser.Name + "[" + authorisedUser.LifeTime + "](" + authorisedUser.Authority + ")";
+                await Task.Run(() => { Thread.Sleep(1000); });
+                if (adminUser==null||authorisedUser==null) break;
+                --authorisedUser.LifeTime;
+                if (authorisedUser.LifeTime<=0)
+                    authorisedUser = null;
+            }
+            if (adminUser != null) Title = adminUser.Name + "(" + adminUser.Authority + ")";
+            else Title = Properties.Resources.Title;
+            authorisedUser = null;
+        }
+
+        private UserEx AuthorisedUser
+        {
+            get
+            {
+                if (authorisedUser != null) authorisedUser.LifeTime = int.Parse(Properties.Resources.INT_AUTHORYLIFETIME);
+                return authorisedUser;
+            }
+            set
+            {
+                authorisedUser = value;
+                if (authorisedUser != null)
+                {                    
+                    authorisedUser.LifeTime = int.Parse(Properties.Resources.INT_AUTHORYLIFETIME);
+                    AuthorisedLifeCount();
+                }
+            }
         }
 
         private void Update_User_List()
@@ -92,6 +134,7 @@ namespace GooCooAdmin
             pn_main.IsEnabled = false;
             Title = Properties.Resources.Title;
             bn_login.Visibility = Visibility.Visible;
+            adminUser = null;
         }
 
         void mn_user_Opened(object sender, RoutedEventArgs e)
@@ -132,6 +175,7 @@ namespace GooCooAdmin
                 else
                 {
                     UserEx user = Util.DecodeJson<UserEx>(s);
+                    adminUser = user;
                     if (user.Authority == UserEx.EAuthority.ADMIN || user.Authority == UserEx.EAuthority.SUPERADMIN)
                     {
                         pn_main.IsEnabled = true;
@@ -171,11 +215,35 @@ namespace GooCooAdmin
             Update_User_List();
         }
 
-        bool Author
+        async Task<bool> Grant()
         {
-            get
+            if (sel_user == AuthorisedUser) return true;
+            LoginDialog dlg=new LoginDialog();
+            dlg.tb_id.Text = sel_user.Id.ToString();
+            dlg.tb_id.IsEnabled = false;
+            dlg.pb_pw.Focus();
+            if (dlg.ShowDialog()==true)
             {
-                return true;
+                Dictionary<String, String> cv = new Dictionary<string, string>();
+                cv.Add("id", dlg.tb_id.Text);
+                cv.Add("pw", dlg.pb_pw.Password);
+                String s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv);
+                if (s == null || s == "")
+                {
+                    MessageBox.Show("登录失败");
+                    return false;
+                }
+                else
+                {
+                    UserEx user = Util.DecodeJson<UserEx>(s);
+                    Debug.Assert(user == sel_user, "登录用户不是目标用户");
+                    AuthorisedUser = user;
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -190,7 +258,7 @@ namespace GooCooAdmin
                 Dictionary<String, String> cv = new Dictionary<string, string>();
                 switch (dlg.cb_relation.SelectedIndex)
                 {
-                    case 0: if (sel_user == null || !Author) { MessageBox.Show("操作失败"); return; }
+                    case 0: if (sel_user == null || !await Grant()) { MessageBox.Show("操作失败"); return; }
                         url = Properties.Resources.URL_BORROW;
                         cv.Add("user", sel_user.Id);
                         cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
@@ -230,6 +298,11 @@ namespace GooCooAdmin
             if ((objs[1] as BookEx).Orderer_id != null) sel_book.Orderer_id = null;
             Util.Merge(sel_book, objs[1] as BookEx);
             user_list.Priorities["order"] = 2;
+
+            s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYFAVOR, cv);
+            user_list["favor"]  = Util.DecodeJson<List<UserEx>>(s);
+            user_list.Priorities["favor"] = 1;
+
             lb_book.UpdateLayout();
             Update_User_List();
         }
@@ -243,9 +316,14 @@ namespace GooCooAdmin
             String s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYBORROW, cv);
             book_list["borrow"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["borrow"] = 2;
+
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYORDER, cv);
             book_list["order"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["order"] = 2;
+
+            s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYFAVOR, cv);
+            book_list["favor"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
+            book_list.Priorities["favor"] = 1;
             
             Update_Book_List();
         }

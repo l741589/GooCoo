@@ -11,16 +11,22 @@
             </MenuItem>
         </Menu>
         <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
-        <UniformGrid x:Name="pn_main" Columns="2" Rows="1" DockPanel.Dock="Bottom" IsEnabled="False">
-            <DockPanel LastChildFill="True">
-                <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap" Text="搜索用户"  DockPanel.Dock="Top"/>
-                <ListBox x:Name="lb_user"/>
-            </DockPanel>
-            <DockPanel LastChildFill="True">
-                <TextBox x:Name="tb_book" Height="23" TextWrapping="NoWrap" Text="搜索书籍"  DockPanel.Dock="Top"/>
-                <ListBox x:Name="lb_book"/>
-            </DockPanel>
-        </UniformGrid>
+        <TabControl Margin="8,8,8,8">
+            <TabItem Header="书籍业务">
+                <UniformGrid x:Name="pn_main" Columns="2" Rows="1" DockPanel.Dock="Bottom" IsEnabled="False">
+                    <DockPanel LastChildFill="True">
+                        <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap" Text="搜索用户"  DockPanel.Dock="Top"/>
+                        <ListBox x:Name="lb_user"/>
+                    </DockPanel>
+                    <DockPanel LastChildFill="True">
+                        <TextBox x:Name="tb_book" Height="23" TextWrapping="NoWrap" Text="搜索书籍"  DockPanel.Dock="Top"/>
+                        <ListBox x:Name="lb_book"/>
+                    </DockPanel>
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="管理用户" IsEnabled="False"></TabItem>
+            <TabItem Header="管理书籍" IsEnabled="False"></TabItem>
+            <TabItem Header="日志查询" IsEnabled="False"></TabItem>
+        </TabControl>
     </DockPanel>
-
 </Window>

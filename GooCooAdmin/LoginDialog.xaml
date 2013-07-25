@@ -5,8 +5,8 @@
     <Canvas Margin="0,0,4,-19">
         <Button x:Name="bn_login" Content="登录" Canvas.Left="180" Canvas.Top="79" Width="75" IsDefault="True"/>
         <Button x:Name="bn_cancel" Content="取消" Canvas.Left="100" Canvas.Top="79" Width="75"/>
-        <TextBox x:Name="tb_id" Height="23" Canvas.Left="55" TextWrapping="Wrap" Canvas.Top="14" Width="200" Text="1152788"/>
-        <PasswordBox x:Name="pb_pw" Height="23" Canvas.Left="55" Canvas.Top="42" Width="200" Password="1234"/>
+        <TextBox x:Name="tb_id" Height="23" Canvas.Left="55" TextWrapping="Wrap" Canvas.Top="14" Width="200"/>
+        <PasswordBox x:Name="pb_pw" Height="23" Canvas.Left="55" Canvas.Top="42" Width="200"/>
         <Label Content="密码" Canvas.Left="10" Canvas.Top="40"/>
         <Label Content="账号" Canvas.Left="10" Canvas.Top="10"/>
     </Canvas>

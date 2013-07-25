@@ -61,6 +61,15 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 300 的本地化字符串。
+        /// </summary>
+        internal static string INT_AUTHORYLIFETIME {
+            get {
+                return ResourceManager.GetString("INT_AUTHORYLIFETIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GooCoo图书管理系统 的本地化字符串。
         /// </summary>
         internal static string Title {
@@ -115,6 +124,15 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 GetBookByFavor 的本地化字符串。
+        /// </summary>
+        internal static string URL_GETBOOKBYFAVOR {
+            get {
+                return ResourceManager.GetString("URL_GETBOOKBYFAVOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GetBookByOrder 的本地化字符串。
         /// </summary>
         internal static string URL_GETBOOKBYORDER {
@@ -129,6 +147,15 @@ namespace GooCooAdmin.Properties {
         internal static string URL_GETUSERBYBORROW {
             get {
                 return ResourceManager.GetString("URL_GETUSERBYBORROW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 GetUserByFavor 的本地化字符串。
+        /// </summary>
+        internal static string URL_GETUSERBYFAVOR {
+            get {
+                return ResourceManager.GetString("URL_GETUSERBYFAVOR", resourceCulture);
             }
         }
         

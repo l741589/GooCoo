@@ -48,6 +48,12 @@ namespace GooCooServer.Handler
                         user.Name = "测试";
                         user.Id = "1152788";
                         user.Authority = User.EAuthority.ADMIN;
+                    }else if (id == "2789665" && pw == "1111")
+                    {
+                        user = new User();
+                        user.Name = "小明";
+                        user.Id = "2789665";
+                        user.Authority = User.EAuthority.USER;
                     }
                     else
                     {
