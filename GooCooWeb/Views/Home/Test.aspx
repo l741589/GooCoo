@@ -1,25 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/main_container.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/FourAreasLayout.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    TestTitle
+    Test
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="HtmlBody" runat="server">
-    
-<h2>Test</h2>
-
-    <p>body</p>
-
+<asp:Content ID="Content2" ContentPlaceHolderID="OtherCssStyle" runat="server">
+    c2
 </asp:Content>
 
-<asp:Content ID="Content3" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="Content3" ContentPlaceHolderID="LeftNavbar" runat="server">
+    c3
 </asp:Content>
 
-<asp:Content ID="Content4" ContentPlaceHolderID="OtherCssStyle" runat="server">
+<asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
+    c4
 </asp:Content>
 
-<asp:Content ID="Content5" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-</asp:Content>
-
-<asp:Content ID="Content6" ContentPlaceHolderID="OtherScript" runat="server">
+<asp:Content ID="Content5" ContentPlaceHolderID="Footer" runat="server">
+    c5
 </asp:Content>
