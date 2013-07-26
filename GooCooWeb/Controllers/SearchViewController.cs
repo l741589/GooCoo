@@ -13,6 +13,7 @@ namespace GooCooWeb.Controllers
 
         public ActionResult Index(String keyword)
         {
+            return View("NoResult");
             return View();
         }
 
