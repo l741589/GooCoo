@@ -1,41 +1,34 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace GooCooServer.Entity
 {
-    //实体集，表示某一条日志，由trigger插入，只接受查询
-    public class Log
+    //实体集，表示某一本书
+    public class Book
     {
-        private int id;//primay key
-        private String content;
+        private int id;//primary key
         private long timestamp;
-        
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
 
-        public String Content
-        {
-            get { return content; }
-            set { content = value; }
-        }
-        
         public long Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }
         }
 
-        public static bool operator ==(Log lhs, Log rhs)
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public static bool operator ==(Book lhs, Book rhs)
         {
             return Object.Equals(lhs, rhs);
         }
 
-        public static bool operator !=(Log lhs, Log rhs)
+        public static bool operator !=(Book lhs, Book rhs)
         {
             return !Object.Equals(lhs, rhs);
         }
@@ -43,9 +36,9 @@ namespace GooCooServer.Entity
         public override bool Equals(object obj)
         {
             if (Object.Equals(obj, null)) return false;
-            if (obj is Log)
+            if (obj is Book)
             {
-                return Id == (obj as Log).Id;
+                return Id == (obj as Book).Id;
             }
             else return false;
         }
