@@ -128,7 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GooCooServer\GooCooServer.csproj">
-      <Project>{b71c1636-a8da-4627-8cd6-f7384fce3c75}</Project>
+      <Project>{52f2764b-ea69-4926-b61e-af5b6360326e}</Project>
       <Name>GooCooServer</Name>
     </ProjectReference>
   </ItemGroup>

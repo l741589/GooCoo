@@ -7,7 +7,7 @@ namespace GooCooServer.Entity
 {
     //实体集，表示某一类书的信息
     public class BookInfo
-    {       
+    {
         private String isbn;//primary key
         private String name;
         private String[] tags;
@@ -44,7 +44,7 @@ namespace GooCooServer.Entity
 
         public static bool operator !=(BookInfo lhs, BookInfo rhs)
         {
-            return !Object.Equals(lhs,rhs);
+            return !Object.Equals(lhs, rhs);
         }
 
         public override bool Equals(object obj)
