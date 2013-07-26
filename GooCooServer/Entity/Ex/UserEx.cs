@@ -10,7 +10,6 @@ namespace GooCooServer.Entity.Ex
     {
         private List<String> holds = new List<string>();
         private List<String> orders = new List<string>();
-        private String mark = null;
 
         public int LifeTime { get; set; }
         public String Mark { get; set; }

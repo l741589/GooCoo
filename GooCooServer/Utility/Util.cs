@@ -19,16 +19,21 @@ namespace GooCooServer.Utility
             PropertyInfo[] properties = obj.GetType().GetProperties();
             foreach (PropertyInfo property in properties)
             {
-                try
+                if (property.CanRead)
                 {
-                    PropertyInfo target = type.GetProperty(property.ToString());
-                    if (target != null)
+                    try
                     {
-                        object value = property.GetValue(obj);
-                        target.SetValue(ret, value);
+                        var s = property.ToString();
+                        s = s.Substring(s.LastIndexOf(' ') + 1);
+                        PropertyInfo target = type.GetProperty(s);
+                        if (target != null&&target.CanWrite)
+                        {
+                            object value = property.GetValue(obj);
+                            target.SetValue(ret, value);
+                        }
                     }
+                    catch (AmbiguousMatchException) { }
                 }
-                catch (AmbiguousMatchException) { }
             }
             return ret;
         }
@@ -46,6 +51,34 @@ namespace GooCooServer.Utility
                     if (left == null) property.SetValue(target, right);
                     else
                         if (right != null && cover) property.SetValue(target, right);
+                }
+            }
+            return target;
+        }
+
+        public static T Merge<T>(T target, Object obj, bool cover = false)
+        {
+            Type type = typeof(T);
+            PropertyInfo[] properties = obj.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.CanRead)
+                {
+                    try
+                    {
+                        var s = property.ToString();
+                        s = s.Substring(s.LastIndexOf(' ') + 1);
+                        PropertyInfo targetprop = type.GetProperty(s);
+                        if (targetprop!=null&&targetprop.CanRead && targetprop.CanWrite)
+                        {
+                            var left = targetprop.GetValue(target);
+                            var right = property.GetValue(obj);
+                            if (left == null) targetprop.SetValue(target, right);
+                            else
+                                if (right != null && cover) targetprop.SetValue(target, right);
+                        }
+                    }
+                    catch (AmbiguousMatchException) { }
                 }
             }
             return target;

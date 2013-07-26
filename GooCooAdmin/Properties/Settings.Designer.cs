@@ -31,5 +31,68 @@ namespace GooCooAdmin.Properties {
                 return ((int)(this["PORT"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#00000000")]
+        public global::System.Windows.Media.Color CL_NOCHANGE {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_NOCHANGE"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF0000FF")]
+        public global::System.Windows.Media.Color CL_CHANGED {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_CHANGED"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFF0000")]
+        public global::System.Windows.Media.Color CL_DELETED {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_DELETED"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF00FF00")]
+        public global::System.Windows.Media.Color CL_NEW {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_NEW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF00")]
+        public global::System.Windows.Media.Color CL_DELNEW {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_DELNEW"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF000000")]
+        public global::System.Windows.Media.Color CL_BLACK {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_BLACK"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        public global::System.Windows.Media.Color CL_WHITE {
+            get {
+                return ((global::System.Windows.Media.Color)(this["CL_WHITE"]));
+            }
+        }
     }
 }

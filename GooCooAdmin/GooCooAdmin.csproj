@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -68,7 +69,10 @@
     <Compile Include="UserInfoDialog.xaml.cs">
       <DependentUpon>UserInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widget\GridHolder.cs" />
     <Compile Include="Utility\ListHolder.cs" />
+    <Compile Include="Widget\InfoGrid.cs" />
+    <Compile Include="Widget\UserGrid.cs" />
     <Compile Include="Utility\Util.cs" />
     <Page Include="DealDialog.xaml">
       <SubType>Designer</SubType>

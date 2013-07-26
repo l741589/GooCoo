@@ -149,11 +149,11 @@ namespace GooCooAdmin
         {
             
             //处理Enable
-            (cb_relation.Items[0] as Label).IsEnabled =
-                (book.Orderers.Count + book.BorrowedBook < book.Count) ||
-                (book.BorrowedBook < book.Count && user != null && book.Orderer_id == user.Id);
+            (cb_relation.Items[0] as Label).IsEnabled = (book != null) &&
+                ((book.Orderers.Count + book.BorrowedBook < book.Count) ||
+                (book.BorrowedBook < book.Count && user != null && book.Orderer_id == user.Id));
 
-            (cb_relation.Items[1] as Label).IsEnabled = book.BorrowedBook > 0;
+            (cb_relation.Items[1] as Label).IsEnabled = (book != null) && (book.BorrowedBook > 0);
             (cb_relation.Items[2] as Label).IsEnabled = true;
 
             //处理默认选项
