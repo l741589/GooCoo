@@ -1,28 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace GooCooServer.Entity
 {
-    //实体集表示某一条评论
-    public class Comment
+    //实体集，表示某一本书
+    public class Book
     {
         private int id;//primary key
-        private String content;
         private long timestamp;
-
-        public int Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
-
-        public String Content
-        {
-            get { return content; }
-            set { content = value; }
-        }
 
         public long Timestamp
         {
@@ -30,22 +17,39 @@ namespace GooCooServer.Entity
             set { timestamp = value; }
         }
 
-        public static bool operator ==(Comment lhs, Comment rhs)
+        public int Id
         {
-            return Object.Equals(lhs, rhs);
+            get { return id; }
+            set { id = value; }
         }
 
-        public static bool operator !=(Comment lhs, Comment rhs)
+        public static bool operator ==(Book lhs, Book rhs)
         {
+<<<<<<< HEAD
+            return lhs.Equals(rhs);
+=======
+            return Object.Equals(lhs, rhs);
+>>>>>>> origin/WXY
+        }
+
+        public static bool operator !=(Book lhs, Book rhs)
+        {
+<<<<<<< HEAD
+            return !lhs.Equals(rhs);
+=======
             return !Object.Equals(lhs, rhs);
+>>>>>>> origin/WXY
         }
 
         public override bool Equals(object obj)
         {
+<<<<<<< HEAD
+=======
             if (Object.Equals(obj, null)) return false;
-            if (obj is Comment)
+>>>>>>> origin/WXY
+            if (obj is Book)
             {
-                return Id == (obj as Comment).Id;
+                return Id == (obj as Book).Id;
             }
             else return false;
         }
