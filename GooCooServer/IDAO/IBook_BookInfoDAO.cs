@@ -12,8 +12,9 @@ namespace GooCooServer.IDAO
     {
         //Book_BookInfo Add(String isbn, int id);
         //bool Del(String isbn, int id);
-        BookInfo GetBookInfo(int book_id);
-        List<Book> GetBook(String isbn);
-        int Count(String isbn);
+       // BookInfo GetBookInfo(int book_id);
+       // List<Book> GetBook(String isbn);
+       // int Count(String isbn);
+        void testinsert();
     }
 }
