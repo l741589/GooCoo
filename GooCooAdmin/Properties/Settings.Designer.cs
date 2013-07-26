@@ -22,5 +22,14 @@ namespace GooCooAdmin.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("23447")]
+        public int PORT {
+            get {
+                return ((int)(this["PORT"]));
+            }
+        }
     }
 }
