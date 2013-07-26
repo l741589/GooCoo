@@ -39,14 +39,13 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     BookEx b = Util.CloneEntity<BookEx>(e);
-                    //这里没有判断是否是最后预订的
                     b.Orderer_id = user_id;
                     books.Add(b);
                 }
             }
             else
             {
-                if (context.Request["user"] == null) throw new BMException("参数错误");
+                if (user_id == null||user_id=="") throw new BMException("参数错误");
                 BookEx book;
                 book = new BookEx();
                 book.Isbn = "wwweweeww32ee2";
@@ -72,9 +71,7 @@ namespace GooCooServer.Handler
                 book.Orderer_id = user_id;
                 books.Add(book);
             }
-            StringBuilder ret = new StringBuilder();
-            new JavaScriptSerializer().Serialize(books, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(books));
         }
 
         #endregion

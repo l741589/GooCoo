@@ -8,6 +8,7 @@ using GooCooServer.Exception;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Script.Serialization;
+using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
@@ -61,8 +62,7 @@ namespace GooCooServer.Handler
                 users.Add(user);
 
             }
-            new JavaScriptSerializer().Serialize(users, ret);
-            context.Response.Output.Write(ret.ToString());
+            context.Response.Output.Write(Util.EncodeJson(users));
         }
 
         #endregion

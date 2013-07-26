@@ -1,8 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Web;
-using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
 using GooCooServer.Entity.Ex;
@@ -12,7 +10,7 @@ using GooCooServer.Utility;
 
 namespace GooCooServer.Handler
 {
-    public class GetBookByBorrow : IHttpHandler
+    public class GetBookByFavor : IHttpHandler
     {
         /// <summary>
         /// 您将需要在网站的 Web.config 文件中配置此处理程序 
@@ -30,45 +28,41 @@ namespace GooCooServer.Handler
 
         public void ProcessRequest(HttpContext context)
         {
-            IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
-            IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
-            HashSet<BookEx> books = new HashSet<BookEx>();
-            String user_id=context.Request["user"];
-            if (bb != null && ub != null)
+            IUser_BookInfoDAO ub = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+            List<BookEx> books = new List<BookEx>();
+            String user_id = context.Request["user"];
+            if (ub != null)
             {
-                List<Book> lbs = ub.GetBook(user_id);
+                List<BookInfo> lbs = ub.GetBookInfo(user_id,User_BookInfo.ERelation.FAVOR);
                 foreach (var e in lbs)
                 {
-                    BookEx bookex = Util.CloneEntity<BookEx>(bb.GetBookInfo(e.Id));
-                    //bookex.Owner_id = user_id;
-                    books.Add(bookex);
+                    BookEx b = Util.CloneEntity<BookEx>(e);
+                    books.Add(b);
                 }
             }
             else
             {
+                if (user_id == null||user_id=="") throw new BMException("参数错误");
                 BookEx book;
                 book = new BookEx();
-                book.Isbn = "wwwewew32ee2";
-                book.Name = "sdfergw34sdsfdd";
+                book.Isbn = "12133232432";
+                book.Name = "sdfergw34sdsfddew";
                 book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = 322343423243;
-                //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
-                book.Isbn = "sd34t344rt3e";
-                book.Name = "供热为复位";
+                book.Isbn = "ilukiukjh";
+                book.Name = "供sa热为复se位we";
                 book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow.Ticks;
-                //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
-                book.Isbn = "2323ewew3232";
-                book.Name = "sdfergw34fdd";
+                book.Isbn = "额bbn,.,/,";
+                book.Name = "而谷歌sdsd";
                 book.Tags = new String[] { "432433232we", "dffdfdf" };
                 book.Timestamp = 232546788755455657L;
-                //book.Owner_id = user_id;
                 books.Add(book);
             }
             context.Response.Output.Write(Util.EncodeJson(books));

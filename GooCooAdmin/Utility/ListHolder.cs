@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GooCooServer.Exception;
 
-namespace GooCooAdmin.Util
+namespace GooCooAdmin.Utility
 {
     public class ListHolder<T>
     {
@@ -22,7 +22,21 @@ namespace GooCooAdmin.Util
         public List<T> this[String key]
         {
             get { if (!lists.ContainsKey(key)) AddList(key); return lists[key]; }
-            set { if (!lists.ContainsKey(key)) AddList(key, value); else lists[key] = value; }
+            set
+            {
+                if (!lists.ContainsKey(key)) AddList(key, value);
+                else
+                {
+                    List<T> list = lists[key];
+                    lists[key] = value;
+                    foreach (T e in list)
+                    {
+                        T f=value.Find((match) => { return Object.Equals(e, match); });
+                        if (f != null) Util.Merge(f, e);
+                    }
+                    
+                }
+            }
         }
 
         public Dictionary<String, int> Priorities
@@ -103,6 +117,7 @@ namespace GooCooAdmin.Util
                             case "search": mark = null; break;
                             case "borrow": mark = "B"; break;
                             case "order": mark = "O"; break;
+                            case "favor": mark = "F"; break;
                         }
                         f.GetType().GetProperty("Mark").SetValue(f, mark);
                         ret.Add(f);

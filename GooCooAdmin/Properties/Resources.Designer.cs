@@ -61,11 +61,38 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 300 的本地化字符串。
+        /// </summary>
+        internal static string INT_AUTHORYLIFETIME {
+            get {
+                return ResourceManager.GetString("INT_AUTHORYLIFETIME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GooCoo图书管理系统 的本地化字符串。
         /// </summary>
         internal static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 BorrowHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_BORROW {
+            get {
+                return ResourceManager.GetString("URL_BORROW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DonateHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_DONATE {
+            get {
+                return ResourceManager.GetString("URL_DONATE", resourceCulture);
             }
         }
         
@@ -97,6 +124,15 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 GetBookByFavor 的本地化字符串。
+        /// </summary>
+        internal static string URL_GETBOOKBYFAVOR {
+            get {
+                return ResourceManager.GetString("URL_GETBOOKBYFAVOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GetBookByOrder 的本地化字符串。
         /// </summary>
         internal static string URL_GETBOOKBYORDER {
@@ -115,6 +151,15 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 GetUserByFavor 的本地化字符串。
+        /// </summary>
+        internal static string URL_GETUSERBYFAVOR {
+            get {
+                return ResourceManager.GetString("URL_GETUSERBYFAVOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GetUserByOrder 的本地化字符串。
         /// </summary>
         internal static string URL_GETUSERBYORDER {
@@ -129,6 +174,15 @@ namespace GooCooAdmin.Properties {
         internal static string URL_LOGIN {
             get {
                 return ResourceManager.GetString("URL_LOGIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ReturnHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_RETURN {
+            get {
+                return ResourceManager.GetString("URL_RETURN", resourceCulture);
             }
         }
     }

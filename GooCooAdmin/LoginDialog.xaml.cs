@@ -26,6 +26,10 @@ namespace GooCooAdmin
             tb_id.Focus();
             bn_login.Click += bn_login_Click;
             bn_cancel.Click += bn_cancel_Click;
+#if DEBUG
+            tb_id.Text = "1152788";
+            pb_pw.Password = "1234";
+#endif
         }
 
         void bn_cancel_Click(object sender, RoutedEventArgs e)
