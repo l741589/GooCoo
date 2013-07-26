@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{53545B12-9C31-4A5A-A5A0-5A9F1006EB48}</ProjectGuid>
+    <ProjectGuid>{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GooCooServer</RootNamespace>
