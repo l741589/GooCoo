@@ -79,11 +79,47 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 AddBook 的本地化字符串。
+        /// </summary>
+        internal static string URL_ADDBOOK {
+            get {
+                return ResourceManager.GetString("URL_ADDBOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 AddUser 的本地化字符串。
+        /// </summary>
+        internal static string URL_ADDUSER {
+            get {
+                return ResourceManager.GetString("URL_ADDUSER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 BorrowHandler 的本地化字符串。
         /// </summary>
         internal static string URL_BORROW {
             get {
                 return ResourceManager.GetString("URL_BORROW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DelBook 的本地化字符串。
+        /// </summary>
+        internal static string URL_DELBOOK {
+            get {
+                return ResourceManager.GetString("URL_DELBOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DelUser 的本地化字符串。
+        /// </summary>
+        internal static string URL_DELUSER {
+            get {
+                return ResourceManager.GetString("URL_DELUSER", resourceCulture);
             }
         }
         
@@ -183,6 +219,24 @@ namespace GooCooAdmin.Properties {
         internal static string URL_RETURN {
             get {
                 return ResourceManager.GetString("URL_RETURN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UpdateBook 的本地化字符串。
+        /// </summary>
+        internal static string URL_UPDATEBOOK {
+            get {
+                return ResourceManager.GetString("URL_UPDATEBOOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UpdateUser 的本地化字符串。
+        /// </summary>
+        internal static string URL_UPDATEUSER {
+            get {
+                return ResourceManager.GetString("URL_UPDATEUSER", resourceCulture);
             }
         }
     }

@@ -10,14 +10,23 @@ using GooCooAdmin.Utility;
 
 namespace GooCooAdmin.Widget
 {
-    abstract class InfoGrid<T> : Grid
+    public interface IInfoGrid
     {
-        public enum EStatus { 无变化, 修改, 删除, 新建, 新建并删除 }
+        bool RealEqual();
+        void update(bool moduleToView = true);
+        void Revert(bool includeNew = false);
+        //IHolder Holder { get; }
+        int Index { get; }
+        EGridStatus Status { get; }
+    }
 
-        private readonly T realEntity;
+    public abstract class InfoGrid<T> : Grid,IInfoGrid
+    {
+        private T realEntity;
         public T RealEntity { get { return realEntity; } }
         public T Entity { get; set; }
         public bool Deleted { get; set; }
+        public bool MarkToRemove { get; set; }
 
         public InfoGrid()
         {
@@ -25,6 +34,7 @@ namespace GooCooAdmin.Widget
             Entity = (T)typeof(T).GetConstructor(new Type[0]).Invoke(new object[0]);
             realEntity = default(T);
             Margin = new Thickness(0.5);
+            MarkToRemove = false;
         }
 
         public InfoGrid(T entity)
@@ -33,6 +43,7 @@ namespace GooCooAdmin.Widget
             Entity = Util.CloneEntity<T>(entity);
             realEntity = Util.CloneEntity<T>(entity);
             Margin = new Thickness(0.5);
+            MarkToRemove = false;
         }
 
         public GridHolder<T> Holder
@@ -57,16 +68,24 @@ namespace GooCooAdmin.Widget
         }
 
         public abstract bool RealEqual();
+        public abstract void update(bool moduleToView = true);
 
-        public EStatus Status
+        public void Revert(bool includeNew = false){
+            if (includeNew && (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除)) Holder.Remove(this);
+            else if (RealEntity!=null) Entity = Util.CloneEntity(RealEntity);
+            if (Deleted) Deleted = false;
+            update();
+        }
+
+        public EGridStatus Status
         {
             get
             {
-                if (Deleted && RealEntity == null) return EStatus.新建并删除;
-                if (RealEntity == null) return EStatus.新建;
-                if (Deleted) return EStatus.删除;
-                if (RealEqual()) return EStatus.无变化;
-                return EStatus.修改;
+                if (Deleted && RealEntity == null) return EGridStatus.新建并删除;
+                if (RealEntity == null) return EGridStatus.新建;
+                if (Deleted) return EGridStatus.已删除;
+                if (RealEqual()) return EGridStatus.无变化;
+                return EGridStatus.已修改;
             }
         }
 
@@ -74,27 +93,40 @@ namespace GooCooAdmin.Widget
             lb.Content = Status;
             switch (Status)
             {
-                case EStatus.无变化: 
+                case EGridStatus.无变化: 
                     lb.Background = Util.GetBrush(Properties.Settings.Default.CL_NOCHANGE);
                     lb.Foreground = Util.GetBrush(Properties.Settings.Default.CL_BLACK);
             	    break;
-                case EStatus.删除:
+                case EGridStatus.已删除:
                     lb.Background = Util.GetBrush(Properties.Settings.Default.CL_DELETED);
                     lb.Foreground = Util.GetBrush(Properties.Settings.Default.CL_WHITE);
                     break;
-                case EStatus.新建:
+                case EGridStatus.新建:
                     lb.Background = Util.GetBrush(Properties.Settings.Default.CL_NEW);
                     lb.Foreground = Util.GetBrush(Properties.Settings.Default.CL_BLACK);
                     break;
-                case EStatus.修改:
+                case EGridStatus.已修改:
                     lb.Background = Util.GetBrush(Properties.Settings.Default.CL_CHANGED);
                     lb.Foreground = Util.GetBrush(Properties.Settings.Default.CL_WHITE);
                     break;
-                case EStatus.新建并删除:
+                case EGridStatus.新建并删除:
                     lb.Background = Util.GetBrush(Properties.Settings.Default.CL_DELNEW);
                     lb.Foreground = Util.GetBrush(Properties.Settings.Default.CL_BLACK);
                     break;
             }
+        }
+
+        virtual public void UpdateSuccess()
+        {
+            switch (Status)
+            {
+                case EGridStatus.无变化:break;
+                case EGridStatus.已删除:
+                case EGridStatus.新建并删除: MarkToRemove = true; break;
+                case EGridStatus.新建:
+                case EGridStatus.已修改: realEntity = Util.CloneEntity(Entity); break;                
+            }
+            update();
         }
     }
 }

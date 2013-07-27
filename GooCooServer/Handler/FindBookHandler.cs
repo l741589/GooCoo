@@ -38,7 +38,6 @@ namespace GooCooServer.Handler
             }
             else
             {
-                if (context.Request["keyword"] == null) throw new BMException("参数错误");
                 books = new List<BookInfo>();
                 BookInfo book;
                 book = new BookInfo();

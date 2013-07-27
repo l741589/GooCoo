@@ -1,13 +1,14 @@
-﻿<Window x:Class="GooCooAdmin.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Widget="clr-namespace:GooCooAdmin.Widget" x:Class="GooCooAdmin.MainWindow"
         Title="GooCoo图书管理系统" Height="350" Width="525" Background="White">
     <DockPanel>
         <Menu VerticalAlignment="Top" DockPanel.Dock="Top">
             <MenuItem Header="程序(_A)">
-                <MenuItem Header="登录" x:Name="mi_login"></MenuItem>
-                <MenuItem Header="登出" x:Name="mi_logout"></MenuItem>
-                <MenuItem Header="退出" x:Name="mi_exit"></MenuItem>
+                <MenuItem Header="登录" x:Name="mi_login"/>
+                <MenuItem Header="登出" x:Name="mi_logout"/>
+                <MenuItem Header="退出" x:Name="mi_exit"/>
             </MenuItem>
         </Menu>
         <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
@@ -26,30 +27,35 @@
             </TabItem>
             <TabItem Header="管理用户">
                 <DockPanel LastChildFill="True">
-                    <ToolBar DockPanel.Dock="Top" ToolBarTray.IsLocked="True" Loaded="tool_bar_Loaded">
-                        <Button x:Name="bn_sync" Content="获取数据"/>
-                        <Button x:Name="bn_addUser" Content="添加用户"/>
-                        <Button x:Name="bn_bommit" Content="提交更改"/>
-                        <Button x:Name="bn_revert" Content="全部还原"/>
-                    </ToolBar>
+                    <ToolBarTray DockPanel.Dock="Top">
+                        <ToolBar ToolBarTray.IsLocked="False">
+                            <Button x:Name="bn_syncUser" Content="获取数据"/>
+                            <Button x:Name="bn_addUser" Content="添加用户"/>
+                            <Button x:Name="bn_commitUser" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitUser_Click"/>
+                            <Button x:Name="bn_revertUser" Content="全部还原" Click="bn_revertUser_Click"/>
+                        </ToolBar>
+                        <Widget:FilterToolBar Tag="user" x:Name="ftb_user"/>
+                    </ToolBarTray>
                     <ScrollViewer x:Name="sv_user" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <!-- Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitons>
-                            <TextBox Grid.Row=0 Grid.Column="0" Margin="5">
-                        </Grid-->
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="管理书籍" IsEnabled="False"></TabItem>
-            <TabItem Header="日志查询" IsEnabled="False"></TabItem>
+            <TabItem Header="管理书籍" IsEnabled="False">
+                <DockPanel LastChildFill="True">
+                    <ToolBarTray DockPanel.Dock="Top">
+                        <ToolBar ToolBarTray.IsLocked="False">
+                            <Button x:Name="bn_syncBook" Content="获取数据"/>
+                            <Button x:Name="bn_addBook" Content="添加用户"/>
+                            <Button x:Name="bn_commitBook" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitUser_Click"/>
+                            <Button x:Name="bn_revertBook" Content="全部还原" Click="bn_revertUser_Click"/>
+                        </ToolBar>
+                        <Widget:FilterToolBar Tag="user" x:Name="ftb_book"/>
+                    </ToolBarTray>
+                    <ScrollViewer x:Name="sv_book" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="日志查询" IsEnabled="False"/>
         </TabControl>
     </DockPanel>
 </Window>

@@ -69,6 +69,10 @@
     <Compile Include="UserInfoDialog.xaml.cs">
       <DependentUpon>UserInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widget\EGridStatus.cs" />
+    <Compile Include="Widget\FilterToolBar.xaml.cs">
+      <DependentUpon>FilterToolBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Widget\GridHolder.cs" />
     <Compile Include="Utility\ListHolder.cs" />
     <Compile Include="Widget\InfoGrid.cs" />
@@ -99,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Widget\FilterToolBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

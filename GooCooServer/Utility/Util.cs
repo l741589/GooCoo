@@ -10,8 +10,15 @@ namespace GooCooServer.Utility
 {
     public class Util
     {
+
         //对所有属性均采用“=”复制，若想修改值请自己复制属性值。
-        public static T CloneEntity<T>(Object obj)
+        public static T CloneEntity<T>(T obj)
+        {
+            return CloneEntity<T>(obj as object);
+        }
+        
+        //对所有属性均采用“=”复制，若想修改值请自己复制属性值。
+        public static T CloneEntity<T>(object obj)
         {
             if (obj == null) return default(T);
             Type type = typeof(T);

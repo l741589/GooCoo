@@ -63,14 +63,22 @@ namespace GooCooAdmin
             lb_book.SelectionChanged += lb_book_SelectionChanged;
             lb_book.MouseDoubleClick += lb_book_MouseDoubleClick;
             lb_user.MouseDoubleClick += lb_book_MouseDoubleClick;
-            bn_sync.Click += bn_sync_Click;
+            bn_syncUser.Click += bn_sync_Click;
             bn_addUser.Click += bn_addUser_Click;
 
             Title = Properties.Resources.Title;
             user_list = new ListHolder<UserEx>();
             book_list = new ListHolder<BookEx>();
+        }
 
-            
+        public IHolder GetHolder(String tag)
+        {
+            switch (tag)
+            {
+                case "user": return gh_user;
+                case "book": return gh_book;
+            }
+            return null;
         }
 
         private async void AuthorisedLifeCount()
@@ -155,7 +163,7 @@ namespace GooCooAdmin
                     pn_main.IsEnabled = false;
                     Title = Properties.Resources.Title;
                     bn_login.Visibility = Visibility.Visible;
-                    MessageBox.Show("登录失败");
+                    MessageBox.Show(this, "登录失败");
                 }
                 else
                 {
@@ -174,7 +182,7 @@ namespace GooCooAdmin
                         Title = user.Name + "(" + user.Authority + ")";
                         bn_login.Visibility = Visibility.Visible;
                         gh_user.Admin = gh_book.Admin = user.Authority;
-                        MessageBox.Show("该用户没有权限使用GooCoo图书管理系统");
+                        MessageBox.Show(this, "该用户没有权限使用GooCoo图书管理系统");
                     }
                 }
             }
@@ -207,7 +215,7 @@ namespace GooCooAdmin
             lb_book.SelectionChanged += lb_book_SelectionChanged;
         }
 
-        
+
 
         async void tb_book_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -246,7 +254,7 @@ namespace GooCooAdmin
                 String s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv);
                 if (s == null || s == "")
                 {
-                    MessageBox.Show("登录失败");
+                    MessageBox.Show(this, "登录失败");
                     return false;
                 }
                 else
@@ -274,7 +282,7 @@ namespace GooCooAdmin
                 Dictionary<String, String> cv = new Dictionary<string, string>();
                 switch (dlg.cb_relation.SelectedIndex)
                 {
-                    case 0: if (sel_user == null || !await Grant()) { MessageBox.Show("操作失败"); return; }
+                    case 0: if (sel_user == null || !await Grant()) { MessageBox.Show(this, "操作失败"); return; }
                         url = Properties.Resources.URL_BORROW;
                         cv.Add("user", sel_user.Id);
                         cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
@@ -291,7 +299,7 @@ namespace GooCooAdmin
                         break;
                 }
                 ret = await HttpHelper.Post(url, cv);
-                MessageBox.Show(ret);
+                MessageBox.Show(this, ret);
             }
         }
 
@@ -362,12 +370,17 @@ namespace GooCooAdmin
             }
         }
 
-        void bn_sync_Click(object sender, RoutedEventArgs e)
+        async void bn_sync_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var elem in lb_user.Items)
+            (sender as Button).IsEnabled = false;
+            gh_user.Clear();
+            String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER);
+            List<User> ret = Util.DecodeJson<List<User>>(s);
+            foreach (var elem in ret)
             {
-                gh_user.Add(elem as UserEx);
-            }            
+                gh_user.Add(Util.CloneEntity<UserEx>(elem));
+            }
+            (sender as Button).IsEnabled = true;
         }
 
         void bn_addUser_Click(object sender, RoutedEventArgs e)
@@ -375,6 +388,59 @@ namespace GooCooAdmin
             gh_user.Add(typeof(UserEx));
         }
 
+        private void bn_revertUser_Click(object sender, RoutedEventArgs e)
+        {
+            switch (MessageBox.Show(this, "是否撤销新建用户", "撤销方式", MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Yes: gh_user.Revert(true); break;
+                case MessageBoxResult.No: gh_user.Revert(); break;
+            }
+
+        }
+
+        private async void bn_commitUser_Click(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+            int count = 0;
+            int successcount = 0;
+            foreach (var elem in gh_user.Children)
+            {
+                UserGrid g = (UserGrid)elem;
+                if (g.Entity.Id == null || g.Entity.Id == "" || g.Entity.Name == null || g.Entity.Name == "") continue;
+                String url = null;
+                Dictionary<String, String> cv = new Dictionary<String, String>();
+                User user = Util.CloneEntity<User>(g.Entity);                
+                switch (g.Status)
+                {                    
+                    case EGridStatus.新建: 
+                        url = Properties.Resources.URL_ADDUSER;
+                        cv.Add("user", Util.EncodeJson(user));
+                        break;
+                    case EGridStatus.已删除:
+                        url = Properties.Resources.URL_DELUSER;
+                        cv.Add("user", user.Id);
+                        break;
+                    case EGridStatus.已修改:
+                        url = Properties.Resources.URL_UPDATEUSER;
+                        cv.Add("user", Util.EncodeJson(user));
+                        break;
+                    case EGridStatus.新建并删除:
+                        g.UpdateSuccess();
+                        continue;
+                    default:continue;
+                }
+                String ret = await HttpHelper.Post(url, cv);
+                ++count;
+                if (ret.Contains("成功"))
+                {
+                    ++successcount;
+                    g.UpdateSuccess();
+                }
+            }
+            gh_user.RemoveAllMarked();
+            MessageBox.Show("提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
+            (sender as Button).IsEnabled = true;
+        }
 
         #endregion
 
