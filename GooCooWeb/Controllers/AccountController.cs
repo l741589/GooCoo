@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using GooCooWeb.Models;
 using GooCooServer.Exception;
+using GooCooServer.IDAO;
+using GooCooServer.DAO;
 
 namespace GooCooWeb.Controllers
 {
@@ -49,7 +51,15 @@ namespace GooCooWeb.Controllers
 
         private String ValidateUser(String id, String password)
         {
-            return "";
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            try
+            {
+                return userDAO.Login(id, password);
+            }
+            catch (BMException ex)
+            {
+                return null;
+            }
         }
 
     }
