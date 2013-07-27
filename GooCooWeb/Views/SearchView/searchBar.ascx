@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
 
-<div class="row-fluid">
+<div class="row">
     <form action="#">
         <div class="input-prepend">
             <div class="btn-group">

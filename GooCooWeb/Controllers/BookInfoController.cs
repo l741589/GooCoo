@@ -25,7 +25,11 @@ namespace GooCooWeb.Controllers
             bookinfo.Tags = tags;
 
             ViewBag.Bookinfo = bookinfo;
+            bookinfo.Tags.Count();
             
+            foreach (string bookTag in bookinfo.Tags)
+            {
+            }
 
             return View();
         }

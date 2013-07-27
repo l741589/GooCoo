@@ -5,9 +5,18 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <%:ViewBag.Bookinfo.Name %>
-    <%:ViewBag.Bookinfo.Isbn %>
+    <p>
+        <%:ViewBag.Bookinfo.Name %>
+    </p>
+    <p>
+        <%:ViewBag.Bookinfo.Isbn %>
+    </p>
 
+    <% foreach (string bookTag in ViewBag.Bookinfo.Tags){ %>
+        <p>
+            <%:bookTag %>
+        </p>
+    <%} %>
 
 </asp:Content>
 

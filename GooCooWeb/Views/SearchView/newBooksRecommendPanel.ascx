@@ -3,28 +3,31 @@
     <div class="span3" style="border:thin solid white; padding-left:5px">
         <h4>新书速递</h4>
 
-        <div class="media">
+        <!--------------------------------------------------------------------->
+        <div class="media" style="padding-bottom:30px; border-bottom:thin dashed white">
             <a class="pull-left" href="#">
-                <img class="media-object" src="http://img3.douban.com/view/ark_article_cover/cut/public/1171622.jpg">
+                <img class="media-object" src="http://img3.douban.com/mpic/s2157315.jpg">
             </a>
             <div class="media-body">
                 <h5 class="media-heading">武林外史</h5>
             </div>
         </div>
-        <div class="media">
+        <!-------------------------------------------------------------------->
+
+        <div class="media" style="padding-bottom:30px; border-bottom:thin dashed white">
             <a class="pull-left" href="#">
-                <img class="media-object" src="http://img3.douban.com/view/ark_article_cover/cut/public/1171622.jpg">
+                <img class="media-object" src="http://img3.douban.com/mpic/s2157315.jpg">
             </a>
             <div class="media-body">
                 <h5 class="media-heading">武林外史</h5>
             </div>
         </div>
-        <div class="media">
+        <div class="media" style="padding-bottom:30px; border-bottom:thin dashed white">
             <a class="pull-left" href="#">
-                <img class="media-object" src="http://img3.douban.com/view/ark_article_cover/cut/public/1171622.jpg">
+                <img class="media-object" src="http://img3.douban.com/mpic/s2157315.jpg">
             </a>
             <div class="media-body">
                 <h5 class="media-heading">武林外史</h5>
             </div>
-        </div>                  
+        </div>          
     </div>
