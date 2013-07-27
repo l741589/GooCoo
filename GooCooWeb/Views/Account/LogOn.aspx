@@ -12,9 +12,9 @@
     <section class="loginBox row-fluid">
         <img class="span5 offset3" alt="Google Camp Logo" src="../../Content/image/Logo.jpg" height="200" />
         <section class="span5 offset2 left">
-            <% using (Html.BeginForm(new { returnUrl = }))
+            <% using (Html.BeginForm(new {returnUrl = Request["returnUrl"]}))
                { %>
-            <%: Html.ValidationSummary(true, "登录不成功。请更正错误并重试。")%>
+            <%: Html.ValidationSummary(true, "登录不成功。请重试!")%>
             <fieldset>
                 <legend>Gcer登录</legend>
 

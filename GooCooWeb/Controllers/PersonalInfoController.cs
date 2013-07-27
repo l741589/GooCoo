@@ -52,12 +52,14 @@ namespace GooCooWeb.Controllers
         {
             base.OnActionExecuting(filterContext);
             var userSessionID = filterContext.HttpContext.Session["UserSessionID"];
+            //还要判断session是否过期
             if (userSessionID == null)
             {
-               // LogOn(filterContext);
+                LogOn(filterContext);
             }
         }
 
+        //跳转到登录页面
         private void LogOn(ActionExecutingContext filterContext)
         {
             RouteValueDictionary dictionary = new RouteValueDictionary
