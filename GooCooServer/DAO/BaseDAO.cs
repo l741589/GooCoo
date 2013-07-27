@@ -13,7 +13,7 @@ namespace GooCooServer.DAO
     class BaseDAO : IBaseDAO
     {
         protected SqlConnection connecter;
-        protected string connectStr;
+        protected String connectStr;
         
         public BaseDAO()
         {
@@ -21,7 +21,7 @@ namespace GooCooServer.DAO
 
         public void createConnection()
         {
-            connectStr = ConfigurationManager.ConnectionStrings["GooCooConnectString"].ConnectionString.ToString();
+            connectStr = "server=localhost;Initial catalog=GooCooDB;user ID=sa;password=;Integrated Security = true";
         }
 
         public int dbManagerCount(SqlParameter myParam, string sqlQuery)

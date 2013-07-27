@@ -36,7 +36,7 @@ namespace GooCooWeb.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "SearchView");
                     }
                 }
                 catch (BMException ex)
@@ -52,14 +52,7 @@ namespace GooCooWeb.Controllers
         private String ValidateUser(String id, String password)
         {
             IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
-            try
-            {
-                return userDAO.Login(id, password);
-            }
-            catch (BMException ex)
-            {
-                return null;
-            }
+            return userDAO.Login(id, password);
         }
 
     }

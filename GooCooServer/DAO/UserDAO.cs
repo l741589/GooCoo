@@ -37,9 +37,12 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
                 myParam.Value = ID;
-                string sqlQuery = "SELECT * FROM USER WHERE id = @id AND password = @password";
+                SqlParameter myParam2 = new SqlParameter("@password", SqlDbType.Char);
+                myParam2.Value = password;
+                string sqlQuery = "SELECT * FROM USERINFO WHERE id = @id AND password = @password";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam2);
 
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
                 if (sqlDataReader.Read())
