@@ -6,11 +6,23 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <% Html.RenderPartial("searchBar"); %>
-     
+
     
+    <% Html.RenderPartial("newBooksRecommendPanel"); %>
 
 
+    <div class="span8"> 
+        <% Html.RenderPartial("searchBar"); %>
+
+
+
+
+
+
+    </div>
+    
+    
+         
     <div class="row-fluid offset3">
     <div class="pagination">
         <ul>

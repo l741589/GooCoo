@@ -12,9 +12,10 @@ namespace GooCooWeb.Controllers
         // GET: /SearchView/
 
         public ActionResult Index(String keyword)
-        {
-            return View("NoResult");
+        {            
             return View();
+
+            //return View("NoResult");
         }
 
     }
