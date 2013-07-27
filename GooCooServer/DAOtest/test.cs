@@ -15,7 +15,7 @@ namespace GooCooServer.DAOtest
         public static void Main()
         {
             IBook_BookInfoDAO tester = (IBook_BookInfoDAO)DAOFactory.createDAO("Book_BookInfoDAO");
-            tester.testinsert();
+            //tester.testinsert();
             Console.ReadLine();
         }
     }

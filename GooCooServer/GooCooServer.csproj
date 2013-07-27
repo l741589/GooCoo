@@ -59,13 +59,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAOtest\test.cs" />
     <Compile Include="DAO\BaseDAO.cs" />
+    <Compile Include="DAO\BookDAO.cs" />
+    <Compile Include="DAO\BookInfoDAO.cs" />
     <Compile Include="DAO\Book_BookInfoDAO.cs" />
     <Compile Include="DAO\DAOFactory.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Entity\Book.cs" />
     <Compile Include="Entity\BookInfo.cs" />
     <Compile Include="Entity\BookInfo_Comment.cs" />
@@ -98,9 +103,9 @@
     <Compile Include="Handler\ReturnHandler.cs" />
     <Compile Include="Handler\UpdateBook.cs" />
     <Compile Include="Handler\UpdateUser.cs" />
-    <Compile Include="IDAO\IBookInfoDAO.cs" />
-    <Compile Include="IDAO\IBookDAO.cs" />
     <Compile Include="IDAO\IBaseDAO.cs" />
+    <Compile Include="IDAO\IBookDAO.cs" />
+    <Compile Include="IDAO\IBookInfoDAO.cs" />
     <Compile Include="IDAO\IBook_BookInfoDAO.cs" />
     <Compile Include="IDAO\IBook_Comment.cs" />
     <Compile Include="IDAO\IComment.cs" />
@@ -113,6 +118,7 @@
     <Compile Include="Utility\Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Entity\Book.cs.orig" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -131,11 +137,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>24842</DevelopmentServerPort>
+          <DevelopmentServerPort>5291</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:11681/</IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
