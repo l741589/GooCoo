@@ -7,13 +7,20 @@ namespace GooCooServer.Entity
 {
     //实体集，表示某一类书的信息
     public class BookInfo
-    {
+    {       
         private String isbn;//primary key
         private String name;
-        private String[] tags;
-        private long timestamp;
+        private String summary;
+        private String photourl;
+        private DateTime timestamp;
 
-        public long Timestamp
+        public String Photourl
+        {
+            get { return photourl; }
+            set { photourl = value; }
+        }
+
+        public DateTime Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }
@@ -31,10 +38,10 @@ namespace GooCooServer.Entity
             set { name = value; }
         }
 
-        public String[] Tags
+        public String Summary
         {
-            get { return tags; }
-            set { tags = value; }
+            get { return summary; }
+            set { summary = value; }
         }
 
         public static bool operator ==(BookInfo lhs, BookInfo rhs)
@@ -44,7 +51,7 @@ namespace GooCooServer.Entity
 
         public static bool operator !=(BookInfo lhs, BookInfo rhs)
         {
-            return !Object.Equals(lhs, rhs);
+            return !Object.Equals(lhs,rhs);
         }
 
         public override bool Equals(object obj)

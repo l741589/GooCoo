@@ -13,8 +13,8 @@ namespace GooCooServer.IDAO
         List<BookInfo> GetByIsbn(String isbn, int from = 0, int count = 0);
         int GetCountByName(String name);
         List<BookInfo> GetByName(String name, int from = 0, int count = 0);
-        int GetCountByTag(String tag);
-        List<BookInfo> GetByTag(String tag, int from = 0, int count = 0);
+        //int GetCountByTag(String tag);
+        //List<BookInfo> GetByTag(String tag, int from = 0, int count = 0);
         int GetCountByKeyWord(String keyWord);
         List<BookInfo> GetByKeyWord(String keyWord, int from = 0, int count = 0);
 
