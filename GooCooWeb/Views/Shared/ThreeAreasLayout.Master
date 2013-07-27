@@ -1,0 +1,45 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head id="Head1" runat="server">
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="OtherCssStyle" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <style type="text/css">
+        body {
+            padding-top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <asp:ContentPlaceHolder ID="Hide" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <div class="container">
+        <asp:ContentPlaceHolder ID="TopNavBar" runat="server">
+        </asp:ContentPlaceHolder>
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        </asp:ContentPlaceHolder>
+
+        <asp:ContentPlaceHolder ID="Footer" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+
+
+    <script src="/Scripts/jquery-2.0.0.min.js"></script>
+    <script src="/Scripts/bootstrap.min.js"></script>
+    <asp:ContentPlaceHolder ID="OtherJavascript" runat="server">
+    </asp:ContentPlaceHolder>
+</body>
+</html>

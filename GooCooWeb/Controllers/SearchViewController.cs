@@ -6,14 +6,15 @@ using System.Web.Mvc;
 
 namespace GooCooWeb.Controllers
 {
-    public class HomeController : Controller
+    public class SearchViewController : Controller
     {
         //
-        // GET: /Home/
+        // GET: /SearchView/
 
-        public ActionResult Index()
+        public ActionResult Index(String keyword)
         {
             return View();
         }
+
     }
 }
