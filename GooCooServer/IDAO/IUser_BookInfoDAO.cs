@@ -15,5 +15,6 @@ namespace GooCooServer.IDAO
         List<User> GetUser(String isbn, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER);
         List<BookInfo> GetBookInfo(String user_id, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER);
         User_BookInfo Get(String isbn, String user_id, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER);
+        User GetAvaliableUser(String book_isbn);
     }
 }

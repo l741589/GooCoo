@@ -9,12 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooWeb", "GooCooWeb\GooC
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooServer", "GooCooServer\GooCooServer.csproj", "{52F2764B-EA69-4926-B61E-AF5B6360326E}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooServer", "GooCooServer\GooCooServer.csproj", "{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooCooWeb", "GooCooWeb\GooCooWeb.csproj", "{87B280EA-3753-46C5-A91A-60070B5B328B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B71C1636-A8DA-4627-8CD6-F7384FCE3C75} = {B71C1636-A8DA-4627-8CD6-F7384FCE3C75}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
