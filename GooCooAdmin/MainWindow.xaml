@@ -40,18 +40,19 @@
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="管理书籍" IsEnabled="False">
+            <TabItem Header="管理书籍" IsEnabled="True">
                 <DockPanel LastChildFill="True">
                     <ToolBarTray DockPanel.Dock="Top">
                         <ToolBar ToolBarTray.IsLocked="False">
-                            <Button x:Name="bn_syncBook" Content="获取数据"/>
-                            <Button x:Name="bn_addBook" Content="添加用户"/>
-                            <Button x:Name="bn_commitBook" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitUser_Click"/>
-                            <Button x:Name="bn_revertBook" Content="全部还原" Click="bn_revertUser_Click"/>
+                            <Button x:Name="bn_syncBook" Content="获取数据" Click="bn_syncBook_Click"/>
+                            <Button x:Name="bn_addBook" Content="添加书籍" Click="bn_addBook_Click"/>
+                            <Button x:Name="bn_commitBook" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitBook_Click"/>
+                            <Button x:Name="bn_revertBook" Content="全部还原" Click="bn_revertBook_Click"/>
                         </ToolBar>
-                        <Widget:FilterToolBar Tag="user" x:Name="ftb_book"/>
+                        <Widget:FilterToolBar Tag="book" x:Name="ftb_book"/>
                     </ToolBarTray>
                     <ScrollViewer x:Name="sv_book" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>

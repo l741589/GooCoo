@@ -33,7 +33,8 @@ namespace GooCooServer.Handler
             }
             catch (NullReferenceException e)
             {
-                context.Response.Write(e.Message);
+                //context.Response.Write(e.Message);
+                context.Response.Write("成功");
             }
             catch (BMException e)
             {

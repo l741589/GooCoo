@@ -124,7 +124,7 @@ namespace GooCooAdmin.Widget
                 case EGridStatus.已删除:
                 case EGridStatus.新建并删除: MarkToRemove = true; break;
                 case EGridStatus.新建:
-                case EGridStatus.已修改: realEntity = Util.CloneEntity(Entity); break;                
+                case EGridStatus.已修改: realEntity = Util.CloneEntity(Entity); break;             
             }
             update();
         }

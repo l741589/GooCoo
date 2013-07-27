@@ -59,8 +59,8 @@ namespace GooCooAdmin.Widget
             }
             else if (entity is BookEx)
             {
-                //int index = Children.Add(new BookdGrid(entity as BookEx));
-                //dreturn this[index];
+                int index = Children.Add(new BookGrid(entity as BookEx));
+                return this[index];
             }
             return null;
         }
@@ -74,8 +74,8 @@ namespace GooCooAdmin.Widget
             }
             else if (type.Equals(typeof(BookEx)))
             {
-                //int index = Children.Add(new BookdGrid(entity as BookEx));
-                //dreturn this[index];
+                int index = Children.Add(new BookGrid());
+                return this[index];
             }
             return null;
         }

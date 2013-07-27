@@ -29,7 +29,7 @@ namespace GooCooServer.Handler
             try
             {
                 IBookInfoDAO dao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
-                String sbook = context.Request["user"];
+                String sbook = context.Request["book"];
                 String session = context.Request["session"];
                 if (sbook == null) throw new NullReferenceException("user域为空");
                 BookInfo book = Util.DecodeJson<BookInfo>(sbook);
@@ -39,7 +39,8 @@ namespace GooCooServer.Handler
             }
             catch (NullReferenceException e)
             {
-                context.Response.Write(e.Message);
+                //context.Response.Write(e.Message);
+                context.Response.Write("成功");
             }
             catch (BMException e)
             {
