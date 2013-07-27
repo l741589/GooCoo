@@ -23,5 +23,25 @@ namespace GooCooServer.DAO
         {
             connectStr = ConfigurationManager.ConnectionStrings["GooCooConnectString"].ConnectionString.ToString();
         }
+
+        public int dbManagerCount(SqlParameter myParam, string sqlQuery)
+        {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                int count = (int)myCommand.ExecuteScalar();
+                return count;
+            }
+        }
+
     }
 }
