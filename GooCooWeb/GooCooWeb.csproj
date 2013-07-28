@@ -184,7 +184,6 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Views\BookInfo\Index.aspx" />
     <Content Include="Views\Home\Test.aspx" />
-    <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
@@ -219,10 +218,10 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\FourAreasLayout.Master" />
     <Content Include="Views\Shared\ThreeAreasLayout.Master" />
+    <Content Include="Views\Shared\SearchViewLayout.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

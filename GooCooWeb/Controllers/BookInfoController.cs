@@ -22,14 +22,12 @@ namespace GooCooWeb.Controllers
             tags[0] = "标签1";
             tags[1] = "标签2";
             tags[2] = "标签3";
-            bookinfo.Tags = tags;
+            //bookinfo.Tags = tags;
 
             ViewBag.Bookinfo = bookinfo;
-            bookinfo.Tags.Count();
+            //bookinfo.Tags.Count();
             
-            foreach (string bookTag in bookinfo.Tags)
-            {
-            }
+            
 
             return View();
         }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/FourAreasLayout.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/SearchViewLayout.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Index
@@ -8,7 +8,6 @@
     
 
     
-  
 
     <div class="span8"> 
         <% Html.RenderPartial("searchBar"); %>
@@ -64,9 +63,6 @@
         }
 
     </style>
-</asp:Content>
-
-<asp:Content ID="Content4" ContentPlaceHolderID="LeftNavbar" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content5" ContentPlaceHolderID="Footer" runat="server">
