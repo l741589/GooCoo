@@ -14,7 +14,9 @@
 
 
         <div class="row">
-            <h5 class="book-title">Aspekte zur Weiterentwicklung der sozialen Marktwirtschaft /</h5>
+            <a href="<%:Url.Action("Index","BookInfo",new {isbn="111"}) %>">
+                <p class="book-title">Aspekte zur Weiterentwicklung der sozialen Marktwirtschaft /</p>
+            </a>
             <p class="book-author">Dräger, Heinrich.</p>
         </div>
 
@@ -29,6 +31,7 @@
         </div>
 
 
+        <!--页码-->
         <div class="row">
             <div class="pagination">
                 <ul>
