@@ -6,7 +6,7 @@
         <div class="input-prepend">
             <div class="btn-group">
                 <button class="btn dropdown-toggle" data-toggle="dropdown">                    
-                        <span id="searchTypeText">标题</span>                   
+                        <span id="searchTypeText"><%:ViewBag.SearchResult.SearchType %></span>                   
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -15,11 +15,11 @@
                     <li onclick="changeSearchType('模糊')"><a href="#">模糊</a></li>                                                            
                 </ul>
             </div>
-            <input class="input-xlarge" placeholder="关键字" name="keyword" id="prependedDropdownButton" type="text">
+            <input class="input-xlarge" placeholder="关键字" name="keyword" id="prependedDropdownButton" type="text" value="<%:ViewBag.SearchResult.Keyword %>" onkeypress="submitSearchForm(event)">
             <button class="btn" type="submit" >Search</button>
         </div>
 
-        <input type="text" id="searchType" name="type" value="标题" style="display:none"/>
+        <input type="text" id="searchType" name="type" value="<%:ViewBag.SearchResult.SearchType %>" style="display:none"/>
         <input type="text" name="page" value="1" style="display:none" />
     </form>       
     
@@ -34,9 +34,14 @@
          typeChoose.value = type;
      }
 
-     function submitSearchForm()
+     function submitSearchForm(oEvent)
      {
-         var searchForm = document.getElementById("searchForm");
-         searchForm.submit();
+         if (oEvent.keyCode == 13) {
+             var searchForm = document.getElementById("searchForm");
+             alert(searchForm.action);
+             searchForm.submit();
+         }
      }
+
+     
     </script>

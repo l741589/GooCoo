@@ -15,23 +15,19 @@ namespace GooCooWeb.Controllers
     {
         //
         // GET: /SearchView/      
-        public ActionResult Index(string keyword, string type, int page = 0)
+        public ActionResult Index(string keyword, string type = "标题", int page = 0)
         {
-
             SearchResultModel resultModel = new SearchResultModel();
+            resultModel.SearchType = type;
             if (keyword == null || keyword.Length == 0)
             {
-                resultModel.HasSearch = false;
-                if (resultModel.SearchType != null)
-                {
-                    resultModel.SearchType = "标题";      //默认搜索方法为标题搜索
-                }
+                resultModel.Keyword = "";
+                resultModel.HasSearch = false;                                
                 ViewBag.SearchResult = resultModel;
                 return View();
             }
-           
-            resultModel.SearchType = type;        //设置搜索方法
 
+            resultModel.Keyword = keyword;            
 
             /*
              * 暂时注释，数据库正常后取消

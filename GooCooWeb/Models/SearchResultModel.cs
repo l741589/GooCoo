@@ -12,6 +12,7 @@ namespace GooCooWeb.Models
         public const int recordPerPage = 20;
 
         //公用
+        public string Keyword { get; set; }
         public bool HasSearch { get; set; }
         public string SearchType { get; set; }
 
