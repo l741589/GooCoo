@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
 
-<div class="row">
-    <form action="#">
+
+    <form id="searchForm" action="<%:Url.Action("Index","SearchView")%>" method="get">
         <div class="input-prepend">
             <div class="btn-group">
                 <button class="btn dropdown-toggle" data-toggle="dropdown">                    
@@ -16,12 +16,13 @@
                 </ul>
             </div>
             <input class="input-xlarge" placeholder="关键字" name="keyword" id="prependedDropdownButton" type="text">
-            <button class="btn" type="button">Search</button>
+            <button class="btn" type="submit" >Search</button>
         </div>
 
-        <input type="text" id="searchType" name="type" value="标题" style="display:none"/>    
+        <input type="text" id="searchType" name="type" value="标题" style="display:none"/>
+        <input type="text" name="page" value="1" style="display:none" />
     </form>       
-    </div>
+    
 
 
  <script type="text/javascript">
@@ -31,5 +32,11 @@
 
          var typeChoose = document.getElementById("searchType");
          typeChoose.value = type;
+     }
+
+     function submitSearchForm()
+     {
+         var searchForm = document.getElementById("searchForm");
+         searchForm.submit();
      }
     </script>
