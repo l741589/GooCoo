@@ -11,9 +11,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li onclick="changeSearchType('标题')"><a href="#">标题</a></li>
-                    <li onclick="changeSearchType('ISBN')"><a href="#">ISBN</a></li>
-                    <li onclick="changeSearchType('标签')"><a href="#">标签</a></li>
-                    
+                    <li onclick="changeSearchType('ISBN')"><a href="#">ISBN</a></li>                    
                     <li onclick="changeSearchType('模糊')"><a href="#">模糊</a></li>                                                            
                 </ul>
             </div>
