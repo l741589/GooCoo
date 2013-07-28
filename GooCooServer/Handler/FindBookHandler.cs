@@ -38,28 +38,27 @@ namespace GooCooServer.Handler
             }
             else
             {
-                if (context.Request["keyword"] == null) throw new BMException("参数错误");
                 books = new List<BookInfo>();
                 BookInfo book;
                 book = new BookInfo();
                 book.Isbn = "2323ewew3232";
                 book.Name = "sdfergw34fdd";
-                book.Tags = new String[] { "432433232we", "dffdfdf" };
-                book.Timestamp = 322343423243;
+               // book.Tags = new String[] { "432433232we", "dffdfdf" };
+             //   book.Timestamp = 322343423243;
                 books.Add(book);
 
                 book = new BookInfo();
                 book.Isbn = "sd34t344rt3";
                 book.Name = "供热为复位";
-                book.Tags = new String[] { "扔给我让我", "是否跟","送给我" };
-                book.Timestamp =DateTime.UtcNow.Ticks;
+             //   book.Tags = new String[] { "扔给我让我", "是否跟","送给我" };
+             //   book.Timestamp =DateTime.UtcNow.Ticks;
                 books.Add(book);
 
                 book = new BookInfo();
                 book.Isbn = "2323ew23232";
                 book.Name = "sdfergw34fdd";
-                book.Tags = new String[] { "432433232we", "dffdfdf" };
-                book.Timestamp = 232546788755455657L;
+              //  book.Tags = new String[] { "432433232we", "dffdfdf" };
+             //   book.Timestamp = 232546788755455657L;
                 books.Add(book);
 
             }

@@ -96,19 +96,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BookInfoController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonalInfoController.cs" />
     <Compile Include="Controllers\SearchViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LogOnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Home\Test.aspx.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Home\Test.aspx.designer.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />
@@ -116,6 +112,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\image\bg.gif" />
+    <Content Include="Content\image\Logo.jpg" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -191,6 +188,15 @@
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
+    <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\PersonalInfo\BorrowInfo.aspx" />
+    <Content Include="Views\PersonalInfo\CollectInfo.aspx" />
+    <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
+    <Content Include="Views\PersonalInfo\PersonalInfo.aspx" />
+    <Content Include="Views\PersonalInfo\PreorderInfo.aspx" />
+    <Content Include="Views\SearchView\Index.aspx" />
+    <Content Include="Views\Shared\Footer.ascx" />
+    <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
     <Content Include="Views\Shared\TopNavbar.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -212,16 +218,18 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\FourAreasLayout.Master" />
+    <Content Include="Views\Shared\ThreeAreasLayout.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GooCooServer\GooCooServer.csproj">
+      <Project>{52f2764b-ea69-4926-b61e-af5b6360326e}</Project>
       <Project>{b71c1636-a8da-4627-8cd6-f7384fce3c75}</Project>
       <Name>GooCooServer</Name>
     </ProjectReference>
@@ -242,7 +250,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>24696</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:25740/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

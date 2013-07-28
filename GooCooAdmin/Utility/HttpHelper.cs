@@ -28,7 +28,7 @@ namespace GooCooAdmin.Utility
 
         static public async Task<String> Post(String path, Dictionary<String,String> args = null)
         {
-            WebRequest request = WebRequest.Create("http://localhost:11681/"+path);
+            WebRequest request = WebRequest.Create("http://localhost:"+Properties.Settings.Default.PORT+"/"+path);
             request.Method = "POST";
             string postData = BuildArgs(args);
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);

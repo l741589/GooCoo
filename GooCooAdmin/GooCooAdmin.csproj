@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -68,7 +69,14 @@
     <Compile Include="UserInfoDialog.xaml.cs">
       <DependentUpon>UserInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widget\EGridStatus.cs" />
+    <Compile Include="Widget\FilterToolBar.xaml.cs">
+      <DependentUpon>FilterToolBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Widget\GridHolder.cs" />
     <Compile Include="Utility\ListHolder.cs" />
+    <Compile Include="Widget\InfoGrid.cs" />
+    <Compile Include="Widget\UserGrid.cs" />
     <Compile Include="Utility\Util.cs" />
     <Page Include="DealDialog.xaml">
       <SubType>Designer</SubType>
@@ -98,6 +106,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Widget\FilterToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -117,7 +129,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -129,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GooCooServer\GooCooServer.csproj">
-      <Project>{b71c1636-a8da-4627-8cd6-f7384fce3c75}</Project>
+      <Project>{52f2764b-ea69-4926-b61e-af5b6360326e}</Project>
       <Name>GooCooServer</Name>
     </ProjectReference>
   </ItemGroup>

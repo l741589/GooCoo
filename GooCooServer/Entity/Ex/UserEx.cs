@@ -10,25 +10,11 @@ namespace GooCooServer.Entity.Ex
     {
         private List<String> holds = new List<string>();
         private List<String> orders = new List<string>();
-        private String mark = null;
 
-        public String Mark
-        {
-            get { return mark; }
-            set { mark = value; }
-        }
-
-        public List<String> Holds
-        {
-            get { return holds; }
-            set { holds = value; }
-        }        
-
-        public List<String> Orders
-        {
-            get { return orders; }
-            set { orders = value; }
-        }
+        public int LifeTime { get; set; }
+        public String Mark { get; set; }
+        public List<String> Holds { get; set; }
+        public List<String> Orders { get; set; }
 
         public string ToString(String[] fields)
         {

@@ -4,10 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B71C1636-A8DA-4627-8CD6-F7384FCE3C75}</ProjectGuid>
+    <ProjectGuid>{52F2764B-EA69-4926-B61E-AF5B6360326E}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -38,13 +40,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -68,47 +64,61 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAOtest\test.cs" />
+    <Compile Include="DAO\BaseDAO.cs" />
+    <Compile Include="DAO\BookDAO.cs" />
+    <Compile Include="DAO\BookInfoDAO.cs" />
+    <Compile Include="DAO\Book_BookInfoDAO.cs" />
+    <Compile Include="DAO\DAOFactory.cs" />
+    <Compile Include="DAO\UserDAO.cs" />
     <Compile Include="Entity\Book.cs" />
     <Compile Include="Entity\BookInfo.cs" />
+    <Compile Include="Entity\BookInfo_Comment.cs" />
     <Compile Include="Entity\Book_BookInfo.cs" />
+    <Compile Include="Entity\Comment.cs" />
     <Compile Include="Entity\Ex\BookEx.cs" />
     <Compile Include="Entity\Ex\UserEx.cs" />
-    <Compile Include="Entity\User_Book.cs" />
-    <Compile Include="Entity\Comment.cs" />
-    <Compile Include="Entity\User_BookInfo.cs" />
     <Compile Include="Entity\Log.cs" />
     <Compile Include="Entity\Session.cs" />
     <Compile Include="Entity\User.cs" />
+    <Compile Include="Entity\User_Book.cs" />
+    <Compile Include="Entity\User_BookInfo.cs" />
     <Compile Include="Entity\User_Comment.cs" />
-    <Compile Include="Entity\BookInfo_Comment.cs" />
     <Compile Include="Exception\BMException.cs" />
+    <Compile Include="Handler\AddBook.cs" />
+    <Compile Include="Handler\AddUser.cs" />
     <Compile Include="Handler\BorrowHandler.cs" />
+    <Compile Include="Handler\DelBook.cs" />
+    <Compile Include="Handler\DelUser.cs" />
     <Compile Include="Handler\DonateHandler.cs" />
     <Compile Include="Handler\FindBookHandler.cs" />
+    <Compile Include="Handler\FindUserHandler.cs" />
     <Compile Include="Handler\GetBookByBorrow.cs" />
+    <Compile Include="Handler\GetBookByFavor.cs" />
     <Compile Include="Handler\GetBookByOrder.cs" />
     <Compile Include="Handler\GetUserByBorrow.cs" />
+    <Compile Include="Handler\GetUserByFavor.cs" />
     <Compile Include="Handler\GetUserByOrder.cs" />
     <Compile Include="Handler\LoginHandler.cs" />
     <Compile Include="Handler\ReturnHandler.cs" />
-    <Compile Include="IDAO\IBookInfoDAO.cs" />
-    <Compile Include="IDAO\IBookDAO.cs" />
-    <Compile Include="DAO\DAOFactory.cs" />
+    <Compile Include="Handler\UpdateBook.cs" />
+    <Compile Include="Handler\UpdateUser.cs" />
     <Compile Include="IDAO\IBaseDAO.cs" />
+    <Compile Include="IDAO\IBookDAO.cs" />
+    <Compile Include="IDAO\IBookInfoDAO.cs" />
     <Compile Include="IDAO\IBook_BookInfoDAO.cs" />
     <Compile Include="IDAO\IBook_Comment.cs" />
-    <Compile Include="IDAO\ILogDAO.cs" />
-    <Compile Include="IDAO\IUser_BookDAO.cs" />
     <Compile Include="IDAO\IComment.cs" />
+    <Compile Include="IDAO\ILogDAO.cs" />
     <Compile Include="IDAO\IUserDAO.cs" />
-    <Compile Include="Handler\FindUserHandler.cs" />
+    <Compile Include="IDAO\IUser_BookDAO.cs" />
     <Compile Include="IDAO\IUser_BookInfoDAO.cs" />
     <Compile Include="IDAO\IUser_Comment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="Entity\Book.cs.orig" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -116,10 +126,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -131,11 +137,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>12316</DevelopmentServerPort>
+          <DevelopmentServerPort>5291</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:11681/</IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

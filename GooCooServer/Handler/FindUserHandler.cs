@@ -41,7 +41,6 @@ namespace GooCooServer.Handler
             }
             else
             {
-                if (context.Request["keyword"] == null) throw new BMException("参数错误");
                 users = new List<User>();
                 User user=new User();
                 user.Id = "1123345";

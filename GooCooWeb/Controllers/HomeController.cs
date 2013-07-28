@@ -13,12 +13,7 @@ namespace GooCooWeb.Controllers
 
         public ActionResult Index()
         {
-            return View("Test");
-        }
-        public ActionResult Test()
-        {
             return View();
         }
-
     }
 }

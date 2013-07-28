@@ -18,8 +18,12 @@
                     </form>
                 </li>
 
-                <li><a href="#">登陆</a></li>
-                <li><a href="#">注册</a></li>
+                <li>
+                    <%: Html.ActionLink("登录", "LogOn", "Account") %>
+                </li>
+                <li>
+                    <%: Html.ActionLink("注册", "Register", "Account") %>
+                </li>
 
             </ul>
 

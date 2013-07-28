@@ -14,7 +14,14 @@ namespace GooCooServer.Entity
         private String name;
         private String password;
         private EAuthority authority;
-        
+        private int repvalue;
+
+        public int Repvalue
+        {
+            get { return repvalue; }
+            set { repvalue = value; }
+        }
+
         public EAuthority Authority
         {
             get { return authority; }

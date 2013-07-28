@@ -16,33 +16,35 @@
     <style type="text/css">
         body {
             padding-top: 80px;
-            background:url(/Content/img/bg.gif) 0 0 repeat #f7f5f5;
+            background: url(/Content/img/bg.gif) 0 0 repeat #f7f5f5;
         }
     </style>
 </head>
 
 <body>
+    <asp:ContentPlaceHolder ID="Hide" runat="server">
+    </asp:ContentPlaceHolder>
 
     <div class="container">
         <div id="topNavbar">
             <% Html.RenderPartial("TopNavbar"); %>
         </div>
 
-        <div id="leftNavbar">
-            <asp:ContentPlaceHolder ID="LeftNavbar" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
-
-
-        <div id="mainContent">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-        </div>
-
-        <div id="footer">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <asp:ContentPlaceHolder ID="LeftNavbar" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+                <div class="span9">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
             <asp:ContentPlaceHolder ID="Footer" runat="server">
             </asp:ContentPlaceHolder>
         </div>
+
     </div>
 
 
