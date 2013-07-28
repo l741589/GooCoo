@@ -15,12 +15,13 @@ namespace GooCooServer.Entity.Ex
             public String Owner { get; set; }
             public int Id { get; set; }
         }
+        private int? count = null;
 
         public List<String> Orderers { get; set; }
         public List<Book> Books { get; set; }
         public String Mark { get; set; }
         public String Orderer_id { get; set; }
-        public int? Count { get; set; }
+        
 
         public Book this[String owner]
         {
@@ -93,7 +94,7 @@ namespace GooCooServer.Entity.Ex
         {
             String s = Isbn + " " + Name + " " + new DateTime(Timestamp).ToString("yyyy:MM:dd hh:mm:ss");
             s = Mark + " " + s;
-            if (Orderers != null && Books != null && Count != null) s += "\n" + Orderers.Count + "/" + BorrowedBook + "/" + Count;
+            if (Orderers != null && Books != null) s += "\n" + Orderers.Count + "/" + BorrowedBook + "/" + Count;
             if (Orderer_id != null) s += "\n" + "Orderer: " + Orderer_id;
             if (Books != null)
             {
@@ -117,6 +118,29 @@ namespace GooCooServer.Entity.Ex
                 if (Orderers == null) return false;
                 if (Orderers.Count > 0 && Orderer_id == null) return false;
                 return true;
+            }
+        }
+
+        public int RealCount
+        {
+            get
+            {
+                if (Books == null) return 0;
+                while (Books.Contains(null)) Books.Remove(null);
+                return Books.Count;      
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                if (count == null) return RealCount;
+                else return (int)count;
+            }
+            set
+            {
+                count = value;
             }
         }
     }

@@ -89,6 +89,7 @@
     <Compile Include="Handler\GetBookByBorrow.cs" />
     <Compile Include="Handler\GetBookByFavor.cs" />
     <Compile Include="Handler\GetBookByOrder.cs" />
+    <Compile Include="Handler\GetLogHandler.cs" />
     <Compile Include="Handler\GetUserByBorrow.cs" />
     <Compile Include="Handler\GetUserByFavor.cs" />
     <Compile Include="Handler\GetUserByOrder.cs" />

@@ -12,7 +12,7 @@
             </MenuItem>
         </Menu>
         <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
-        <TabControl Margin="8,8,8,8" x:Name="tc_main" IsEnabled="False">
+        <TabControl Margin="8,8,8,8" x:Name="tc_main" IsEnabled="False" SelectionChanged="tc_main_SelectionChanged">
             <TabItem Header="书籍业务">
                 <UniformGrid x:Name="pn_main" Columns="2" Rows="1" DockPanel.Dock="Bottom">
                     <DockPanel LastChildFill="True">
@@ -56,7 +56,30 @@
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="日志查询" IsEnabled="False"/>
+            <TabItem Header="日志查询" IsEnabled="True">
+                <DockPanel>
+                    <ToolBarTray DockPanel.Dock="Top">
+                        <ToolBar>
+                            <Button Content="查询" Margin="8,0,8,0" Click="Button_Click"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="起始日期"/>
+                                <DatePicker x:Name="dp_start"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="终止日期"/>
+                                <DatePicker x:Name="dp_end"/>
+                            </StackPanel>
+                        </ToolBar>
+                    </ToolBarTray>
+                    <DataGrid x:Name="dg_log" IsReadOnly="True" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Width="64" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Content" Width="1*" Binding="{Binding Content}"/>
+                            <DataGridTextColumn Header="Timestamp" Width="128" Binding="{Binding Timestamp}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>            
         </TabControl>
     </DockPanel>
 </Window>

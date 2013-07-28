@@ -30,10 +30,11 @@ namespace GooCooServer.Handler
             {
                 IUserDAO dao = DAOFactory.createDAO("UserDAO") as IUserDAO;
                 String suser = context.Request["user"];
+                String session = context.Request["session"];
                 if (suser==null) throw new NullReferenceException("user域为空");
                 User user = Util.DecodeJson<User>(suser);
                 if (user == null) throw new NullReferenceException("user解析失败");
-                dao.Set(context.Session.SessionID, user);
+                dao.Set(session, user);
                 context.Response.Write("修改成功");
             }
             catch (NullReferenceException e)

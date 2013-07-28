@@ -39,7 +39,6 @@ namespace GooCooServer.Handler
             if (bb != null && ub != null)
             {
                 List<Book> lbs = bb.GetBook(book_isbn);
-                book.Count = lbs.Count;
                 foreach (var e in lbs)
                 {
                     User owner = ub.GetUser(e.Id);
@@ -93,8 +92,6 @@ namespace GooCooServer.Handler
                 b.Id = 25;
                 b.Owner = null;
                 book.Books.Add(b);
-
-                book.Count = 3;
             }
             context.Response.Output.Write(Util.EncodeJson(users,book));
         }

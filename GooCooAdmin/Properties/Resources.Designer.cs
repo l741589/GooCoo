@@ -178,6 +178,15 @@ namespace GooCooAdmin.Properties {
         }
         
         /// <summary>
+        ///   查找类似 GetLogHandler 的本地化字符串。
+        /// </summary>
+        internal static string URL_GETLOG {
+            get {
+                return ResourceManager.GetString("URL_GETLOG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 GetUserByBorrow 的本地化字符串。
         /// </summary>
         internal static string URL_GETUSERBYBORROW {

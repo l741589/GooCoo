@@ -423,6 +423,7 @@ namespace GooCooAdmin
                         break;
                     case EGridStatus.已修改:
                         url = Properties.Resources.URL_UPDATEUSER;
+                        cv.Add("session", adminUser.Session);
                         cv.Add("user", Util.EncodeJson(user));
                         break;
                     case EGridStatus.新建并删除:
@@ -485,7 +486,7 @@ namespace GooCooAdmin
                 BookGrid g = (BookGrid)elem;
                 if (g.Entity.Isbn == null || g.Entity.Isbn == "" || g.Entity.Name == null || g.Entity.Name == "") continue;
                 String url = null;
-                Dictionary<String, String> cv = new Dictionary<String, String>();
+                var cv = Util.CreateContentValue();
                 BookInfo book = Util.CloneEntity<BookInfo>(g.Entity);
                 switch (g.Status)
                 {
@@ -499,19 +500,20 @@ namespace GooCooAdmin
                         break;
                     case EGridStatus.已修改:
                         url = Properties.Resources.URL_UPDATEBOOK;
-                        cv.Add("book", Util.EncodeJson(book));
+                        String temp=Util.EncodeJson(g.Entity);
+                        cv.Add("book", temp);
                         break;
                     case EGridStatus.新建并删除:
                         g.UpdateSuccess();
                         continue;
                     default: continue;
                 }
-                String ret = await HttpHelper.Post(url, cv);
+                String ret = await cv.Post(url);
                 ++count;
                 if (ret.Contains("成功"))
                 {
                     ++successcount;
-                    g.UpdateSuccess();
+                    g.UpdateSuccess(ret);
                 }
             }
             gh_book.RemoveAllMarked();
@@ -521,6 +523,32 @@ namespace GooCooAdmin
         #endregion
 
         #region 日志查询
-        #endregion
+
+        private void tc_main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tc = sender as TabControl;
+            if (tc.SelectedIndex != 3) return;
+            DateTime today = DateTime.UtcNow;
+            dp_end.SelectedDate = today;
+            DateTime yesterday = today.AddDays(-1);
+            dp_start.SelectedDate = yesterday;
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime[] dates = new DateTime[2];
+            dates[0] = (DateTime)dp_start.SelectedDate;
+            dates[1] = (DateTime)dp_end.SelectedDate;
+            String s = await Util.CreateContentValue()
+                .Add("time", Util.EncodeJson(dates))
+                .Post(Properties.Resources.URL_GETLOG);
+            List<Log> logs = Util.DecodeJson<List<Log>>(s);
+            foreach (var log in logs)
+            {
+                dg_log.Items.Add(log);
+            }            
+        }
+
+        #endregion        
     }
 }

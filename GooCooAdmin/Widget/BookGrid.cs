@@ -39,8 +39,7 @@ namespace GooCooAdmin.Widget
             bn_revert.IsEnabled = false;
             tb_isbn.TextChanged += tb_name_TextChanged;
             tb_name.TextChanged += tb_name_TextChanged;
-            if (Entity.Books != null) se_count.Value = Entity.Books.Count;
-            else se_count.Value = 0;
+            se_count.Value = Entity.Count;
             se_count.Margin = new Thickness(1, 0, 1, 0);
             lb_status.HorizontalContentAlignment = HorizontalAlignment.Center;
 
@@ -77,8 +76,7 @@ namespace GooCooAdmin.Widget
             tb_isbn.IsEnabled = false;
             tb_isbn.TextChanged += tb_name_TextChanged;
             tb_name.TextChanged += tb_name_TextChanged;
-            if (Entity.Books != null) se_count.Value = Entity.Books.Count;
-            else se_count.Value = 0;
+            se_count.Value = Entity.Count; 
             se_count.Margin = new Thickness(1, 0, 1, 0);
             se_count.ValueChanged += se_count_ValueChanged;
             lb_status.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -102,6 +100,7 @@ namespace GooCooAdmin.Widget
 
         private void CloneBooks()
         {
+            if (Entity == null || RealEntity == null) return;
             if (object.ReferenceEquals(Entity.Books, RealEntity.Books))
             {
                 if (RealEntity.Books != null)
@@ -146,8 +145,7 @@ namespace GooCooAdmin.Widget
             {
                 tb_isbn.Text = Entity.Isbn;
                 tb_name.Text = Entity.Name;
-                if (Entity.Books != null) se_count.Value = Entity.Books.Count;
-                else se_count.Value = 0;
+                se_count.Value = Entity.Count;
                 if (Deleted) bn_delete.Content = "恢复";
                 else bn_delete.Content = "删除";
                 UpdateLabel(lb_status);
@@ -158,27 +156,29 @@ namespace GooCooAdmin.Widget
             {
                 Entity.Isbn = tb_isbn.Text;
                 Entity.Name = tb_name.Text;
-                if (Entity.Books == null) Entity.Books = new List<BookEx.Book>();
-                while (Entity.Books.Count < se_count.Value) Entity.Books.Add(new BookEx.Book());
-                while (Entity.Books.Count > se_count.Value) Entity.Books.RemoveAt(0);                
+                //if (Entity.Books == null) Entity.Books = new List<BookEx.Book>();
+                //while (Entity.Books.Count < se_count.Value) Entity.Books.Add(new BookEx.Book());
+                //while (Entity.Books.Count > se_count.Value) Entity.Books.RemoveAt(0);                
+                Entity.Count = se_count.Value;
                 UpdateLabel(lb_status);
                 bn_revert.IsEnabled = Status != EGridStatus.无变化 && RealEntity != null;
                 if (Holder != null) Holder.Filter(((MainWindow)App.Current.MainWindow).ftb_book.Status);
             }
+            if (Entity != null) lb_status.ToolTip = Entity.ToString();
             updating = false;
         }
 
         public override bool RealEqual()
         {
-            return RealEntity.Isbn == Entity.Isbn && RealEntity.Name == Entity.Name && 
-                ((Entity.Books == null&&RealEntity.Books==null) ||
-                ((Entity.Books == null && RealEntity.Books != null) && (RealEntity.Books.Count == 0)) ||
-                ((Entity.Books != null && RealEntity.Books == null) && (Entity.Books.Count == 0)) ||
-                ((Entity.Books != null && RealEntity.Books != null) && (Entity.Books.Count == RealEntity.Books.Count)));
+            return RealEntity.Isbn == Entity.Isbn && RealEntity.Name == Entity.Name && RealEntity.RealCount == Entity.Count;
         }
 
-        public override void UpdateSuccess()
+        public void UpdateSuccess(String json)
         {
+            try
+            {
+                Entity = Util.DecodeJson(json, typeof(BookEx), typeof(String))[0] as BookEx;
+            }catch { }
             if (Status == EGridStatus.新建)
             {
                 tb_isbn.IsEnabled = false;
