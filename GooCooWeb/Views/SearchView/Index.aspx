@@ -33,15 +33,38 @@
         <%} %>      
 
         <!--页码-->
+        <%
+            string searchKeyword = ViewBag.SearchResult.Keyword;
+           string searchType = ViewBag.SearchResult.SearchType;
+        %>
             <div class="pagination">
                 <ul>
-                    <li><a href="#">Prev</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">Next</a></li>
+                    <!--上一页-->
+                    <li><a href="<%:Url.Action("Index","SearchView",new {keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.PreviewPage}) %>"><</a></li>                    
+                    
+                    <!--第一页-->
+                    <% if (ViewBag.SearchResult.PageFrom > 1){ %>
+                        <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = 1 })%>"> <%:ViewBag.SearchResult.PageFrom == 2? "1" : "1..."%> </a></li>
+                    <%} %>
+
+                    <!--中间页码-->
+                    <%for (int i = ViewBag.SearchResult.PageFrom; i <= ViewBag.SearchResult.PageTo; i++ ){ %>
+                        <% if (i == ViewBag.SearchResult.CurrentPage){ %>
+                            <!--当前页-->
+                            <li class="active"><a href="#"> <%:i %> </a></li>
+                        <%} else { %>
+                            <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = i })%>"> <%:i %> </a></li>
+                        <%} %>
+                    <%} %>
+                    
+                    <!--最后一页-->
+                     <% if (ViewBag.SearchResult.PageTo < ViewBag.SearchResult.TotalPage){ %>
+                        <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.TotalPage })%>"> <%:ViewBag.SearchResult.PageTo == (ViewBag.SearchResult.TotalPage - 1)? ViewBag.SearchResult.TotalPage : ("..." + Convert.ToString(ViewBag.SearchResult.TotalPage))%> </a></li>
+                    <%} %>
+
+                    <!--下一页-->
+                    <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.NextPage })%>">></a></li>
+
                 </ul>
             </div>
         

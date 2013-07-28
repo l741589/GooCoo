@@ -9,7 +9,7 @@ namespace GooCooWeb.Models
     public class SearchResultModel
     {
         //Const
-        public const int recordPerPage = 20;
+        public const int recordPerPage = 10;
 
         //公用
         public string Keyword { get; set; }
@@ -19,7 +19,7 @@ namespace GooCooWeb.Models
         //搜索时使用
         public int ResultCount { get; set; }
         public int CurrentPage { get; set; }
-        public int TotlaPage { get; set; }
+        public int TotalPage { get; set; }
         public List<BookInfo> Results { get; set; }
 
         //用于页码显示

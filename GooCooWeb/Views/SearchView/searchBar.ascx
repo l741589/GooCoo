@@ -13,7 +13,7 @@
                     <li onclick="changeSearchType('标题')"><a href="#">标题</a></li>
                     <li onclick="changeSearchType('ISBN')"><a href="#">ISBN</a></li>                    
                     <li onclick="changeSearchType('模糊')"><a href="#">模糊</a></li>                                                            
-                </ul>
+                </ul>   
             </div>
             <input class="input-xlarge" placeholder="关键字" name="keyword" id="keyword" type="text" value="<%:ViewBag.SearchResult.Keyword %>" onkeypress="submitSearchForm(event)">
             <button class="btn" type="submit" >Search</button>
@@ -37,6 +37,7 @@
      function submitSearchForm(oEvent)
      {
          if (oEvent.keyCode == 13) {
+             oEvent.preventDefault();
              var searchForm = document.getElementById("searchForm");
              var keyword = document.getElementById("keyword");
              var type = document.getElementById("searchType");
