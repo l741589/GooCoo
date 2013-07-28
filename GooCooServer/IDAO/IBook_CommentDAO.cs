@@ -8,7 +8,7 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    interface IBook_Comment
+    interface IBook_CommentDAO
     {
         //User_Comment Add(String book_id, int comment_id);
         //bool Del(String book_id, int comment_id);
