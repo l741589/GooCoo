@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using GooCooServer.DAO;
 using System.Web.Routing;
+using GooCooServer.IDAO;
+using GooCooServer.Exception;
 
 namespace GooCooWeb.Controllers
 {
@@ -51,11 +53,33 @@ namespace GooCooWeb.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-            var userSessionID = filterContext.HttpContext.Session["UserSessionID"];
-            //还要判断session是否过期
+            string userSessionID = (string)filterContext.HttpContext.Session["UserSessionID"];
+            if (userSessionID == null)
+            {
+                HttpCookie cookie = filterContext.HttpContext.Request.Cookies["UserSessionID"];
+                if (cookie != null)
+                {
+                    userSessionID = cookie.Value;
+                    filterContext.HttpContext.Session["UserSessionID"] = userSessionID;
+                }
+            }
+            //不存在连接
             if (userSessionID == null)
             {
                 LogOn(filterContext);
+            }
+            else
+            {
+                IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+                try
+                {
+                    userDAO.Get(userSessionID);
+                }
+                catch (BMException ex)
+                {
+                    //如果session已经过期
+                    LogOn(filterContext);
+                }
             }
         }
 

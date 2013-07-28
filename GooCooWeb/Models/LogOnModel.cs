@@ -18,7 +18,7 @@ namespace GooCooWeb.Models
         [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "记住我?")]
+        [Display(Name = "下次自动登录")]
         public bool RememberMe { get; set; }
     }
 }
