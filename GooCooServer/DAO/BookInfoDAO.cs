@@ -16,7 +16,6 @@ namespace GooCooServer.DAO
     {
         public BookInfoDAO()
         {
-            createConnection();
         }
 
         public List<BookInfo> dbManagerList(SqlParameter myParam, string sqlQuery)

@@ -16,7 +16,6 @@ namespace GooCooServer.DAO
     {
         public Book_BookInfoDAO()
         {
-            createConnection();
         }    
            
         public BookInfo GetBookInfo(int book_id)

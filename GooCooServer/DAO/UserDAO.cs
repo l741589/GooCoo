@@ -17,7 +17,6 @@ namespace GooCooServer.DAO
     {
         public UserDAO()
         {
-            createConnection();
         }
 
         public String Login(String ID, String password)
@@ -37,9 +36,12 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
                 myParam.Value = ID;
-                string sqlQuery = "SELECT * FROM USER WHERE id = @id AND password = @password";
+                SqlParameter myParam2 = new SqlParameter("@password", SqlDbType.Char);
+                myParam2.Value = password;
+                string sqlQuery = "SELECT * FROM USERINFO WHERE id = @id AND password = @password";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam2);
 
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
                 if (sqlDataReader.Read())
@@ -218,9 +220,12 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
                 myParam.Value = session;
-                string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session";
+                SqlParameter myParam1 = new SqlParameter("@session", SqlDbType.DateTime);
+                myParam1.Value = DateTime.Now;
+                string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session AND time > @nowTime";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam1);
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
 
                 string userid = null;
@@ -319,6 +324,42 @@ namespace GooCooServer.DAO
 
         public void Set(String session, User user)
         {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
+                myParam.Value = session;
+                SqlParameter myParam1 = new SqlParameter("@session", SqlDbType.DateTime);
+                myParam1.Value = DateTime.Now;
+                string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session AND time > @nowTime";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam1);
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                string userid = null;
+
+                if (sqlDataReader.Read())
+                {
+                    userid = (string)sqlDataReader[0];
+                }
+
+                if (userid != null)
+                {
+                    sqlQuery = "UPDATE USER SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
+                    myCommand = new SqlCommand(sqlQuery, connecter);
+                    myCommand.ExecuteNonQuery();
+                }
+                else
+                    throw new BMException("USER SET Error");
+            }
         }
 
         //只有管理员有权限调用

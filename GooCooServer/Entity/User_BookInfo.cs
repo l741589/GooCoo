@@ -12,7 +12,7 @@ namespace GooCooServer.Entity
         private String user;        //┓
         private String isbn;        //┣primary key
         private ERelation relation; //┛
-        private long timestamp;        
+        private DateTime timestamp;        
 
         public ERelation Relation
         {
@@ -33,7 +33,7 @@ namespace GooCooServer.Entity
         }
         
 
-        public long Timestamp
+        public DateTime Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }
