@@ -1,10 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 
-    <div class="span3" style="border:thin solid white; padding-left:5px">
+    <div class="span3" style="border:thin solid white; padding-left:15px">
         <h4>新书速递</h4>
 
         <!--------------------------------------------------------------------->
-        <div class="media" style="padding-bottom:30px; border-bottom:thin dashed white">
+        <div class="media" style="padding-bottom:30px; border-bottom:thin dashed #d5d5d5">
             <a class="pull-left" href="#">
                 <img class="media-object" src="http://img3.douban.com/mpic/s2157315.jpg">
             </a>

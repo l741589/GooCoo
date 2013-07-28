@@ -17,6 +17,7 @@
         <%foreach (GooCooServer.Entity.BookInfo bookInfo in ViewBag.SearchResult.Results)
           { %>
 
+        <div class="search-record">
         <div class="media">
             <a class="pull-left" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
                 <img class="media-object" src="<%:bookInfo.Photourl %>">                
@@ -28,6 +29,7 @@
                 <p class="book-author">作者：</p>
                 <p class="book-description"><%:bookInfo.Summary %></p>
             </div>
+        </div>
         </div>
 
         <%} %>      
@@ -87,6 +89,15 @@
         }
         .book-author {
 
+        }
+        .book-description {
+
+        }
+        .search-record {
+                        
+            padding-bottom:15px;
+            margin-bottom: 15px;
+            border-bottom:thin dashed #d5d5d5
         }
 
     </style>
