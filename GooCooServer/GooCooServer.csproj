@@ -107,7 +107,7 @@
     <Compile Include="IDAO\IBookDAO.cs" />
     <Compile Include="IDAO\IBookInfoDAO.cs" />
     <Compile Include="IDAO\IBook_BookInfoDAO.cs" />
-    <Compile Include="IDAO\IBook_Comment.cs" />
+    <Compile Include="IDAO\IBook_CommentDAO.cs" />
     <Compile Include="IDAO\ICommentDAO.cs" />
     <Compile Include="IDAO\ILogDAO.cs" />
     <Compile Include="IDAO\IUserDAO.cs" />

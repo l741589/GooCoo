@@ -80,6 +80,7 @@ namespace GooCooWeb.Controllers
 
             //评论信息
             ICommentDAO commentDAO = DAOFactory.createDAO("CommentDAO") as ICommentDAO;
+            IBook_CommentDAO book_commentDAO = DAOFactory.createDAO("Book_CommentDAO") as IBook_CommentDAO;
 
 
 
