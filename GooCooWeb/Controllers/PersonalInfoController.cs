@@ -7,6 +7,7 @@ using GooCooServer.DAO;
 using System.Web.Routing;
 using GooCooServer.IDAO;
 using GooCooServer.Exception;
+using GooCooWeb.Models;
 
 namespace GooCooWeb.Controllers
 {
@@ -19,7 +20,11 @@ namespace GooCooWeb.Controllers
         //  [LoggedOnFilter]
         public ActionResult Index()
         {
-            return View("PersonalInfo");
+            PersonalInfoModel model = new PersonalInfoModel();
+            model.Id = "1152789";
+            model.PhoneNumer = "18817369213";
+            model.Name = "林凡";
+            return View(model);
         }
 
         [LoggedOnFilter]

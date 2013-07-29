@@ -101,6 +101,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\LogOnModel.cs" />
+    <Compile Include="Models\PersonalInfoModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -186,7 +187,7 @@
     <Content Include="Views\PersonalInfo\BorrowInfo.aspx" />
     <Content Include="Views\PersonalInfo\CollectInfo.aspx" />
     <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
-    <Content Include="Views\PersonalInfo\PersonalInfo.aspx" />
+    <Content Include="Views\PersonalInfo\Index.aspx" />
     <Content Include="Views\PersonalInfo\PreorderInfo.aspx" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
@@ -210,7 +211,9 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\FourAreasLayout.Master" />
     <Content Include="Views\Shared\ThreeAreasLayout.Master" />

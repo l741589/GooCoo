@@ -64,6 +64,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.PasswordFor(model => model.Password, new { @placeholder="Password" }) %>
+                    <%: Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-error" }) %>
                 </div>
             </div>
             <div class="control-group">

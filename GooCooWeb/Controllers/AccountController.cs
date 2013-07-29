@@ -116,5 +116,17 @@ namespace GooCooWeb.Controllers
                 }
             }
         }
+
+        public ActionResult LogOut(String returnUrl)
+        {
+            Session["UserSessionID"] = null;
+            if (Request.Cookies["UserSessionID"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("UserSessionID");
+                cookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(cookie);
+            }
+            return Redirect(returnUrl);
+        }
     }
 }
