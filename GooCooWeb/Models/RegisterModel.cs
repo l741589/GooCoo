@@ -24,7 +24,7 @@ namespace GooCooWeb.Models
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(@"^/w+([-+.]/w+)*@/w+([-.]/w+)*/./w+([-.]/w+)*$", ErrorMessage="请输入正确的邮箱格式！")]
+        [RegularExpression(@"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "请输入正确的邮箱格式！")]
         [Display(Name = "邮箱")]
         public string Email { get; set; }
 

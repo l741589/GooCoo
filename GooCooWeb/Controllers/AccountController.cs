@@ -93,7 +93,7 @@ namespace GooCooWeb.Controllers
                     logOnModel.Id = newUser.Id;
                     logOnModel.Password = newUser.Password;
                     logOnModel.RememberMe = false;
-                    LogOn(logOnModel, returnUrl);
+                    return LogOn(logOnModel, returnUrl);
                 }
                 catch (BMException ex)
                 {
@@ -115,6 +115,18 @@ namespace GooCooWeb.Controllers
                     filterContext.Result = new RedirectResult("/Home/Index");
                 }
             }
+        }
+
+        public ActionResult LogOut(String returnUrl)
+        {
+            Session["UserSessionID"] = null;
+            if (Request.Cookies["UserSessionID"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("UserSessionID");
+                cookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(cookie);
+            }
+            return Redirect(returnUrl);
         }
     }
 }
