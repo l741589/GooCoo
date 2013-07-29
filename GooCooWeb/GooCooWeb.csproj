@@ -189,14 +189,14 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\BookInfo\Error.aspx" />
     <Content Include="Views\BookInfo\Index.aspx" />
     <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
-    <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\PersonalInfo\BorrowInfo.aspx" />
     <Content Include="Views\PersonalInfo\CollectInfo.aspx" />
     <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
