@@ -70,7 +70,7 @@ namespace GooCooAdmin
             Title = Properties.Resources.Title;
             user_list = new ListHolder<UserEx>();
             book_list = new ListHolder<BookEx>();
-            bn_login_Click(bn_login, null);
+            bn_login_Click(bn_login, null);            
         }
 
         void WebError()
@@ -124,8 +124,9 @@ namespace GooCooAdmin
             }
         }
 
-        void mi_exit_Click(object sender, RoutedEventArgs e)
+        async void mi_exit_Click(object sender, RoutedEventArgs e)
         {
+            BookInfo book = await Util.GetBookFromInternet("9787121193255");
             Close();
         }
 

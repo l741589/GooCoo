@@ -11,13 +11,13 @@ using GooCooWeb.Models;
 
 namespace GooCooWeb.Controllers
 {
-
+    
     public class PersonalInfoController : Controller
     {
         //
         // GET: /PersonalInfo/
 
-        //  [LoggedOnFilter]
+      //  [LoggedOnFilter]
         public ActionResult Index()
         {
             PersonalInfoModel model = new PersonalInfoModel();
@@ -93,8 +93,8 @@ namespace GooCooWeb.Controllers
         {
             RouteValueDictionary dictionary = new RouteValueDictionary
             (
-                new
-                {
+                new 
+                { 
                     controller = "Account",
                     action = "LogOn",
                     returnUrl = filterContext.HttpContext.Request.RawUrl

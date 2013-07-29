@@ -192,9 +192,7 @@
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
     <Content Include="Views\Shared\TopNavbar.ascx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
