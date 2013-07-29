@@ -41,11 +41,11 @@ namespace GooCooServer.Handler
             catch (NullReferenceException)
             {
                 List<Log> ret = new List<Log>();
-                ret.Add(new Log() { Id = 1, Content = "23243你反而贵额hi复旦hi哈覅额", Timestamp = DateTime.UtcNow.Ticks });
-                ret.Add(new Log() { Id = 2, Content = "哦护额哈广佛合法佛了佛号", Timestamp = DateTime.UtcNow.Ticks });
-                ret.Add(new Log() { Id = 3, Content = "弄org和欧日韩过户给热火给io", Timestamp = DateTime.UtcNow.Ticks });
-                ret.Add(new Log() { Id = 4, Content = "似乎疯狗恶劣红楼维护费光和热更哈皮兔肉，肉irejfr", Timestamp = DateTime.UtcNow.Ticks });
-                ret.Add(new Log() { Id = 5, Content = "恶化荣光和u两三点hi很疯狂荒废了网上客服", Timestamp = DateTime.UtcNow.Ticks });
+                ret.Add(new Log() { Id = 1, Content = "23243你反而贵额hi复旦hi哈覅额", Timestamp = DateTime.UtcNow });
+                ret.Add(new Log() { Id = 2, Content = "哦护额哈广佛合法佛了佛号", Timestamp = DateTime.UtcNow });
+                ret.Add(new Log() { Id = 3, Content = "弄org和欧日韩过户给热火给io", Timestamp = DateTime.UtcNow });
+                ret.Add(new Log() { Id = 4, Content = "似乎疯狗恶劣红楼维护费光和热更哈皮兔肉，肉irejfr", Timestamp = DateTime.UtcNow });
+                ret.Add(new Log() { Id = 5, Content = "恶化荣光和u两三点hi很疯狂荒废了网上客服", Timestamp = DateTime.UtcNow });
                 context.Response.Write(Util.EncodeJson(ret));
             }
         }

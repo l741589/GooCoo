@@ -101,13 +101,13 @@
     <Compile Include="IDAO\IBookDAO.cs" />
     <Compile Include="IDAO\IBaseDAO.cs" />
     <Compile Include="IDAO\IBook_BookInfoDAO.cs" />
-    <Compile Include="IDAO\IBook_Comment.cs" />
-    <Compile Include="IDAO\IComment.cs" />
+    <Compile Include="IDAO\IBook_CommentDAO.cs" />
+    <Compile Include="IDAO\ICommentDAO.cs" />
     <Compile Include="IDAO\ILogDAO.cs" />
     <Compile Include="IDAO\IUserDAO.cs" />
     <Compile Include="IDAO\IUser_BookDAO.cs" />
     <Compile Include="IDAO\IUser_BookInfoDAO.cs" />
-    <Compile Include="IDAO\IUser_Comment.cs" />
+    <Compile Include="IDAO\IUser_CommentDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Util.cs" />
   </ItemGroup>

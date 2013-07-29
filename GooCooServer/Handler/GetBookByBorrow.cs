@@ -50,24 +50,24 @@ namespace GooCooServer.Handler
                 book = new BookEx();
                 book.Isbn = "wwwewew32ee2";
                 book.Name = "sdfergw34sdsfdd";
-                book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
-                book.Timestamp = 322343423243;
+                //book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
+                book.Timestamp = DateTime.UtcNow;
                 //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "sd34t344rt3e";
                 book.Name = "供热为复位";
-                book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
-                book.Timestamp = DateTime.UtcNow.Ticks;
+                //book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
+                book.Timestamp = DateTime.UtcNow;
                 //book.Owner_id = user_id;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "2323ewew3232";
                 book.Name = "sdfergw34fdd";
-                book.Tags = new String[] { "432433232we", "dffdfdf" };
-                book.Timestamp = 232546788755455657L;
+                //book.Tags = new String[] { "432433232we", "dffdfdf" };
+                book.Timestamp = DateTime.UtcNow;
                 //book.Owner_id = user_id;
                 books.Add(book);
             }

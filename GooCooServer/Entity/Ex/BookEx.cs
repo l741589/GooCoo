@@ -92,7 +92,7 @@ namespace GooCooServer.Entity.Ex
 
         public override string ToString()
         {
-            String s = Isbn + " " + Name + " " + new DateTime(Timestamp).ToString("yyyy:MM:dd hh:mm:ss");
+            String s = Isbn + " " + Name + " " + Timestamp.ToString("yyyy:MM:dd hh:mm:ss");
             s = Mark + " " + s;
             if (Orderers != null && Books != null) s += "\n" + Orderers.Count + "/" + BorrowedBook + "/" + Count;
             if (Orderer_id != null) s += "\n" + "Orderer: " + Orderer_id;

@@ -10,7 +10,7 @@ namespace GooCooServer.Entity
     {
         private int id;//primary key
         private String content;
-        private long timestamp;
+        private DateTime timestamp;
 
         public int Id
         {
@@ -24,7 +24,7 @@ namespace GooCooServer.Entity
             set { content = value; }
         }
 
-        public long Timestamp
+        public DateTime Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }

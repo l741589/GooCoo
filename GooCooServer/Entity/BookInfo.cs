@@ -10,10 +10,9 @@ namespace GooCooServer.Entity
     {
         private String isbn;//primary key
         private String name;
-        private String[] tags;
-        private long timestamp;
+        private DateTime timestamp;
 
-        public long Timestamp
+        public DateTime Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }
@@ -29,12 +28,6 @@ namespace GooCooServer.Entity
         {
             get { return name; }
             set { name = value; }
-        }
-
-        public String[] Tags
-        {
-            get { return tags; }
-            set { tags = value; }
         }
 
         public static bool operator ==(BookInfo lhs, BookInfo rhs)
