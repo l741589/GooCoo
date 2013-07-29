@@ -34,14 +34,18 @@
                             userSessionID = cookie.Value;
                         }
                     }
-                    if (isLoggedOn)
+                    if (!isLoggedOn)
                     {
                 %>
                 <li>
-                    <%: Html.ActionLink("登录", "LogOn", "Account") %>
+                    <% string returnUrl = Request["returnUrl"];
+                       if (returnUrl == null)
+                           returnUrl = Request.RawUrl;
+                    %>
+                    <%: Html.ActionLink("登录", "LogOn", "Account", new { returnUrl = returnUrl }, null)%>
                 </li>
                 <li>
-                    <%: Html.ActionLink("注册", "Register", "Account") %>
+                    <%: Html.ActionLink("注册", "Register", "Account", new { returnUrl = returnUrl }, null)%>
                 </li>
                 <%
                     }

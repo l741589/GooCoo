@@ -96,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
     <Compile Include="Controllers\SearchViewController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
@@ -191,7 +190,6 @@
     <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
     <Content Include="Views\PersonalInfo\PersonalInfo.aspx" />
     <Content Include="Views\PersonalInfo\PreorderInfo.aspx" />
-    <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
     <Content Include="Views\Shared\TopNavbar.ascx" />
