@@ -13,6 +13,15 @@
         <% Html.RenderPartial("searchBar"); %>
 
         <% if (ViewBag.SearchResult.HasSearch){ %>
+        <div class="search-record">
+            <p id="search-header">
+                <%
+                    int recordFrom = (ViewBag.SearchResult.CurrentPage - 1) * GooCooWeb.Models.SearchResultModel.recordPerPage + 1;
+                    int recordTo = recordFrom + ViewBag.SearchResult.Results.Count - 1;
+                 %>
+                搜索结果<%:recordFrom %>-<%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
+            </p>
+        </div>
         
         <%foreach (GooCooServer.Entity.BookInfo bookInfo in ViewBag.SearchResult.Results)
           { %>
@@ -98,6 +107,9 @@
             padding-bottom:15px;
             margin-bottom: 15px;
             border-bottom:thin dashed #d5d5d5
+        }
+        #search-header {
+            text-align:right;
         }
 
     </style>

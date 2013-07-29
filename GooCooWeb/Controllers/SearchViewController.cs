@@ -71,7 +71,7 @@ namespace GooCooWeb.Controllers
 
             ///////////////测试用结果
             resultModel.ResultCount = 190;
-            resultModel.TotalPage = resultModel.ResultCount / SearchResultModel.recordPerPage + 1;
+            resultModel.TotalPage = (resultModel.ResultCount + (SearchResultModel.recordPerPage - 1)) / SearchResultModel.recordPerPage;
             resultModel.HasSearch = true;
 
             List<BookInfo> tempResultArray = new List<BookInfo>();
@@ -101,7 +101,7 @@ namespace GooCooWeb.Controllers
                 resultModel.PageFrom = resultModel.CurrentPage - 2 > 0 ? resultModel.CurrentPage - 2 : 1;
                 resultModel.PageTo = resultModel.CurrentPage + 4 <= resultModel.TotalPage ? resultModel.CurrentPage + 4 : resultModel.TotalPage;
                 resultModel.PreviewPage = resultModel.CurrentPage - 1 > 0 ? resultModel.CurrentPage - 1 : 0;
-                resultModel.NextPage = resultModel.CurrentPage + 1 <= resultModel.TotalPage ? resultModel.CurrentPage : 0;
+                resultModel.NextPage = resultModel.CurrentPage + 1 <= resultModel.TotalPage ? resultModel.CurrentPage + 1 : 0;
 
                 ViewBag.SearchResult = resultModel;
                 return View();
