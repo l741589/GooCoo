@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace GooCooServer.IDAO
 {
-    public interface IComment : IBaseDAO
+    public interface ICommentDAO : IBaseDAO
     {
         Comment Add(Comment comment);
         Comment Get(int id);

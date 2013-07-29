@@ -27,29 +27,34 @@ namespace GooCooWeb.Controllers
                 return View();
             }
 
-            resultModel.Keyword = keyword;            
+            resultModel.Keyword = keyword;
+
 
             /*
-             * 暂时注释，数据库正常后取消
+             * 暂时注释
              * 
-             * 
-            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("IBookInfoDao") as IBookInfoDAO;            
-            //计算结果总数
-            if (type.Equals("标题"))
-            {
-                resultModel.ResultCount = bookInfoDao.GetCountByName(keyword);
+            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("IBookInfoDao") as IBookInfoDAO;
+            try
+            {                
+                //计算结果总数
+                if (type.Equals("标题"))
+                {
+                    resultModel.ResultCount = bookInfoDao.GetCountByName(keyword);
+                }
+                else if (type.Equals("ISBN"))
+                {
+                    resultModel.ResultCount = bookInfoDao.GetCountByIsbn(keyword);
+                }
+                else if (type.Equals("模糊"))
+                {
+                    resultModel.ResultCount = bookInfoDao.GetCountByKeyWord(keyword);
+                }
+                resultModel.TotalPage = resultModel.ResultCount / SearchResultModel.recordPerPage + 1;
+                resultModel.HasSearch = true;
             }
-            else if (type.Equals("ISBN"))
-            {
-                resultModel.ResultCount = bookInfoDao.GetCountByIsbn(keyword);
+            catch (Exception e) {                
             }
-            else if (type.Equals("模糊"))
-            {
-                resultModel.ResultCount = bookInfoDao.GetCountByKeyWord(keyword);
-            }
-
-            resultModel.TotlaPage = resultModel.ResultCount / SearchResultModel.recordPerPage + 1;
-            resultModel.HasSearch = true;
+           
 
             //获取显示结果
             if (resultModel.ResultCount != 0)

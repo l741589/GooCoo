@@ -190,7 +190,6 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Views\BookInfo\Error.aspx" />
     <Content Include="Views\BookInfo\Index.aspx" />
-    <Content Include="Views\Home\Test.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
@@ -229,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -236,7 +236,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GooCooServer\GooCooServer.csproj">
       <Project>{52f2764b-ea69-4926-b61e-af5b6360326e}</Project>
-      <Project>{b71c1636-a8da-4627-8cd6-f7384fce3c75}</Project>
       <Name>GooCooServer</Name>
     </ProjectReference>
   </ItemGroup>
