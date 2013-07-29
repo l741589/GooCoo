@@ -35,7 +35,15 @@ namespace GooCooServer.DAO
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
                 
                 bookInfos = new List<BookInfo>();
 
@@ -160,7 +168,7 @@ namespace GooCooServer.DAO
             SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
             myParam.Value = isbn;
             string sqlQuery;
-            sqlQuery = "SELECT * FROM BOOKINFO WHERE isbn = @isbn";
+            sqlQuery = "SELECT TOP 1 * FROM BOOKINFO WHERE isbn = @isbn";
 
             List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
 
@@ -189,13 +197,23 @@ namespace GooCooServer.DAO
                 SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
                 myParam3.Value = book.Summary;
                 SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
-                myParam4.Value = book.Timestamp;
+                if (book.Timestamp != default(DateTime))
+                    myParam4.Value = book.Timestamp;
+                else
+                    myParam4.Value = DateTime.Now;
                 SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time) " + "Values (@isbn, @name, @summary, @time)", connecter);
                 myCommand.Parameters.Add(myParam4);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch(System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
             return book;
         }
@@ -216,7 +234,14 @@ namespace GooCooServer.DAO
                 myParam.Value = isbn;
                 SqlCommand myCommand = new SqlCommand("DELETE FROM BOOKINFO  " + "WHERE isbn = @isbn", connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
 
@@ -240,12 +265,20 @@ namespace GooCooServer.DAO
                 myParam3.Value = book.Summary;
                 SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
                 myParam4.Value = book.Timestamp;
-                SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);
+
+                SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);               
                 myCommand.Parameters.Add(myParam4);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
     }

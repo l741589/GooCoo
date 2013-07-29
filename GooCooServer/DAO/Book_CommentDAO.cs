@@ -40,7 +40,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO_COMMENT WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO_COMMENT)) AND isbn = "+isbn+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<int> commentID = new List<int>();
 
@@ -59,7 +67,14 @@ namespace GooCooServer.DAO
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {

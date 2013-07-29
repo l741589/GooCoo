@@ -29,8 +29,16 @@ namespace GooCooServer.DAO
                 myParam.Value = ID;
                 string sqlQuery = "SELECT * FROM USER_COMMENT WHERE user_id = @id";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-                myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                myCommand.Parameters.Add(myParam); 
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<int> commentID = new List<int>();
 
@@ -49,8 +57,15 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT conent time FROM COMMENT WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -84,8 +99,16 @@ namespace GooCooServer.DAO
                 myParam.Value = comment_id;
                 string sqlQuery = "SELECT * FROM USER_COMMENT WHERE comment_id = @id";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-                myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                myCommand.Parameters.Add(myParam); 
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 User user = null;
                 string userID = null;
@@ -99,11 +122,18 @@ namespace GooCooServer.DAO
                 {
                     myParam = new SqlParameter("@id", SqlDbType.Char);
                     myParam.Value = userID;
-                    sqlQuery = "SELECT * FROM USER WHERE id = @id";
+                    sqlQuery = "SELECT * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {

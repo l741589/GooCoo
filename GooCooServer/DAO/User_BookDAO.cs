@@ -52,8 +52,15 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOK WHERE book_id = "+book+" AND relation = "+(int)relation+"", connecter);
-                myCommand.ExecuteNonQuery();
+                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOK WHERE book_id = " + book + " AND relation = " + (int)relation + "", connecter); 
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("USER_BOOK ADD error");
+                }
             }
         }
 
@@ -71,7 +78,16 @@ namespace GooCooServer.DAO
                 }
                 string sqlQuery = "SELECT * FROM USER_BOOK WHERE user_id = "+user_id+" AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<int> bookID = new List<int>();
 
@@ -89,8 +105,15 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT time FROM BOOK WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -124,7 +147,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = @id AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 User user = null;
                 string userID = null;
@@ -136,7 +167,7 @@ namespace GooCooServer.DAO
 
                 if (user != null)
                 {
-                    myParam = new SqlParameter("@id", SqlDbType.Char);
+                    myParam = new SqlParameter("@id", SqlDbType.VarChar);
                     myParam.Value = userID;
                     sqlQuery = "SELECT * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
@@ -163,8 +194,16 @@ namespace GooCooServer.DAO
         public User_Book Get(String user_id, int book, User_Book.ERelation relation = User_Book.ERelation.BORROW)
         {
             string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = "+book+" AND user_id = "+user_id+" AND relation = "+(int)relation+"";
-            SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-            SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+            SqlCommand myCommand = new SqlCommand(sqlQuery, connecter); 
+            SqlDataReader sqlDataReader = null;
+            try
+            {
+                sqlDataReader = myCommand.ExecuteReader();
+            }
+            catch (System.Exception)
+            {
+                throw new BMException("");
+            }
 
             User_Book userbook = null;
             

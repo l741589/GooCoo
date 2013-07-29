@@ -28,7 +28,15 @@ namespace GooCooServer.DAO
                 if (comment.Timestamp == null)
                     comment.Timestamp = DateTime.Now;
                 SqlCommand myCommand = new SqlCommand("INSERT INTO COMMENT (content, time) " + "Values (" + comment.Content + ", " + comment.Timestamp + "); " + "select @@IDENTITY as 'Identity'", connecter);
-                int id = Convert.ToInt32(myCommand.ExecuteScalar());
+                int id = 0;
+                try
+                {
+                    id = Convert.ToInt32(myCommand.ExecuteScalar());
+                }
+                catch (System.Exception)
+                {
+                    id = 0;
+                }
                 if (id == 0)
                     throw new BMException("USER ADD error");
                 else
@@ -56,7 +64,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM COMMENT WHERE id = "+id+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
                 if (sqlDataReader.Read())
                 {
                     comment = new Comment();
@@ -85,7 +101,14 @@ namespace GooCooServer.DAO
                     throw new BMException("Create Connnect Error");
                 }
                 SqlCommand myCommand = new SqlCommand("DELETE FROM COMMENT " + "WHERE id = "+id+"", connecter);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
 
@@ -102,7 +125,13 @@ namespace GooCooServer.DAO
                     throw new BMException("Create Connnect Error");
                 }
                 SqlCommand myCommand = new SqlCommand("UPDATE COMMENT SET content = "+comment.Content+", time = "+comment.Timestamp+" " + "WHERE id = "+comment.Id+"", connecter);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                }
             }
         }
 
@@ -123,7 +152,15 @@ namespace GooCooServer.DAO
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 comments = new List<Comment>();
 

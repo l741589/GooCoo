@@ -93,7 +93,7 @@ namespace GooCooWeb.Controllers
                     logOnModel.Id = newUser.Id;
                     logOnModel.Password = newUser.Password;
                     logOnModel.RememberMe = false;
-                    LogOn(logOnModel, returnUrl);
+                    return LogOn(logOnModel, returnUrl);
                 }
                 catch (BMException ex)
                 {

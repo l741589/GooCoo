@@ -35,7 +35,16 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE id = @id";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                   sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 string isbn = null;
 
@@ -53,8 +62,14 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT * FROM BOOKINFO WHERE isbn = @isbn";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -89,7 +104,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE isbn = @isbn";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<int> bookID = new List<int>();
 
@@ -107,8 +130,14 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT time FROM BOOK WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                    }
 
                     if (sqlDataReader.Read())
                     {
