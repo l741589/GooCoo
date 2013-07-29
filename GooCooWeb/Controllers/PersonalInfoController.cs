@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +16,7 @@ namespace GooCooWeb.Controllers
         //
         // GET: /PersonalInfo/
 
-        [LoggedOnFilter]
+      //  [LoggedOnFilter]
         public ActionResult Index()
         {
             return View("PersonalInfo");

@@ -8,7 +8,7 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    interface IUser_BookInfoDAO : IBaseDAO
+    public interface IUser_BookInfoDAO : IBaseDAO
     {
         void Add(String isbn, String user_id, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER);
         void Del(String isbn, String user_id, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER);

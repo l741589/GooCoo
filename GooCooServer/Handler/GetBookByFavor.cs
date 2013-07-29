@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web;
 using GooCooServer.DAO;
@@ -33,11 +33,18 @@ namespace GooCooServer.Handler
             String user_id = context.Request["user"];
             if (ub != null)
             {
-                List<BookInfo> lbs = ub.GetBookInfo(user_id,User_BookInfo.ERelation.FAVOR);
-                foreach (var e in lbs)
+                try
                 {
-                    BookEx b = Util.CloneEntity<BookEx>(e);
-                    books.Add(b);
+                    List<BookInfo> lbs = ub.GetBookInfo(user_id, User_BookInfo.ERelation.FAVOR);
+                    foreach (var e in lbs)
+                    {
+                        BookEx b = Util.CloneEntity<BookEx>(e);
+                        books.Add(b);
+                    }
+                }
+                catch (BMException)
+                {
+                    books = new List<BookEx>();
                 }
             }
             else

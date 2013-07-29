@@ -37,7 +37,14 @@ namespace GooCooServer.Handler
             StringBuilder ret=new StringBuilder();
             if (userDAO != null)
             {
-                users = userDAO.GetByID(context.Request["keyword"]);                
+                try
+                {
+                    users = userDAO.GetByKeyword(context.Request["keyword"]);
+                }
+                catch(BMException e)
+                {
+                    users = new List<User>();
+                }
             }
             else
             {

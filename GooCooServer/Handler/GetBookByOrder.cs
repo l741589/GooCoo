@@ -35,12 +35,19 @@ namespace GooCooServer.Handler
             String user_id = context.Request["user"];
             if (ub != null)
             {
-                List<BookInfo> lbs = ub.GetBookInfo(user_id);
-                foreach (var e in lbs)
+                try
                 {
-                    BookEx b = Util.CloneEntity<BookEx>(e);
-                    b.Orderer_id = user_id;
-                    books.Add(b);
+                    List<BookInfo> lbs = ub.GetBookInfo(user_id);
+                    foreach (var e in lbs)
+                    {
+                        BookEx b = Util.CloneEntity<BookEx>(e);
+                        b.Orderer_id = user_id;
+                        books.Add(b);
+                    }
+                }
+                catch (BMException)
+                {
+                    books = new List<BookEx>();
                 }
             }
             else

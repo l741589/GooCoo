@@ -33,13 +33,20 @@ namespace GooCooServer.Handler
             String book_isbn = context.Request["isbn"];
             if (ub != null)
             {
-                List<User> lus = ub.GetUser(book_isbn);
-                User avaliableuser = ub.GetAvaliableUser(book_isbn);
-                foreach (var e in lus)
+                try
                 {
-                    UserEx u = Util.CloneEntity<UserEx>(e);
-                    u.Orders.Add(book_isbn);
-                    users.Add(u);
+                    List<User> lus = ub.GetUser(book_isbn);
+                    User avaliableuser = ub.GetAvaliableUser(book_isbn);
+                    foreach (var e in lus)
+                    {
+                        UserEx u = Util.CloneEntity<UserEx>(e);
+                        u.Orders.Add(book_isbn);
+                        users.Add(u);
+                    }
+                }
+                catch (BMException)
+                {
+                    users = new List<UserEx>();
                 }
             }
             else

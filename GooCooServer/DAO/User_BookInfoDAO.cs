@@ -25,7 +25,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, realation, time) " + "Values (" + user_id + ", " + isbn + ", " + relation + ", " + DateTime.Now + "); " + "select @@IDENTITY as 'Identity'", connecter);
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, realation, time) " + "Values (" + user_id + ", " + isbn + ", " + (int)relation + ", " + DateTime.Now + "); " + "select @@IDENTITY as 'Identity'", connecter);
                 int id = Convert.ToInt32(myCommand.ExecuteScalar());
                 if (id == 0)
                     throw new BMException("USER_BOOK ADD error");
@@ -44,7 +44,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOKINFO WHERE user_id = "+user_id+" AND isbn = "+isbn+" AND relation = "+relation+"", connecter);
+                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOKINFO WHERE user_id = "+user_id+" AND isbn = "+isbn+" AND relation = "+(int)relation+"", connecter);
                 myCommand.ExecuteNonQuery();
             }
         }
@@ -63,7 +63,7 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 myParam.Value = isbn;
-                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = @isbn AND relation = "+relation+"";
+                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = @isbn AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
@@ -112,9 +112,9 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+                SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
                 myParam.Value = user_id;
-                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE user_id = @id AND relation = " + relation + "";
+                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE user_id = @id AND relation = " + (int)relation + "";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
