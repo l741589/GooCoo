@@ -125,7 +125,6 @@
     <Compile Include="Utility\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entity\Book.cs.orig" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

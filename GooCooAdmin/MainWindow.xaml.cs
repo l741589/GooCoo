@@ -70,6 +70,13 @@ namespace GooCooAdmin
             Title = Properties.Resources.Title;
             user_list = new ListHolder<UserEx>();
             book_list = new ListHolder<BookEx>();
+            bn_login_Click(bn_login, null);
+        }
+
+        void WebError()
+        {
+            return;
+            //mi_logout_Click(mi_logout, null);
         }
 
         public IHolder GetHolder(String tag)
@@ -238,6 +245,7 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK, cv);
+            if (s == null) { WebError(); return; }
             book_list["search"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
             book_list.Priorities["search"] = 1;
@@ -249,17 +257,26 @@ namespace GooCooAdmin
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", (sender as TextBox).Text);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER, cv);
+            if (s == null) { WebError(); return; }
             user_list["search"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
             user_list.Priorities["search"] = 1;
             Update_User_List();
         }
 
-        async Task<bool> Grant()
+        public bool Granted(UserEx user = null)
         {
-            if (sel_user == AuthorisedUser) return true;
+            if (user == null) user = sel_user;
+            if (user == AuthorisedUser) return true;
+            return false;
+        }
+
+        public async Task<bool> Grant(UserEx user = null)
+        {
+            if (user == null) user = sel_user;
+            if (user == AuthorisedUser) return true;
             LoginDialog dlg = new LoginDialog();
-            dlg.tb_id.Text = sel_user.Id.ToString();
+            dlg.tb_id.Text = user.Id.ToString();
             dlg.tb_id.IsEnabled = false;
             dlg.pb_pw.Focus();
             if (dlg.ShowDialog() == true)
@@ -275,9 +292,9 @@ namespace GooCooAdmin
                 }
                 else
                 {
-                    UserEx user = Util.DecodeJson<UserEx>(s);
-                    Debug.Assert(user == sel_user, "登录用户不是目标用户");
-                    AuthorisedUser = user;
+                    UserEx u = Util.DecodeJson<UserEx>(s);
+                    Debug.Assert(u == user, "登录用户不是目标用户");
+                    AuthorisedUser = u;
                     return true;
                 }
             }
@@ -315,7 +332,7 @@ namespace GooCooAdmin
                         break;
                 }
                 ret = await HttpHelper.Post(url, cv);
-                MessageBox.Show(this, ret);
+                if (ret!=null) MessageBox.Show(this, ret);
             }
         }
 
@@ -327,12 +344,14 @@ namespace GooCooAdmin
 
             cv.Add("isbn", sel_book.Isbn);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYBORROW, cv);
+            if (s == null) { WebError(); return; }
             object[] objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
             user_list["borrow"] = objs[0] as List<UserEx>;
             Util.Merge(sel_book, objs[1] as BookEx);
             user_list.Priorities["borrow"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
+            if (s == null) { WebError(); return; }
             objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
             user_list["order"] = objs[0] as List<UserEx>;
             if ((objs[1] as BookEx).Orderer_id != null) sel_book.Orderer_id = null;
@@ -340,6 +359,7 @@ namespace GooCooAdmin
             user_list.Priorities["order"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYFAVOR, cv);
+            if (s == null) { WebError(); return; }
             user_list["favor"] = Util.DecodeJson<List<UserEx>>(s);
             user_list.Priorities["favor"] = 1;
 
@@ -354,14 +374,17 @@ namespace GooCooAdmin
             sel_user = (sender as ListBox).SelectedValue as UserEx;
             cv.Add("user", sel_user.Id);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYBORROW, cv);
-            book_list["borrow"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
+            if (s == null) { WebError(); return; }
+            book_list["borrow"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;            
             book_list.Priorities["borrow"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYORDER, cv);
-            book_list["order"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
+            if (s == null) { WebError(); return; }
+            book_list["order"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;            
             book_list.Priorities["order"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYFAVOR, cv);
+            if (s == null) { WebError(); return; }
             book_list["favor"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.Priorities["favor"] = 1;
 
@@ -376,6 +399,7 @@ namespace GooCooAdmin
             (sender as Button).IsEnabled = false;
             gh_user.Clear();
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER);
+            if (s == null) { WebError(); (sender as Button).IsEnabled = true; return; }
             List<User> ret = Util.DecodeJson<List<User>>(s);
             foreach (var elem in ret)
             {
@@ -432,6 +456,7 @@ namespace GooCooAdmin
                     default:continue;
                 }
                 String ret = await HttpHelper.Post(url, cv);
+                if (ret == null) { WebError(); (sender as Button).IsEnabled = true; return; }
                 ++count;
                 if (ret.Contains("成功"))
                 {
@@ -453,6 +478,7 @@ namespace GooCooAdmin
             (sender as Button).IsEnabled = false;
             gh_book.Clear();
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK);
+            if (s == null) { WebError(); (sender as Button).IsEnabled = true; return; }
             List<BookInfo> ret = Util.DecodeJson<List<BookInfo>>(s);
             foreach (var elem in ret)
             {
@@ -509,6 +535,7 @@ namespace GooCooAdmin
                     default: continue;
                 }
                 String ret = await cv.Post(url);
+                if (ret == null) { WebError(); (sender as Button).IsEnabled = true; return; }
                 ++count;
                 if (ret.Contains("成功"))
                 {
@@ -542,6 +569,7 @@ namespace GooCooAdmin
             String s = await Util.CreateContentValue()
                 .Add("time", Util.EncodeJson(dates))
                 .Post(Properties.Resources.URL_GETLOG);
+            if (s == null) { WebError(); return; }
             List<Log> logs = Util.DecodeJson<List<Log>>(s);
             foreach (var log in logs)
             {

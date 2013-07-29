@@ -40,6 +40,7 @@ namespace GooCooServer.Entity.Ex
         {
             String s = Id + " " + Name + " " + Authority;
             if (Mark != null) return Mark + " " + s;
+            if (Password != null) s += "\n" + Password;
             return s;
         }
     }
