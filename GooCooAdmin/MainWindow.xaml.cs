@@ -126,7 +126,7 @@ namespace GooCooAdmin
 
         async void mi_exit_Click(object sender, RoutedEventArgs e)
         {
-            BookInfo book = await Util.GetBookFromInternet("9787121193255");
+            //BookInfo book = await Util.GetBookFromInternet("9787121193255");
             Close();
         }
 
@@ -511,7 +511,7 @@ namespace GooCooAdmin
             foreach (var elem in gh_book.Children)
             {
                 BookGrid g = (BookGrid)elem;
-                if (g.Entity.Isbn == null || g.Entity.Isbn == "" || g.Entity.Name == null || g.Entity.Name == "") continue;
+                if (g.Entity.Isbn == null || g.Entity.Isbn == "") continue;
                 String url = null;
                 var cv = Util.CreateContentValue();
                 BookInfo book = Util.CloneEntity<BookInfo>(g.Entity);

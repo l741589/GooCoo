@@ -54,6 +54,7 @@ namespace GooCooServer.Utility
 
         public static T Merge<T>(T target, T obj, bool cover = false)
         {
+            if (obj == null) return target;
             Type type = typeof(T);
             PropertyInfo[] properties = obj.GetType().GetProperties();
             foreach (var property in properties)
@@ -72,6 +73,7 @@ namespace GooCooServer.Utility
 
         public static T Merge<T>(T target, Object obj, bool cover = false)
         {
+            if (obj == null) return target;
             Type type = typeof(T);
             PropertyInfo[] properties = obj.GetType().GetProperties();
             foreach (var property in properties)

@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using GooCooServer.Exception;
 using GooCooServer.Entity;
+using GooCooServer.Utility;
 
 namespace GooCooServer.DAO
 {
@@ -190,6 +191,10 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
+                Task.Run(async () => { Util.Merge(book, await Util.GetBookFromInternet(book.Isbn), true); }).Wait();
+
+                if (book.Name == null)
+                    throw new BMException("");
                 SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 myParam.Value = book.Isbn;
                 SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
