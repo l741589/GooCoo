@@ -13,7 +13,7 @@
         <% Html.RenderPartial("searchBar"); %>
 
         <% if (ViewBag.SearchResult.HasSearch){ %>
-        <div class="search-record">
+        
             <p id="search-header">
                 <%
                     int recordFrom = (ViewBag.SearchResult.CurrentPage - 1) * GooCooWeb.Models.SearchResultModel.recordPerPage + 1;
@@ -21,7 +21,6 @@
                  %>
                 搜索结果<%:recordFrom %>-<%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
             </p>
-        </div>
         
         <%foreach (GooCooServer.Entity.BookInfo bookInfo in ViewBag.SearchResult.Results)
           { %>
@@ -32,8 +31,8 @@
                 <img class="media-object" src="<%:bookInfo.Photourl %>">                
             </a>
             <div class="media-body">
-                <a href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
-                    <h4 class="media-heading"><%:bookInfo.Name %></h4>
+                <a class="book-title" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
+                    <p class="media-heading"><%:bookInfo.Name %></p>
                 </a>
                 <p class="book-author">作者：</p>
                 <p class="book-description"><%:bookInfo.Summary %></p>
@@ -94,22 +93,25 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="OtherCssStyle" runat="server">
     <style type="text/css">
         .book-title {
-
+            font-size:large;
+            background-color:red;
         }
         .book-author {
-
+            color: #909090;        
         }
         .book-description {
-
+            color: #808080; 
         }
-        .search-record {
-                        
+        .search-record {                        
             padding-bottom:15px;
             margin-bottom: 15px;
-            border-bottom:thin dashed #d5d5d5
+            border-bottom:thin dashed #d5d5d5;
         }
         #search-header {
             text-align:right;
+            padding-bottom:5px;
+            margin-bottom: 15px;
+            border-bottom:thin dashed #d5d5d5;
         }
 
     </style>
