@@ -16,7 +16,7 @@ namespace GooCooWeb.Controllers
         //
         // GET: /PersonalInfo/
 
-        [LoggedOnFilter]
+      //  [LoggedOnFilter]
         public ActionResult Index()
         {
             return View("PersonalInfo");

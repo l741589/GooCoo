@@ -19,11 +19,12 @@ namespace GooCooWeb.Models
 
         [Required]
         [Display(Name = "手机号")]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "请输入11位手机号码。")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "请输入11位手机号码!")]
         public string PhoneNumer { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
+        [RegularExpression(@"^/w+([-+.]/w+)*@/w+([-.]/w+)*/./w+([-.]/w+)*$", ErrorMessage="请输入正确的邮箱格式！")]
         [Display(Name = "邮箱")]
         public string Email { get; set; }
 

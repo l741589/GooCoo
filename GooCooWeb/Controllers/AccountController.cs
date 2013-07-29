@@ -68,7 +68,7 @@ namespace GooCooWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model, String returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +86,11 @@ namespace GooCooWeb.Controllers
                 try
                 {
                     userDAO.Add(newUser);
+                    LogOnModel logOnModel = new LogOnModel();
+                    logOnModel.Id = newUser.Id;
+                    logOnModel.Password = newUser.Password;
+                    logOnModel.RememberMe = false;
+                    LogOn(logOnModel, returnUrl);
                 }
                 catch (BMException ex)
                 {
@@ -94,7 +99,7 @@ namespace GooCooWeb.Controllers
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
-            return View(model);
+            return View();
         }
 
         public bool isLoggedOn()

@@ -13,18 +13,18 @@
 </asp:Content>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <% using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
-       { %>
-    <%: Html.ValidationSummary(true, "帐户创建不成功。请更正错误并重试!") %>
     <a href="/Home/Index">
-        <img class="span5 offset3" alt="Google Camp Logo" src="../../Content/image/Logo.jpg" />
+        <img class="span6 offset3" alt="Google Camp Logo" src="../../Content/image/Logo.jpg" />
     </a>
-    <div class="span5 offset3 left">
+    <% using (Html.BeginForm("Register", "Account", new { returnUrl = Request["returnUrl"] }, FormMethod.Post, new { @class = "form-horizontal" }))
+       { %>
+    <div class="span6 offset3 left">
         <fieldset>
             <legend>欢迎加入Google Camp - GooCoo 图书计划</legend>
             <div class="well text-center">
-                <p>&gt;&nbsp;已经成为Gcer？&nbsp;<%: Html.ActionLink("直接登录", "LogOn") %></p>
+                <p>&gt;&nbsp;已经成为Gcer？&nbsp;<%: Html.ActionLink("直接登录", "LogOn", "Account", new { returnUrl = Request["returnUrl"] }, null)%></p>
             </div>
+            <%: Html.ValidationSummary(true, "帐户创建不成功。请更正错误并重试!") %>
             <div class="control-group">
                 <div class="control-label">
                     <%: Html.LabelFor(model => model.Id)%>
@@ -47,6 +47,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.PhoneNumer, new { @placeholder="Phone Number" }) %>
+                    <%: Html.ValidationMessageFor(model => model.PhoneNumer) %>
                 </div>
             </div>
             <div class="control-group">
@@ -55,6 +56,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.Email, new { @placeholder="E-mail Address" }) %>
+                    <%: Html.ValidationMessageFor(model => model.Email) %>
                 </div>
             </div>
             <div class="control-group">
@@ -71,6 +73,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.PasswordFor(model => model.ConfirmPassword, new { @placeholder="Confirm Password" }) %>
+                    <%: Html.ValidationMessageFor(model => model.ConfirmPassword) %>
                 </div>
             </div>
             <div class="control-group">
