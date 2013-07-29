@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,13 +10,13 @@ using GooCooServer.Exception;
 
 namespace GooCooWeb.Controllers
 {
-    
+
     public class PersonalInfoController : Controller
     {
         //
         // GET: /PersonalInfo/
 
-      //  [LoggedOnFilter]
+        //  [LoggedOnFilter]
         public ActionResult Index()
         {
             return View("PersonalInfo");
@@ -88,8 +88,8 @@ namespace GooCooWeb.Controllers
         {
             RouteValueDictionary dictionary = new RouteValueDictionary
             (
-                new 
-                { 
+                new
+                {
                     controller = "Account",
                     action = "LogOn",
                     returnUrl = filterContext.HttpContext.Request.RawUrl

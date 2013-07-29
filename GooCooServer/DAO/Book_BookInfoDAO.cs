@@ -146,5 +146,27 @@ namespace GooCooServer.DAO
                 return count;
             }
         }
+
+        public int GetAvaliableBookNumber(String isbn)
+        {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                myParam.Value = isbn;
+                string sqlQuery = "SELECT COUNT(id) FROM BOOK_BOOKINFO WHERE isbn = @isbn AND (id NOT IN (SELECT book_id FROM USER_BOOK WHERE relation = "+(int)User_Book.ERelation.BORROW+" ))";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                int count = (int)myCommand.ExecuteScalar();
+                return count;
+            }
+        }
     }
 }

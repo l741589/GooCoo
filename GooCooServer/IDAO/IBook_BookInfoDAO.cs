@@ -15,5 +15,7 @@ namespace GooCooServer.IDAO
         BookInfo GetBookInfo(int book_id);
         List<Book> GetBook(String isbn);
         int Count(String isbn);
+
+        int GetAvaliableBookNumber(String isbn);
     }
 }
