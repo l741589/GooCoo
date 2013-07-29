@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -18,13 +18,47 @@
                     </form>
                 </li>
 
+
+                <%
+                    bool isLoggedOn = false;
+                    string userSessionID = (string)Session["UserSessionID"];
+                    if (userSessionID != null)
+                        isLoggedOn = true;
+                    else
+                    {
+                        HttpCookie cookie = Request.Cookies["UserSessionID"];
+                        if (cookie != null)
+                        {
+                            isLoggedOn = true;
+                            Session["UserSessionID"] = cookie.Value;
+                            userSessionID = cookie.Value;
+                        }
+                    }
+                    if (isLoggedOn)
+                    {
+                %>
                 <li>
                     <%: Html.ActionLink("登录", "LogOn", "Account") %>
                 </li>
                 <li>
                     <%: Html.ActionLink("注册", "Register", "Account") %>
                 </li>
-
+                <%
+                    }
+                    else
+                    {
+                        GooCooServer.IDAO.IUserDAO userDAO = GooCooServer.DAO.DAOFactory.createDAO("UserDAO") as GooCooServer.IDAO.IUserDAO;
+                        GooCooServer.Entity.User user = userDAO.Get(userSessionID);
+                %>
+                <li>
+                    <%: Html.ActionLink(user.Name, "Index", "PersonalInfo") %>
+                </li>
+                <li>
+                    <%: Html.ActionLink("注销", "LogOut", "Account") %>
+                </li>
+                <% 
+                    }
+                %>
             </ul>
 
         </div>

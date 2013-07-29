@@ -52,6 +52,7 @@ namespace GooCooAdmin
         {
             InitializeComponent();
             sv_user.Content = gh_user;
+            sv_book.Content = gh_book;
 
             tb_user.TextChanged += tb_user_TextChanged;
             tb_book.TextChanged += tb_book_TextChanged;
@@ -185,6 +186,21 @@ namespace GooCooAdmin
                         MessageBox.Show(this, "该用户没有权限使用GooCoo图书管理系统");
                     }
                 }
+            }
+        }
+
+        private void tool_bar_Loaded(object sender, RoutedEventArgs e)
+        {
+            ToolBar toolBar = sender as ToolBar;
+            var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
+            if (overflowGrid != null)
+            {
+                overflowGrid.Visibility = Visibility.Collapsed;
+            }
+            var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
+            if (mainPanelBorder != null)
+            {
+                mainPanelBorder.Margin = new Thickness(0);
             }
         }
         #endregion
@@ -355,21 +371,6 @@ namespace GooCooAdmin
 
         #region 用户管理
 
-        private void tool_bar_Loaded(object sender, RoutedEventArgs e)
-        {
-            ToolBar toolBar = sender as ToolBar;
-            var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
-            if (overflowGrid != null)
-            {
-                overflowGrid.Visibility = Visibility.Collapsed;
-            }
-            var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
-            if (mainPanelBorder != null)
-            {
-                mainPanelBorder.Margin = new Thickness(0);
-            }
-        }
-
         async void bn_sync_Click(object sender, RoutedEventArgs e)
         {
             (sender as Button).IsEnabled = false;
@@ -422,6 +423,7 @@ namespace GooCooAdmin
                         break;
                     case EGridStatus.已修改:
                         url = Properties.Resources.URL_UPDATEUSER;
+                        cv.Add("session", adminUser.Session);
                         cv.Add("user", Util.EncodeJson(user));
                         break;
                     case EGridStatus.新建并删除:
@@ -445,9 +447,108 @@ namespace GooCooAdmin
         #endregion
 
         #region 书籍管理
+
+        async void bn_syncBook_Click(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+            gh_book.Clear();
+            String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK);
+            List<BookInfo> ret = Util.DecodeJson<List<BookInfo>>(s);
+            foreach (var elem in ret)
+            {
+                gh_book.Add(Util.CloneEntity<BookEx>(elem));
+            }
+            (sender as Button).IsEnabled = true;
+        }
+
+        void bn_addBook_Click(object sender, RoutedEventArgs e)
+        {
+            gh_book.Add(typeof(BookEx));
+        }
+
+        private void bn_revertBook_Click(object sender, RoutedEventArgs e)
+        {
+            switch (MessageBox.Show(this, "是否撤销新建用户", "撤销方式", MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Yes: gh_book.Revert(true); break;
+                case MessageBoxResult.No: gh_book.Revert(); break;
+            }
+
+        }
+
+        private async void bn_commitBook_Click(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).IsEnabled = false;
+            int count = 0;
+            int successcount = 0;
+            foreach (var elem in gh_book.Children)
+            {
+                BookGrid g = (BookGrid)elem;
+                if (g.Entity.Isbn == null || g.Entity.Isbn == "" || g.Entity.Name == null || g.Entity.Name == "") continue;
+                String url = null;
+                var cv = Util.CreateContentValue();
+                BookInfo book = Util.CloneEntity<BookInfo>(g.Entity);
+                switch (g.Status)
+                {
+                    case EGridStatus.新建:
+                        url = Properties.Resources.URL_ADDBOOK;
+                        cv.Add("book", Util.EncodeJson(book));
+                        break;
+                    case EGridStatus.已删除:
+                        url = Properties.Resources.URL_DELBOOK;
+                        cv.Add("isbn", book.Isbn);
+                        break;
+                    case EGridStatus.已修改:
+                        url = Properties.Resources.URL_UPDATEBOOK;
+                        String temp=Util.EncodeJson(g.Entity);
+                        cv.Add("book", temp);
+                        break;
+                    case EGridStatus.新建并删除:
+                        g.UpdateSuccess();
+                        continue;
+                    default: continue;
+                }
+                String ret = await cv.Post(url);
+                ++count;
+                if (ret.Contains("成功"))
+                {
+                    ++successcount;
+                    g.UpdateSuccess(ret);
+                }
+            }
+            gh_book.RemoveAllMarked();
+            MessageBox.Show("提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
+            (sender as Button).IsEnabled = true;
+        }
         #endregion
 
         #region 日志查询
-        #endregion
+
+        private void tc_main_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tc = sender as TabControl;
+            if (tc.SelectedIndex != 3) return;
+            DateTime today = DateTime.UtcNow;
+            dp_end.SelectedDate = today;
+            DateTime yesterday = today.AddDays(-1);
+            dp_start.SelectedDate = yesterday;
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime[] dates = new DateTime[2];
+            dates[0] = (DateTime)dp_start.SelectedDate;
+            dates[1] = (DateTime)dp_end.SelectedDate;
+            String s = await Util.CreateContentValue()
+                .Add("time", Util.EncodeJson(dates))
+                .Post(Properties.Resources.URL_GETLOG);
+            List<Log> logs = Util.DecodeJson<List<Log>>(s);
+            foreach (var log in logs)
+            {
+                dg_log.Items.Add(log);
+            }            
+        }
+
+        #endregion        
     }
 }

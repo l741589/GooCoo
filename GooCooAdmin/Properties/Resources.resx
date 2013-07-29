@@ -156,6 +156,9 @@
   <data name="URL_GETBOOKBYORDER" xml:space="preserve">
     <value>GetBookByOrder</value>
   </data>
+  <data name="URL_GETLOG" xml:space="preserve">
+    <value>GetLogHandler</value>
+  </data>
   <data name="URL_GETUSERBYBORROW" xml:space="preserve">
     <value>GetUserByBorrow</value>
   </data>

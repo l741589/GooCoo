@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
@@ -43,22 +43,19 @@ namespace GooCooServer.Handler
                 book = new BookInfo();
                 book.Isbn = "2323ewew3232";
                 book.Name = "sdfergw34fdd";
-               // book.Tags = new String[] { "432433232we", "dffdfdf" };
-             //   book.Timestamp = 322343423243;
+                book.Timestamp = DateTime.Now;
                 books.Add(book);
 
                 book = new BookInfo();
                 book.Isbn = "sd34t344rt3";
                 book.Name = "供热为复位";
-             //   book.Tags = new String[] { "扔给我让我", "是否跟","送给我" };
-             //   book.Timestamp =DateTime.UtcNow.Ticks;
+                book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
 
                 book = new BookInfo();
                 book.Isbn = "2323ew23232";
                 book.Name = "sdfergw34fdd";
-              //  book.Tags = new String[] { "432433232we", "dffdfdf" };
-             //   book.Timestamp = 232546788755455657L;
+                book.Timestamp = DateTime.Now;
                 books.Add(book);
 
             }

@@ -21,5 +21,41 @@ namespace GooCooAdmin.Utility
             brushs.Add(b);
             return b;
         }
+
+        public class KeyValuePair
+        {
+            private Dictionary<String, String> cv;
+            public KeyValuePair()
+            {
+                cv = new Dictionary<string, string>();
+            }
+
+            public KeyValuePair(Dictionary<String, String> cv)
+            {
+                this.cv = cv;
+            }
+
+            public static implicit operator Dictionary<String, String>(KeyValuePair obj)
+            {
+                if (obj==null) return null;
+                return obj.cv;
+            }
+
+            public KeyValuePair Add(String key, String value)
+            {
+                cv.Add(key, value);
+                return this;
+            }
+
+            public async Task<String> Post(String url)
+            {
+                return await HttpHelper.Post(url, cv);
+            }
+        }
+
+        public static KeyValuePair CreateContentValue()
+        {
+            return new KeyValuePair();
+        }
     }
 }

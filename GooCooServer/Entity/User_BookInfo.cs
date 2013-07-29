@@ -31,7 +31,6 @@ namespace GooCooServer.Entity
             get { return isbn; }
             set { isbn = value; }
         }
-        
 
         public DateTime Timestamp
         {
