@@ -50,7 +50,10 @@
             <div class="pagination">
                 <ul>
                     <!--上一页-->
-                    <li><a href="<%:Url.Action("Index","SearchView",new {keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.PreviewPage}) %>"><</a></li>                    
+                    
+                        <%if (ViewBag.SearchResult.PreviewPage != 0){ %>                            
+                            <li><a href="<%:Url.Action("Index","SearchView",new {keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.PreviewPage}) %>"><</a></li>
+                        <%} %>
                     
                     <!--第一页-->
                     <% if (ViewBag.SearchResult.PageFrom > 1){ %>
@@ -73,7 +76,9 @@
                     <%} %>
 
                     <!--下一页-->
-                    <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.NextPage })%>">></a></li>
+                    <%if (ViewBag.SearchResult.NextPage != 0){ %>                        
+                        <li><a href="<%:Url.Action("Index", "SearchView", new { keyword = searchKeyword, type = searchType, page = ViewBag.SearchResult.NextPage })%>">></a></li>
+                    <%} %>                                        
 
                 </ul>
             </div>
