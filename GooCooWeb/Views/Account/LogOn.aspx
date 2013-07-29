@@ -15,9 +15,9 @@
             <% using (Html.BeginForm("LogOn", "Account", new { returnUrl = Request["returnUrl"] }, FormMethod.Post, new { @class = "form"}))
                {
             %>
-            <%: Html.ValidationSummary(true, "登录不成功。请重试!")%>
             <fieldset>
                 <legend>Gcer登录</legend>
+                <%: Html.ValidationSummary("", new { @class = "text-error" })%>
 
                 <%: Html.LabelFor(model => model.Id)%>
                 <%: Html.TextBoxFor(model => model.Id, new { @placeholder = "Username" })%>

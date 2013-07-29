@@ -24,7 +24,6 @@
             <div class="well text-center">
                 <p>&gt;&nbsp;已经成为Gcer？&nbsp;<%: Html.ActionLink("直接登录", "LogOn", "Account", new { returnUrl = Request["returnUrl"] }, null)%></p>
             </div>
-            <%: Html.ValidationSummary(true, "帐户创建不成功。请更正错误并重试!") %>
             <div class="control-group">
                 <div class="control-label">
                     <%: Html.LabelFor(model => model.Id)%>
@@ -47,7 +46,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.PhoneNumer, new { @placeholder="Phone Number" }) %>
-                    <%: Html.ValidationMessageFor(model => model.PhoneNumer) %>
+                    <%: Html.ValidationMessageFor(model => model.PhoneNumer, null, new { @class = "text-error" })%>
                 </div>
             </div>
             <div class="control-group">
@@ -56,7 +55,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.Email, new { @placeholder="E-mail Address" }) %>
-                    <%: Html.ValidationMessageFor(model => model.Email) %>
+                    <%: Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-error" }) %>
                 </div>
             </div>
             <div class="control-group">
@@ -73,7 +72,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.PasswordFor(model => model.ConfirmPassword, new { @placeholder="Confirm Password" }) %>
-                    <%: Html.ValidationMessageFor(model => model.ConfirmPassword) %>
+                    <%: Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "text-error" }) %>
                 </div>
             </div>
             <div class="control-group">

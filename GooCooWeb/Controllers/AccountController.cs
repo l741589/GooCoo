@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GooCooWeb.Models;
+using System.Web.Routing;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
 using GooCooServer.DAO;
@@ -16,11 +17,13 @@ namespace GooCooWeb.Controllers
         //
         // GET: /Account/
 
+        [LoggedOnFilter]
         public ActionResult LogOn()
         {
             return View();
         }
 
+        [LoggedOnFilter]
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, String returnUrl)
         {
@@ -102,15 +105,16 @@ namespace GooCooWeb.Controllers
             return View();
         }
 
-        public bool isLoggedOn()
+        public class LoggedOnFilter : ActionFilterAttribute
         {
-            var userSessionID = Session["UserSessionID"];
-            if (userSessionID != null)
-                return true;
-            HttpCookie cookie = Request.Cookies["UserSessionID"];
-            if (cookie != null)
-                return true;
-            return false;
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                base.OnActionExecuting(filterContext);
+                if (filterContext.HttpContext.Session["UserSessionID"] != null)
+                {
+                    filterContext.Result = new RedirectResult("/Home/Index");
+                }
+            }
         }
     }
 }
