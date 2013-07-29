@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GooCooServer.Entity;
+using GooCooServer.DAO;
+using GooCooServer.IDAO;
 
 
 namespace GooCooWeb.Controllers
@@ -16,7 +18,7 @@ namespace GooCooWeb.Controllers
         public ActionResult Index(string isbn)
         {
             
-
+            
 
             BookInfo bookinfo = new BookInfo();
             bookinfo.Isbn = isbn;
@@ -24,7 +26,6 @@ namespace GooCooWeb.Controllers
             
 
             ViewBag.Bookinfo = bookinfo;
-            //bookinfo.Tags.Count();
             
             
 

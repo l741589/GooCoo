@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ajax\AjaxBookInfoUserController.cs" />
+    <Compile Include="Controllers\ajax\AjaxCommentController.cs" />
     <Compile Include="Controllers\BookInfoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -103,6 +105,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookInfoModels\BookInfoRecordModel.cs" />
+    <Compile Include="Models\BookInfoModels\BookRecordModel.cs" />
+    <Compile Include="Models\BookInfoModels\CommentRecordModel.cs" />
     <Compile Include="Models\LogOnModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -183,6 +188,7 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Views\BookInfo\Error.aspx" />
     <Content Include="Views\BookInfo\Index.aspx" />
     <Content Include="Views\Home\Test.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
