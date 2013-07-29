@@ -12,13 +12,13 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.DAO
 {
-    class Book_BookInfoDAO : BaseDAO, IBook_BookInfoDAO
+    class Book_BookInfoDAO : BaseDAO,IBook_BookInfoDAO
     {
         public Book_BookInfoDAO()
         {
-            createConnection();
-        }
-        public void testinsert()
+        }    
+           
+        public BookInfo GetBookInfo(int book_id)
         {
             using (connecter = new SqlConnection(connectStr))
             {
@@ -30,20 +30,121 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                string content = "动态链接";
-                SqlParameter myParam = new SqlParameter("@Param1", SqlDbType.DateTime);
-                myParam.Value = DateTime.Now;
-                SqlParameter myParam2 = new SqlParameter("@Param2", SqlDbType.Text);
-                myParam2.Value = content;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO LOG (content, time) " + "Values (@Param2, @Param1)", connecter);
-                myCommand.Parameters.Add(myParam2);
+                SqlParameter myParam = new SqlParameter("@id", SqlDbType.Int);
+                myParam.Value = book_id;
+                string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE id = @id";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                string isbn = null;
+
+                if (sqlDataReader.Read())
+                {
+                    isbn = (string)sqlDataReader[0];
+                }
+
+                BookInfo result = null;
+
+                if (isbn != null)
+                {
+                    myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                    myParam.Value = isbn;
+                    sqlQuery = "SELECT * FROM BOOKINFO WHERE isbn = @isbn";
+                    myCommand = new SqlCommand(sqlQuery, connecter);
+                    myCommand.Parameters.Add(myParam);
+                    sqlDataReader.Close();
+                    sqlDataReader = myCommand.ExecuteReader();
+
+                    if (sqlDataReader.Read())
+                    {
+                        result = new BookInfo();
+                        result.Isbn = (string)sqlDataReader[0];
+                        result.Name = (string)sqlDataReader[1];
+                        result.Timestamp = (DateTime)sqlDataReader[2];
+                        result.Summary = (string)sqlDataReader[4];
+                    }
+                }
+                if (result != null)
+                    return result;
+                else
+                    throw new BMException("BOOK_BOOKINFO GETBOOKINFO Error");
             }
         }
 
-        public BookInfo GetBookInfo(int book_id) { return null; }
-        public List<Book> GetBook(String isbn) { return null; }
-        public int Count(String isbn) { return 0; }
+        public List<Book> GetBook(String isbn)
+        {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                myParam.Value = isbn;
+                string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE isbn = @isbn";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                List<int> bookID = new List<int>();
+
+                while (sqlDataReader.Read())
+                {
+                    bookID.Add((int)sqlDataReader[1]);
+                }
+
+                List<Book> result = new List<Book>();
+
+                for (int i = 0; i < bookID.Count; i++)
+                {
+                    myParam = new SqlParameter("@id", SqlDbType.Int);
+                    myParam.Value = bookID[i];
+                    sqlQuery = "SELECT time FROM BOOK WHERE id = @id";
+                    myCommand = new SqlCommand(sqlQuery, connecter);
+                    myCommand.Parameters.Add(myParam);
+                    sqlDataReader.Close();
+                    sqlDataReader = myCommand.ExecuteReader();
+
+                    if (sqlDataReader.Read())
+                    {
+                        Book book = new Book();
+                        book.Id = bookID[i];
+                        book.Timestamp = (DateTime)sqlDataReader[0];
+                        result.Add(book);
+                    }
+                }
+                if (result != null)
+                    return result;
+                else
+                    throw new BMException("BOOK_BOOKINFO GETBOOK Error");
+            }
+        }
+
+        public int Count(String isbn)
+        {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                myParam.Value = isbn;
+                string sqlQuery = "SELECT COUNT(isbn) FROM BOOK_BOOKINFO WHERE isbn = @isbn";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                int count = (int)myCommand.ExecuteScalar();
+                return count;
+            }
+        }
     }
 }

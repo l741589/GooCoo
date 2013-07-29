@@ -47,21 +47,18 @@ namespace GooCooServer.Handler
                 book = new BookEx();
                 book.Isbn = "12133232432";
                 book.Name = "sdfergw34sdsfddew";
-                //book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
                 book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "ilukiukjh";
                 book.Name = "供sa热为复se位we";
-                //book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
                 book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "额bbn,.,/,";
                 book.Name = "而谷歌sdsd";
-                //book.Tags = new String[] { "432433232we", "dffdfdf" };
                 book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
             }

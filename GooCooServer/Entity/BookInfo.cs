@@ -7,10 +7,18 @@ namespace GooCooServer.Entity
 {
     //实体集，表示某一类书的信息
     public class BookInfo
-    {
+    {       
         private String isbn;//primary key
         private String name;
+        private String summary;
+        private String photourl;
         private DateTime timestamp;
+
+        public String Photourl
+        {
+            get { return photourl; }
+            set { photourl = value; }
+        }
 
         public DateTime Timestamp
         {
@@ -28,6 +36,12 @@ namespace GooCooServer.Entity
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public String Summary
+        {
+            get { return summary; }
+            set { summary = value; }
         }
 
         public static bool operator ==(BookInfo lhs, BookInfo rhs)

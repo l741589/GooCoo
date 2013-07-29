@@ -32,7 +32,7 @@ namespace GooCooServer.Handler
                 ILogDAO dao = DAOFactory.createDAO("LogDAO") as ILogDAO;
                 String s=context.Request["time"];
                 DateTime[] dates=Util.DecodeJson<DateTime[]>(s);
-                List<Log> ret=dao.GetBetween(dates[0].Ticks, dates[1].Ticks);
+                List<Log> ret=dao.GetBetween(dates[0], dates[1]);
                 context.Response.Write(Util.EncodeJson(ret));
             }
             catch(BMException)
