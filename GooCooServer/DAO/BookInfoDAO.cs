@@ -142,6 +142,19 @@ namespace GooCooServer.DAO
                 throw new BMException("BOOKINFO GETBYKEYWORD error");
         }
 
+        public List<BookInfo> GetBookInfos(int n)
+        {
+            SqlParameter myParam = new SqlParameter("@number", SqlDbType.Int);
+            myParam.Value = n;            
+            string sqlQuery = "SELECT TOP @number * FROM BOOKINFO ORDER BY time DESC";            
+            List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
+
+            if (bookInfos.Count != 0)
+                return bookInfos;
+            else
+                throw new BMException("BOOKINFO GETBookInfos error");
+        }
+
         public BookInfo Get(String isbn)
         {
             SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);

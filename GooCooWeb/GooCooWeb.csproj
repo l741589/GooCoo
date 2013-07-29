@@ -97,8 +97,6 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
-    <Compile Include="Controllers\SearchViewController.cs" />
-    <Compile Include="Controllers\PersonalInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
