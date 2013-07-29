@@ -27,12 +27,9 @@ namespace GooCooServer.Entity
         {
             String sessionID = "";
             String sessionTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
-            Random random = new Random();
-            for (int i = 0; i < 32; i++)
-                sessionID += sessionTable[random.Next(0, 61)];
-
-            random = new Random();
-            for (int i = 0; i < 32; i++)
+            long tick = DateTime.Now.Ticks;
+            Random random = new Random((int)(tick & 0xffffffffL) | (int)(tick >> 32));
+            for (int i = 0; i < 64; i++)
                 sessionID += sessionTable[random.Next(0, 61)];
 
             return sessionID;

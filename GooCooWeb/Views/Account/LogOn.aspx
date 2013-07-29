@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/ThreeAreasLayout.Master" Inherits="System.Web.Mvc.ViewPage<GooCooWeb.Models.LogOnModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/ThreeAreasLayout.Master" Inherits="System.Web.Mvc.ViewPage<GooCooWeb.Models.LogOnModel>" %>
 
 <asp:Content ID="Title" ContentPlaceHolderID="TitleContent" runat="server">
     登录
@@ -10,22 +10,19 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
     <section class="loginBox row-fluid">
-        <img class="span5 offset3" alt="Google Camp Logo" src="../../Content/image/Logo.jpg" height="200" />
+        <a href="/Home/Index"><img class="span5 offset3" alt="Google Camp Logo" src="../../Content/image/Logo.jpg" /></a>
         <section class="span5 offset2 left">
-            <% using (Html.BeginForm(new {returnUrl = Request["returnUrl"]}))
-               { %>
-            <%: Html.ValidationSummary(true, "登录不成功。请重试!")%>
+            <% using (Html.BeginForm("LogOn", "Account", new { returnUrl = Request["returnUrl"] }, FormMethod.Post, new { @class = "form"}))
+               {
+            %>
             <fieldset>
                 <legend>Gcer登录</legend>
+                <%: Html.ValidationSummary("", new { @class = "text-error" })%>
 
-                <label>
-                    <%: Html.LabelFor(model => model.Id)%>
-                </label>
+                <%: Html.LabelFor(model => model.Id)%>
                 <%: Html.TextBoxFor(model => model.Id, new { @placeholder = "Username" })%>
 
-                <label>
-                    <%: Html.LabelFor(model => model.Password)%>
-                </label>
+                <%: Html.LabelFor(model => model.Password)%>
                 <%: Html.PasswordFor(model => model.Password, new { @placeholder = "Password" })%>
 
                 <label class="checkbox">
@@ -41,7 +38,7 @@
             <section>
                 <p>欢迎加入同济Google Camp - GooCoo 图书计划！在这里，你可以借阅你想要的书籍，同时捐赠你不需要的书给学弟学妹，让我们把书籍循环利用起来~</p>
                 <p>
-                    <%: Html.ActionLink(" 注册 ", "Register", "Account", null, new { @class="btn btn-info" })%>
+                    <%: Html.ActionLink(" 注册 ", "Register", "Account", new { returnUrl = Request["returnUrl"] }, new { @class = "btn btn-info" })%>
                 </p>
             </section>
         </section>

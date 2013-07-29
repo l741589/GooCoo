@@ -37,16 +37,23 @@ namespace GooCooServer.Handler
             book.Orderers=new List<String>();
             if (ub != null)
             {
-                List<User> lus = ub.GetUser(book_isbn);
-                User avaliableuser = ub.GetAvaliableUser(book_isbn);
-                if (avaliableuser!=null)
-                    book.Orderer_id = avaliableuser.Id;
-                foreach (var e in lus)
+                try
                 {
-                    UserEx u = Util.CloneEntity<UserEx>(e);
-                    u.Orders.Add(book_isbn);
-                    users.Add(u);
-                    book.Orderers.Add(e.Id);
+                    List<User> lus = ub.GetUser(book_isbn);
+                    User avaliableuser = ub.GetAvaliableUser(book_isbn);
+                    if (avaliableuser != null)
+                        book.Orderer_id = avaliableuser.Id;
+                    foreach (var e in lus)
+                    {
+                        UserEx u = Util.CloneEntity<UserEx>(e);
+                        u.Orders.Add(book_isbn);
+                        users.Add(u);
+                        book.Orderers.Add(e.Id);
+                    }
+                }
+                catch (BMException)
+                {
+                    users = new List<UserEx>();
                 }
             }
             else

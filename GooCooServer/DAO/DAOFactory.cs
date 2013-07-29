@@ -27,6 +27,24 @@ namespace GooCooServer.DAO
                 case "UserDAO":
                     requestDAO = new UserDAO();
                     break;
+                case "CommandDAO":
+                    requestDAO = new CommentDAO();
+                    break;
+                case "BookInfo_ComentDAO":
+                    requestDAO = new Book_CommentDAO();
+                    break;
+                case "LogDAO":
+                    requestDAO = new LogDAO();
+                    break;
+                case "User_CommentDAO":
+                    requestDAO = new User_CommentDAO();
+                    break;
+                case "User_BookDAO":
+                    requestDAO = new User_BookDAO();
+                    break;
+                case "User_BookInfoDAO":
+                    requestDAO = new User_BookInfoDAO();
+                    break;
                 default: 
                     requestDAO = null;
                     break;

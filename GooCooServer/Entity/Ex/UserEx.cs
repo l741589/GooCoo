@@ -15,6 +15,7 @@ namespace GooCooServer.Entity.Ex
         public String Mark { get; set; }
         public List<String> Holds { get; set; }
         public List<String> Orders { get; set; }
+        public String Session { get; set; }
 
         public string ToString(String[] fields)
         {

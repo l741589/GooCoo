@@ -38,28 +38,47 @@ namespace GooCooServer.Handler
             String book_isbn = context.Request["isbn"];
             if (bb != null && ub != null)
             {
-                List<Book> lbs = bb.GetBook(book_isbn);
-                book.Count = lbs.Count;
-                foreach (var e in lbs)
+                try
                 {
-                    User owner = ub.GetUser(e.Id);
-                    if (owner == null)
+                    List<Book> lbs = bb.GetBook(book_isbn);
+                    User owner = null;
+                    foreach (var e in lbs)
                     {
-                        BookEx.Book b = new BookEx.Book();
-                        b.Id = e.Id;
-                        b.Owner = null;
-                        book.Books.Add(b);
+                        try
+                        {
+                            owner = ub.GetUser(e.Id);
+                            if (owner == null)
+                            {
+                                BookEx.Book b = new BookEx.Book();
+                                b.Id = e.Id;
+                                b.Owner = null;
+                                book.Books.Add(b);
+                            }
+                            else
+                            {
+                                UserEx u = Util.CloneEntity<UserEx>(owner);
+                                if (u.Holds == null) u.Holds = new List<string>();
+                                u.Holds.Add(book_isbn);
+                                users.Add(u);
+                                BookEx.Book b = new BookEx.Book();
+                                b.Id = e.Id;
+                                b.Owner = u.Id;
+                                if (book.Books == null) book.Books = new List<BookEx.Book>();
+                                book.Books.Add(b);
+                            }
+                        }
+                        catch (BMException ex)
+                        {
+                            BookEx.Book b = new BookEx.Book();
+                            b.Id = e.Id;
+                            b.Owner = null;
+                            book.Books.Add(b);
+                        }                       
                     }
-                    else
-                    {
-                        UserEx u = Util.CloneEntity<UserEx>(owner);
-                        u.Holds.Add(book_isbn);
-                        users.Add(u);
-                        BookEx.Book b = new BookEx.Book();
-                        b.Id = e.Id;
-                        b.Owner = u.Id;
-                        book.Books.Add(b);
-                    }
+                }
+                catch (BMException)
+                {
+                    users = new List<UserEx>();
                 }
             }
             else
@@ -93,8 +112,6 @@ namespace GooCooServer.Handler
                 b.Id = 25;
                 b.Owner = null;
                 book.Books.Add(b);
-
-                book.Count = 3;
             }
             context.Response.Output.Write(Util.EncodeJson(users,book));
         }

@@ -52,7 +52,7 @@ namespace GooCooServer.Entity
 
         public static bool operator !=(BookInfo lhs, BookInfo rhs)
         {
-            return !Object.Equals(lhs,rhs);
+            return !Object.Equals(lhs, rhs);
         }
 
         public override bool Equals(object obj)

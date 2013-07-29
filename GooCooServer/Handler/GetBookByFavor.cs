@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web;
 using GooCooServer.DAO;
@@ -33,11 +33,18 @@ namespace GooCooServer.Handler
             String user_id = context.Request["user"];
             if (ub != null)
             {
-                List<BookInfo> lbs = ub.GetBookInfo(user_id,User_BookInfo.ERelation.FAVOR);
-                foreach (var e in lbs)
+                try
                 {
-                    BookEx b = Util.CloneEntity<BookEx>(e);
-                    books.Add(b);
+                    List<BookInfo> lbs = ub.GetBookInfo(user_id, User_BookInfo.ERelation.FAVOR);
+                    foreach (var e in lbs)
+                    {
+                        BookEx b = Util.CloneEntity<BookEx>(e);
+                        books.Add(b);
+                    }
+                }
+                catch (BMException)
+                {
+                    books = new List<BookEx>();
                 }
             }
             else
@@ -47,22 +54,19 @@ namespace GooCooServer.Handler
                 book = new BookEx();
                 book.Isbn = "12133232432";
                 book.Name = "sdfergw34sdsfddew";
-              //  book.Tags = new String[] { "4wwwwwe", "dffdfdf" };
-            //    book.Timestamp = 322343423243;
+                book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "ilukiukjh";
                 book.Name = "供sa热为复se位we";
-            //    book.Tags = new String[] { "扔给我让我swe", "是否跟", "送给我" };
-            //    book.Timestamp = DateTime.UtcNow.Ticks;
+                book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
 
                 book = new BookEx();
                 book.Isbn = "额bbn,.,/,";
                 book.Name = "而谷歌sdsd";
-           //     book.Tags = new String[] { "432433232we", "dffdfdf" };
-           //     book.Timestamp = 232546788755455657L;
+                book.Timestamp = DateTime.UtcNow;
                 books.Add(book);
             }
             context.Response.Output.Write(Util.EncodeJson(books));

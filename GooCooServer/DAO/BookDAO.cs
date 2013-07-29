@@ -16,7 +16,6 @@ namespace GooCooServer.DAO
     {
         public BookDAO()
         {
-            createConnection();
         }
 
         public Book Add()
@@ -116,6 +115,5 @@ namespace GooCooServer.DAO
             else
                 throw new BMException("BOOK GET error");
         }
-
     }
 }

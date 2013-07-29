@@ -18,6 +18,8 @@ namespace GooCooServer.IDAO
         int GetCountByKeyWord(String keyWord);
         List<BookInfo> GetByKeyWord(String keyWord, int from = 0, int count = 0);
 
+        List<BookInfo> GetBookInfos(int n);
+
         BookInfo Get(String isbn);
         BookInfo Add(BookInfo book);
         void Del(String isbn);

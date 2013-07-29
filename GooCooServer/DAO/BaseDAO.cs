@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using GooCooServer.IDAO;
-using System.Data.SqlClient;
-using System.Configuration;
 using GooCooServer.Exception;
+using System.Data.SqlClient;
 
 namespace GooCooServer.DAO
 {
-    class BaseDAO : IBaseDAO
+    public class BaseDAO : IBaseDAO
     {
         protected SqlConnection connecter;
         protected String connectStr;
-        
+
         public BaseDAO()
         {
+            createConnection();
         }
 
         public void createConnection()
         {
-            connectStr = "server=localhost;Initial catalog=GooCooDB;user ID=sa;password=;Integrated Security = true";
+            System.Configuration.Configuration rootWebConfig =
+                System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("/Web.config");
+            connectStr = rootWebConfig.ConnectionStrings.ConnectionStrings["GooCooConnectString"].ToString(); 
         }
 
         public int dbManagerCount(SqlParameter myParam, string sqlQuery)

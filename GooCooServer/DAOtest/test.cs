@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using GooCooServer.DAO;
 using GooCooServer.IDAO;
+using GooCooServer.Entity;
 
 namespace GooCooServer.DAOtest
 {
@@ -14,8 +15,14 @@ namespace GooCooServer.DAOtest
     {
         public static void Main()
         {
-            IBook_BookInfoDAO tester = (IBook_BookInfoDAO)DAOFactory.createDAO("Book_BookInfoDAO");
-            //tester.testinsert();
+            IUserDAO tester = (IUserDAO)DAOFactory.createDAO("UserDAO");
+            User user = new User();
+            user.Authority = User.EAuthority.USER;
+            user.Id = "1152797";
+            user.Name = "linfan";
+            user.Password = "oyfoyf";
+            user.Repvalue = 0;
+            tester.Add(user);
             Console.ReadLine();
         }
     }

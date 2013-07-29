@@ -99,9 +99,7 @@
     <Compile Include="Controllers\ajax\AjaxCommentController.cs" />
     <Compile Include="Controllers\BookInfoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
-    <Compile Include="Controllers\SearchViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -110,6 +108,7 @@
     <Compile Include="Models\BookInfoModels\CommentRecordModel.cs" />
     <Compile Include="Models\LogOnModel.cs" />
     <Compile Include="Models\SearchResultModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +118,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\image\bg.gif" />
     <Content Include="Content\image\Logo.jpg" />
+    <Content Include="Content\RegisterPage.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -194,16 +194,18 @@
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
     <Content Include="Views\Account\LogOn.aspx" />
+    <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\PersonalInfo\BorrowInfo.aspx" />
     <Content Include="Views\PersonalInfo\CollectInfo.aspx" />
     <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
     <Content Include="Views\PersonalInfo\PersonalInfo.aspx" />
     <Content Include="Views\PersonalInfo\PreorderInfo.aspx" />
-    <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
     <Content Include="Views\Shared\TopNavbar.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

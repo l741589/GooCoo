@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,7 +8,7 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    public interface IUser_Comment
+    public interface IUser_CommentDAO
     {
         //User_Comment Add(String user_id,int comment_id);
         //bool Del(String user_id, int comment_id);

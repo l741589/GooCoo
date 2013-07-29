@@ -17,7 +17,6 @@ namespace GooCooServer.DAO
     {
         public UserDAO()
         {
-            createConnection();
         }
 
         public String Login(String ID, String password)
@@ -118,24 +117,24 @@ namespace GooCooServer.DAO
 
         public int GetCountByID(String ID)
         {
-            SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+            SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
             myParam.Value = ID;
-            string sqlQuery = "SELECT COUNT(id) FROM USER WHERE id LIKE  '%' + @id + '%'";
+            string sqlQuery = "SELECT COUNT(id) FROM USERINFO WHERE id LIKE  '%' + @id + '%'";
             return dbManagerCount(myParam, sqlQuery);
         }
 
         public List<User> GetByID(String ID, int from = 0, int count = 0)
         {
-            SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+            SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
             myParam.Value = ID;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM USER WHERE id LIKE  '%' + @id + '%'";
+                sqlQuery = "SELECT * FROM USERINFO WHERE id LIKE  '%' + @id + '%'";
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM USER WHERE (id NOT IN (SELECT TOP " + to + " id FROM USER)) AND id LIKE '%' + @id + '%'";
+                sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO)) AND id LIKE '%' + @id + '%'";
             }
 
             List<User> users = dbManagerList(myParam, sqlQuery);
@@ -150,7 +149,7 @@ namespace GooCooServer.DAO
         {
             SqlParameter myParam = new SqlParameter("@name", SqlDbType.VarChar);
             myParam.Value = name;
-            string sqlQuery = "SELECT COUNT(name) FROM USER WHERE name LIKE  '%' + @name + '%'";
+            string sqlQuery = "SELECT COUNT(name) FROM USERINFO WHERE name LIKE  '%' + @name + '%'";
             return dbManagerCount(myParam, sqlQuery);
         }
 
@@ -160,12 +159,12 @@ namespace GooCooServer.DAO
             myParam.Value = name;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM USER WHERE name LIKE  '%' + @name + '%'";
+                sqlQuery = "SELECT * FROM USERINFO WHERE name LIKE  '%' + @name + '%'";
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM USER WHERE (id NOT IN (SELECT TOP " + to + " id FROM USER)) AND name LIKE '%' + @name + '%'";
+                sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO)) AND name LIKE '%' + @name + '%'";
             }
 
             List<User> users = dbManagerList(myParam, sqlQuery);
@@ -180,7 +179,7 @@ namespace GooCooServer.DAO
         {
             SqlParameter myParam = new SqlParameter("@keyWord", SqlDbType.VarChar);
             myParam.Value = keyWord;
-            string sqlQuery = "SELECT COUNT(name) FROM USER WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
+            string sqlQuery = "SELECT COUNT(name) FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
             return dbManagerCount(myParam, sqlQuery);
         }
 
@@ -190,12 +189,12 @@ namespace GooCooServer.DAO
             myParam.Value = keyWord;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM USER WHERE name LIKE  '%' + @keyWord + '%' || id LIKE  '%' + @keyWord + '%'";
+                sqlQuery = "SELECT * FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM USER WHERE (id NOT IN (SELECT TOP " + to + " id FROM USER)) AND name LIKE '%' + @keyWord + '%' || id LIKE  '%' + @keyWord + '%'";
+                sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO)) AND name LIKE '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
             }
 
             List<User> users = dbManagerList(myParam, sqlQuery);
@@ -221,10 +220,21 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
                 myParam.Value = session;
-                string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session";
+                SqlParameter myParam1 = new SqlParameter("@nowTime", SqlDbType.DateTime);
+                myParam1.Value = DateTime.Now;
+                string sqlQuery = "SELECT TOP 1 * FROM SESSION WHERE session_id = @session AND time > @nowTime";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                myCommand.Parameters.Add(myParam1);
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
 
                 string userid = null;
 
@@ -237,13 +247,20 @@ namespace GooCooServer.DAO
 
                 if (userid != null)
                 {
-                    myParam = new SqlParameter("@id", SqlDbType.Char);
+                    myParam = new SqlParameter("@id", SqlDbType.VarChar);
                     myParam.Value = userid;
-                    sqlQuery = "SELECT * FROM USER WHERE id = @id";
+                    sqlQuery = "SELECT TOP 1 * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -273,7 +290,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+                SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
                 myParam.Value = user.Id;
                 SqlParameter myParam1 = new SqlParameter("@name", SqlDbType.VarChar);
                 myParam.Value = user.Name;
@@ -283,7 +300,7 @@ namespace GooCooServer.DAO
                 myParam.Value = user.Authority;
                 SqlParameter myParam4 = new SqlParameter("@repvalue", SqlDbType.Int);
                 myParam.Value = user.Repvalue;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USER (id, name, password, authority, repvalue) " + "Values (@id, @name, @password, @authority, @repvalue); " + "select @@IDENTITY as 'Identity'", connecter);
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue) " + "Values (@id, @name, @password, @authority, @repvalue); " + "select @@IDENTITY as 'Identity'", connecter);
                 myCommand.Parameters.Add(myParam);
                 myCommand.Parameters.Add(myParam1);
                 myCommand.Parameters.Add(myParam2);
@@ -322,6 +339,42 @@ namespace GooCooServer.DAO
 
         public void Set(String session, User user)
         {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
+                myParam.Value = session;
+                SqlParameter myParam1 = new SqlParameter("@session", SqlDbType.DateTime);
+                myParam1.Value = DateTime.Now;
+                string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session AND time > @nowTime";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam1);
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                string userid = null;
+
+                if (sqlDataReader.Read())
+                {
+                    userid = (string)sqlDataReader[0];
+                }
+
+                if (userid != null)
+                {
+                    sqlQuery = "UPDATE USERINFO SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
+                    myCommand = new SqlCommand(sqlQuery, connecter);
+                    myCommand.ExecuteNonQuery();
+                }
+                else
+                    throw new BMException("USER SET Error");
+            }
         }
 
         //只有管理员有权限调用
@@ -339,7 +392,7 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
                 myParam.Value = ID;
-                SqlCommand myCommand = new SqlCommand("DELETE FROM USER  " + "WHERE id = @id", connecter);
+                SqlCommand myCommand = new SqlCommand("DELETE FROM USERINFO  " + "WHERE id = @id", connecter);
                 myCommand.Parameters.Add(myParam);
                 myCommand.ExecuteNonQuery();
             }
