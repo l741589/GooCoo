@@ -100,6 +100,7 @@
     <Compile Include="Controllers\BookInfoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
+    <Compile Include="Controllers\SearchViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,6 +191,7 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Views\BookInfo\Error.aspx" />
     <Content Include="Views\BookInfo\Index.aspx" />
+    <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
     <Content Include="Views\SearchView\searchBar.ascx" />
