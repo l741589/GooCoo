@@ -25,10 +25,18 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOK (user_id, book_id, realation, time) " + "Values ("+user_id+", "+book+", "+relation+", "+DateTime.Now+"); " + "select @@IDENTITY as 'Identity'", connecter);
-                int id = Convert.ToInt32(myCommand.ExecuteScalar());
-                if (id == 0)
-                    throw new BMException("USER_BOOK ADD error");
+                SqlParameter myParam = new SqlParameter("@time", SqlDbType.DateTime);
+                myParam.Value = DateTime.Now;
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOK (user_id, book_id, relation, time) " + "Values ("+user_id+", "+book+", "+(int)relation+", @time)", connecter);
+                myCommand.Parameters.Add(myParam);
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("USER_BOOK ADD error");                    
+                }
             }
         }
 
@@ -44,7 +52,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOK WHERE book_id = "+book+" AND relation = "+relation+"", connecter);
+                SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOK WHERE book_id = "+book+" AND relation = "+(int)relation+"", connecter);
                 myCommand.ExecuteNonQuery();
             }
         }
@@ -61,7 +69,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                string sqlQuery = "SELECT * FROM USER_BOOK WHERE user_id = "+user_id+" AND relation = "+relation+"";
+                string sqlQuery = "SELECT * FROM USER_BOOK WHERE user_id = "+user_id+" AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
 
@@ -92,7 +100,7 @@ namespace GooCooServer.DAO
                         result.Add(book);
                     }
                 }
-                if (result != null)
+                if (result.Count != 0)
                     return result;
                 else
                     throw new BMException("USER_BOOK GETBOOK Error");
@@ -113,7 +121,7 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@id", SqlDbType.Int);
                 myParam.Value = book;
-                string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = @id AND relation = "+relation+"";
+                string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = @id AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
                 SqlDataReader sqlDataReader = myCommand.ExecuteReader();
@@ -130,7 +138,7 @@ namespace GooCooServer.DAO
                 {
                     myParam = new SqlParameter("@id", SqlDbType.Char);
                     myParam.Value = userID;
-                    sqlQuery = "SELECT * FROM USER WHERE id = @id";
+                    sqlQuery = "SELECT * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
@@ -154,7 +162,7 @@ namespace GooCooServer.DAO
 
         public User_Book Get(String user_id, int book, User_Book.ERelation relation = User_Book.ERelation.BORROW)
         {
-            string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = "+book+" AND user_id = "+user_id+" AND relation = "+relation+"";
+            string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = "+book+" AND user_id = "+user_id+" AND relation = "+(int)relation+"";
             SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
             SqlDataReader sqlDataReader = myCommand.ExecuteReader();
 

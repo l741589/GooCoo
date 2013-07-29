@@ -29,12 +29,19 @@ namespace GooCooServer.Handler
 
         public void ProcessRequest(HttpContext context)
         {
-            IBookInfoDAO bookInfoDAO = (IBookInfoDAO)DAOFactory.createDAO("BookDAO");
+            IBookInfoDAO bookInfoDAO = (IBookInfoDAO)DAOFactory.createDAO("BookInfoDAO");
 
             List<BookInfo> books;
             if (bookInfoDAO != null)
             {
-                books = bookInfoDAO.GetByKeyWord(context.Request["keyword"]);
+                try
+                {
+                    books = bookInfoDAO.GetByKeyWord(context.Request["keyword"]);
+                }
+                catch (BMException)
+                {
+                    books = new List<BookInfo>();
+                }
             }
             else
             {

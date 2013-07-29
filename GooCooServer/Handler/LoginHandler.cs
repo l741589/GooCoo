@@ -39,7 +39,8 @@ namespace GooCooServer.Handler
                 if (userDao != null)
                 {
                     session = userDao.Login(id, pw);
-                    user = Util.CloneEntity<UserEx>(userDao.Get(session));
+                    User u = userDao.Get(session);
+                    user = Util.CloneEntity<UserEx>(u);
                     user.Session = session;
                 }
                 else
