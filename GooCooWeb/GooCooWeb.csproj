@@ -191,9 +191,7 @@
     <Content Include="Views\Shared\Footer.ascx" />
     <Content Include="Views\PersonalInfo\LeftNavbar.ascx" />
     <Content Include="Views\Shared\TopNavbar.ascx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -210,7 +208,9 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\FourAreasLayout.Master" />
     <Content Include="Views\Shared\ThreeAreasLayout.Master" />
