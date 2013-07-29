@@ -58,7 +58,7 @@
                     <%: Html.ActionLink(user.Name, "Index", "PersonalInfo") %>
                 </li>
                 <li>
-                    <%: Html.ActionLink("注销", "LogOut", "Account") %>
+                    <%: Html.ActionLink("注销", "LogOut", "Account", new { returnUrl = Request.RawUrl }, null)%>
                 </li>
                 <% 
                     }
