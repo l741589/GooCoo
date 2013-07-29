@@ -8,7 +8,7 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    interface ILogDAO
+    public interface ILogDAO
     {
         Log Get(int id);
         int GetCount();
