@@ -11,7 +11,7 @@ namespace GooCooWeb.Models.BookInfoModels
 {
     public class BookInfoRecordModel
     {
-        public const int CommentHomePage = 10;
+        public const int CommentHomePageCount = 10;
 
         public BookInfo Bookinfo { get; set; }
         public int AvailableCount { get; set; }     //剩余数量(出去借走、预定的书籍之后)
@@ -41,8 +41,8 @@ namespace GooCooWeb.Models.BookInfoModels
             if (bookinfo != null)
             {
 
-                BookInfoRecordModel bookInfoRecord = new BookInfoRecordModel();
-                bookInfoRecord.Bookinfo = bookinfo;
+                //BookInfoRecordModel bookInfoRecord = new BookInfoRecordModel();
+                this.Bookinfo = bookinfo;
 
 
                 //获取每本书信息
@@ -54,7 +54,7 @@ namespace GooCooWeb.Models.BookInfoModels
                 {
                     bookList = book_bookInfoDAO.GetBook(bookinfo.Isbn);
                     bookRecordList = BookRecordModel.toRecord(bookList);
-                    bookInfoRecord.Books = bookRecordList;
+                    this.Books = bookRecordList;
                 }
                 catch (Exception) { }
 
@@ -67,26 +67,33 @@ namespace GooCooWeb.Models.BookInfoModels
                     commentCount = book_commentDAO.GetCommentCount(bookinfo.Isbn);
                 }
                 catch (Exception) { }
-                bookInfoRecord.TotalCommentCount = commentCount;
+                this.TotalCommentCount = commentCount;
                 //最新评论内容
                 if (commentCount > 0)
                 {
                     List<Comment> commentList = null;
                     try
                     {
-                        commentList = book_commentDAO.GetComment(bookinfo.Isbn, 1, BookInfoRecordModel.CommentHomePage);
+                        commentList = book_commentDAO.GetComment(bookinfo.Isbn, 1, BookInfoRecordModel.CommentHomePageCount);
                         //转换为CommentRecord
                         List<CommentRecordModel> commentRecordList = CommentRecordModel.toRecord(commentList);
-                        bookInfoRecord.TopComments = commentRecordList;
+                        this.TopComments = commentRecordList;
                     }
                     catch (Exception) { }
                 }
 
-                //////////////////
-                //暂时测试用
                 //剩余数量
-                bookInfoRecord.AvailableCount = 2;
-                bookInfoRecord.OrderCount = 2;
+                this.AvailableCount = book_bookInfoDAO.GetAvaliableBookNumber(isbn);
+                //计算被预定的数量
+                int borrowCount = 0;                
+                foreach (BookRecordModel bookRecord in this.Books)
+                {
+                    if (bookRecord.CurrentCondition == BookCondition.BORROW)
+                    {
+                        borrowCount++;
+                    }
+                }
+                this.OrderCount = this.Books.Count - borrowCount - this.AvailableCount;
             }
         }
     }
