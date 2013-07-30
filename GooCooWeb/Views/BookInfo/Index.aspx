@@ -7,42 +7,83 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <% 
         GooCooWeb.Models.BookInfoModels.BookInfoRecordModel bookInfoRecord = ViewBag.BookInfoRecord;
-        GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;        
+        GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;
+        List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;        
      %>
-
     
-        <div class="span12">
+    <div class="row-fluid">
+        <div class="span9">
             <h2><%:bookInfo.Name %></h2>
-        </div>
-    
-
-    
-        <div class="span12">
-            <div class="span2">
-            <p>
-                <img src="<%:bookInfo.Photourl %>" />
-            </p>
+                <div class="media">
+                <div class="pull-left">
+                    <img class="media-object" src="<%:bookInfo.Photourl %>">
+                    <div id="two-button">
+                        <button class="btn btn-small" type="button">预定</button>
+                        <button class="btn btn-primary btn-small" type="button">收藏</button>
+                    </div>
+                </div>
+                <div class="media-body">
+                    
+                    <dl class="booklist">
+                        <dt>ISBN：</dt>            
+                        <dd><%:bookInfo.Isbn %></dd>
+                    </dl>
+                    <dl class="booklist">
+                        <dt>作者：</dt>
+                        <dd><%:bookInfo.Author %></dd>
+                    </dl>
+                    <dl class="booklist">
+                        <dt>出版社：</dt>
+                        <dd><%:bookInfo.Publisher %></dd>
+                    </dl>
+                    <dl class="booklist">
+                        <dt>书籍信息：</dt>
+                        <dd><%:bookInfo.Summary %></dd>                   
+                    </dl> 
+                </div>
             </div>
-            <div class="span7" >
-                <dl class="booklist" style="border:dashed">
-                <dt>
-                    ISBN：
-                </dt>            
-                <dd>
-                    <%:bookInfo.Isbn %>
-                </dd>
-            </dl>
-            <dl class="booklist">
-                <dt>作者：</dt>
-                <dd></dd>
-            </dl>
-            <dl class="booklist">
-                <dt>书籍信息：</dt>
-                <dd><%:bookInfo.Summary %></dd>                   
-            </dl>            
         </div>
-        
+    </div>
+    <div class="row-fluid">
+        <div class="span9">
+            <h4>书籍状态：</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>编号</td>
+                        <td>书籍状态</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% foreach (GooCooWeb.Models.BookInfoModels.BookRecordModel bookRecord in bookRecordList ){ %>
+                    <tr>
+                        <td><%:bookRecordList.IndexOf(bookRecord) + 1 %></td>
+                        <td>
+                            <%if (bookRecord.CurrentCondition == GooCooWeb.Models.BookInfoModels.BookCondition.AVAILABLE){ %>
+                                <p style="color:green">可借</p>
+                            <%} else { %>
+                                <p>借出-应还日期：<%:GooCooServer.Entity.Book.getReturnTime(bookRecord.AvailableTime) %></p>
+                            <%} %>
+                            
+                        </td>
+                    </tr>
+                    <%} %>
+                </tbody>
+
+            </table>
         </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span9">
+            <h4>评论：</h4>
+            <%
+                
+             %>
+        </div>
+    </div>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="OtherCssStyle" runat="server">
@@ -59,7 +100,7 @@
         .booklist dt {
             float: left;
             text-align: right;
-            width: 10%;
+            width: 15%;
             height: 24px;
             color: rgb(51, 51, 51);
             font-weight: bold;
@@ -67,7 +108,7 @@
         .booklist dd {
             text-align: left;
             float: right;
-            width: 90%;
+            width: 85%;
             padding: 0px;
         }
 
@@ -75,6 +116,9 @@
             padding: 0px;
             margin: 0px auto;
             list-style: none outside none;
+        }
+        #two-button {
+            margin-top: 20px;
         }
     </style>
 </asp:Content>
