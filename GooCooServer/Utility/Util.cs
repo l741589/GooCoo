@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace GooCooServer.Utility
 {
@@ -270,6 +271,11 @@ namespace GooCooServer.Utility
             {
                 return null;
             }
+        }
+
+        public static object DefaultForType(Type targetType) 
+        {
+            return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;  
         }
     }
 }

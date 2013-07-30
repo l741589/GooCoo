@@ -41,6 +41,7 @@ namespace GooCooAdmin.Widget
             tb_name.TextChanged += tb_name_TextChanged;
             se_count.Value = Entity.Count;
             se_count.Margin = new Thickness(1, 0, 1, 0);
+            se_count.ValueChanged += se_count_ValueChanged;
             lb_status.HorizontalContentAlignment = HorizontalAlignment.Center;
 
             Children.Add(bn_revert);
@@ -156,10 +157,7 @@ namespace GooCooAdmin.Widget
             {
                 Entity.Isbn = tb_isbn.Text;
                 Entity.Name = tb_name.Text;
-                //if (Entity.Books == null) Entity.Books = new List<BookEx.Book>();
-                //while (Entity.Books.Count < se_count.Value) Entity.Books.Add(new BookEx.Book());
-                //while (Entity.Books.Count > se_count.Value) Entity.Books.RemoveAt(0);                
-                Entity.Count = se_count.Value;
+                Entity.SetCount(se_count.Value);
                 UpdateLabel(lb_status);
                 bn_revert.IsEnabled = Status != EGridStatus.无变化 && RealEntity != null;
                 if (Holder != null) Holder.Filter(((MainWindow)App.Current.MainWindow).ftb_book.Status);

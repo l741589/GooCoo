@@ -13,7 +13,7 @@
         <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
         <TabControl Margin="8,8,8,8" x:Name="tc_main" IsEnabled="False" SelectionChanged="tc_main_SelectionChanged">
             <TabItem Header="书籍业务">
-                <UniformGrid x:Name="pn_main" Columns="2" Rows="1" DockPanel.Dock="Bottom">
+                <UniformGrid Columns="2" Rows="1" DockPanel.Dock="Bottom">
                     <DockPanel LastChildFill="True">
                         <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap" Text="搜索用户"  DockPanel.Dock="Top"/>
                         <ListBox x:Name="lb_user"/>

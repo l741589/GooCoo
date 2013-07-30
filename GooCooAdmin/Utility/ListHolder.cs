@@ -27,12 +27,12 @@ namespace GooCooAdmin.Utility
                 if (!lists.ContainsKey(key)) AddList(key, value);
                 else
                 {
-                    List<T> list = lists[key];
+                    List<T> list = ToList();
                     lists[key] = value;
                     foreach (T e in list)
                     {
                         T f=value.Find((match) => { return Object.Equals(e, match); });
-                        if (f != null) Util.Merge(f, e);
+                        if (f != null) Util.Merge(f, e, true);
                     }
                     
                 }
