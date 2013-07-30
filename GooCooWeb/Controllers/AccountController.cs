@@ -80,8 +80,8 @@ namespace GooCooWeb.Controllers
                 newUser.Id = model.Id;
                 newUser.Name = model.Name;
                 newUser.Password = model.Password;
-                //newUser.PhoneNumber = model.PhoneNumber;
-                //newUser.Email = model.Email;
+                newUser.Phonenumber = model.PhoneNumber;
+                newUser.Email = model.Email;
                 newUser.Repvalue = 0;
                 newUser.Authority = GooCooServer.Entity.User.EAuthority.USER;
 
@@ -95,7 +95,7 @@ namespace GooCooWeb.Controllers
                     logOnModel.RememberMe = false;
                     return LogOn(logOnModel, returnUrl);
                 }
-                catch (BMException ex)
+                catch (BMException)
                 {
                     ModelState.AddModelError("", "该学号已被注册");
                 }
