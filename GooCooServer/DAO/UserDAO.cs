@@ -331,12 +331,15 @@ namespace GooCooServer.DAO
                 myParam3.Value = user.Authority;
                 SqlParameter myParam4 = new SqlParameter("@repvalue", SqlDbType.Int);
                 myParam4.Value = user.Repvalue;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue, email, phonenumber) " + "Values (@id, @name, @password, @authority, @repvalue, "+user.Email+", "+user.Phonenumber+")", connecter);
+                SqlParameter myParam5 = new SqlParameter("@email", SqlDbType.VarChar);
+                myParam5.Value = user.Email;                
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue, email, phonenumber) " + "Values (@id, @name, @password, @authority, @repvalue, @email, "+user.Phonenumber+")", connecter);
                 myCommand.Parameters.Add(myParam);
                 myCommand.Parameters.Add(myParam1);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam4);
+                myCommand.Parameters.Add(myParam5);
                 try
                 {
                     myCommand.ExecuteNonQuery();

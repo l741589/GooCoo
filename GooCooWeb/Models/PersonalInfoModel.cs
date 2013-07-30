@@ -38,8 +38,8 @@ namespace GooCooWeb.Models
         {
             this.Id = user.Id;
             this.Name = user.Name;
-            //this.PhoneNumer = user.PhoneNumber;
-            //this.Email = user.Email;
+            this.PhoneNumber = user.Phonenumber;
+            this.Email = user.Email;
             this.Authority = (EAuthority)user.Authority;
             this.Repvalue = user.Repvalue;
         }

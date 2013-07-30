@@ -30,8 +30,8 @@
                             <td><%: Model.Name %></td>
                         </tr>
                         <tr>
-                            <td><%: Html.LabelFor(model => model.PhoneNumer) %></td>
-                            <td><%: Model.PhoneNumer %></td>
+                            <td><%: Html.LabelFor(model => model.PhoneNumber) %></td>
+                            <td><%: Model.PhoneNumber %></td>
                         </tr>
                         <tr>
                             <td><%: Html.LabelFor(model => model.Email) %></td>
