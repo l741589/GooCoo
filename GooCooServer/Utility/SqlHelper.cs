@@ -35,7 +35,7 @@ namespace GooCooServer.Utility
         {
             if (cmdtype == 'U')
             {
-                if (value==null||value.Equals(Util.DefaultForType(value.GetType()))) return this;
+                if (value==null||((!(value is int))&&value.Equals(Util.DefaultForType(value.GetType())))) return this;
                 if (start) start = false; else sb.Append(",");
                 sb.Append(name);
                 sb.Append(" = @");
