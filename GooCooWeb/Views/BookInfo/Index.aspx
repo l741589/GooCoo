@@ -10,15 +10,21 @@
         GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;        
      %>
 
-    <div class="row">
+    
         <div class="span12">
             <h2><%:bookInfo.Name %></h2>
         </div>
-    </div>
+    
 
-    <div class="span12">
-        <div class="span7">            
-            <dl class="booklist">
+    
+        <div class="span12">
+            <div class="span2">
+            <p>
+                <img src="<%:bookInfo.Photourl %>" />
+            </p>
+            </div>
+            <div class="span7" >
+                <dl class="booklist" style="border:dashed">
                 <dt>
                     ISBN：
                 </dt>            
@@ -35,12 +41,8 @@
                 <dd><%:bookInfo.Summary %></dd>                   
             </dl>            
         </div>
-        <div class="span5">
-            <p>
-                <img src="<%:bookInfo.Photourl %>" />
-            </p>
+        
         </div>
-    </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="OtherCssStyle" runat="server">
@@ -57,7 +59,7 @@
         .booklist dt {
             float: left;
             text-align: right;
-            width: 18%;
+            width: 10%;
             height: 24px;
             color: rgb(51, 51, 51);
             font-weight: bold;
@@ -65,7 +67,7 @@
         .booklist dd {
             text-align: left;
             float: right;
-            width: 81%;
+            width: 90%;
             padding: 0px;
         }
 
