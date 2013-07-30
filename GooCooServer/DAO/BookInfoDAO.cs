@@ -55,6 +55,9 @@ namespace GooCooServer.DAO
                     book.Name = (string)sqlDataReader[1];
                     book.Timestamp = (DateTime)sqlDataReader[2];
                     book.Summary = (string)sqlDataReader[4];
+                    book.Author = (string)sqlDataReader[3];
+                    book.Publisher = (string)sqlDataReader[5];
+                    book.Photourl = (string)sqlDataReader[6];
                     bookInfos.Add(book);
                 }
             }

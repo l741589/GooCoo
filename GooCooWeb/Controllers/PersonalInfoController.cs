@@ -69,10 +69,12 @@ namespace GooCooWeb.Controllers
         public ActionResult BorrowInfo()
         {
             BorrowInfoModel model = new BorrowInfoModel();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
             IUser_BookDAO user_bookDAO = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             try
             {
-                List<Book> books = user_bookDAO.GetBook((string)Session["UserSessionID"], User_Book.ERelation.BORROW);
+                List<Book> books = user_bookDAO.GetBook(localUser.Id, User_Book.ERelation.BORROW);
                 ViewBag.BorrowBookNumber = books.Count;
                 IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
                 foreach (Book book in books)
@@ -81,9 +83,8 @@ namespace GooCooWeb.Controllers
                     borrowBookInfo.Id = book.Id;
                     BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
                     borrowBookInfo.Name = bookInfo.Name;
-                    borrowBookInfo.BorrowTime = bookInfo.Timestamp;
-                    /* TO-DO 添加返回时间*/
-                    //borrowBookInfo.ExpectedReturnTime = 
+                    borrowBookInfo.BorrowTime = book.Timestamp;
+                    borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(book.Timestamp);
                     model.Add(borrowBookInfo);
                 }
             }
@@ -98,11 +99,13 @@ namespace GooCooWeb.Controllers
         public ActionResult DonateInfo()
         {
             DonateInfoModel model = new DonateInfoModel();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
             IUser_BookDAO user_bookDAO = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             try
             {
-                List<Book> books = user_bookDAO.GetBook((string)Session["UserSessionID"], User_Book.ERelation.DONATE);
-                ViewBag.BorrowBookNumber = books.Count;
+                List<Book> books = user_bookDAO.GetBook(localUser.Id, User_Book.ERelation.DONATE);
+                ViewBag.DonateBookNumber = books.Count;
                 IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
                 foreach (Book book in books)
                 {
