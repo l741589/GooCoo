@@ -135,12 +135,20 @@ namespace GooCooServer.DAO
             myParam.Value = keyWord;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
+            {
+                if (keyWord == null || keyWord == "")
+                    sqlQuery = "SELECT * FROM BOOKINFO";
+                else                    
+                    sqlQuery = "SELECT * FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
+            }
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO)) AND name LIKE '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
+                if (keyWord == null || keyWord == "")
+                    sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO))";
+                else
+                    sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO)) AND name LIKE '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
             }
 
             List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
