@@ -213,7 +213,7 @@ namespace GooCooAdmin.Widget
         public override bool RealEqual()
         {
             return RealEntity.Isbn == Entity.Isbn && RealEntity.Name == Entity.Name && RealEntity.RealCount == Entity.Count
-                && RealEntity.Author == Entity.Author && RealEntity.Publisher == Entity.Author;
+                && RealEntity.Author == Entity.Author && RealEntity.Publisher == Entity.Publisher;
         }
 
         public void UpdateSuccess(String json)

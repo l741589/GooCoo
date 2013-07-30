@@ -24,6 +24,8 @@
         <Label Content="持有者" Canvas.Left="238" Canvas.Top="286" Width="213"/>
         <Label Content="收藏者" Canvas.Left="238" Canvas.Top="151" Width="202"/>
         <Label Content="Label" Canvas.Left="65" Canvas.Top="76" Width="158" x:Name="lb_author"/>
-        <TextBlock Canvas.Left="10" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="166" Height="250" Width="202" x:Name="tb_summary"/>
+        <ScrollViewer Canvas.Left="10"  Canvas.Top="166" Height="250" Width="202" >
+            <TextBlock TextWrapping="Wrap" Text="TextBlock" x:Name="tb_summary"/>
+        </ScrollViewer>
     </Canvas>
 </Window>

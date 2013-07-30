@@ -36,7 +36,9 @@ namespace GooCooServer.Handler
             {
                 try
                 {
-                    books = bookInfoDAO.GetByKeyWord(context.Request["keyword"]);
+                    String keyword = context.Request["keyword"];
+                    if (keyword == null) keyword = "";
+                    books = bookInfoDAO.GetByKeyWord(keyword);
                 }
                 catch (BMException)
                 {

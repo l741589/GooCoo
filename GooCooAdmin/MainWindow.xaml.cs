@@ -536,6 +536,7 @@ namespace GooCooAdmin
                         url = Properties.Resources.URL_UPDATEBOOK;
                         String temp=Util.EncodeJson(book);
                         cv.Add("book", temp);
+                        cv.Add("count", book.Count.ToString());
                         break;
                     case EGridStatus.新建并删除:
                         g.UpdateSuccess();
