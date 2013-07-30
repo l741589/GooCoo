@@ -23,6 +23,11 @@ namespace GooCooServer.Entity
             set { id = value; }
         }
 
+        public static DateTime getReturnTime(DateTime now)
+        {
+            return now.AddMonths(4);
+        }
+
         public static bool operator ==(Book lhs, Book rhs)
         {
             return Object.Equals(lhs, rhs);
