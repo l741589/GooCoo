@@ -65,17 +65,60 @@ namespace GooCooWeb.Controllers
             return View(model);
         }
 
-        //[LoggedOnFilter]
+        [LoggedOnFilter]
         public ActionResult BorrowInfo()
         {
-
-            return View();
+            BorrowInfoModel model = new BorrowInfoModel();
+            IUser_BookDAO user_bookDAO = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
+            try
+            {
+                List<Book> books = user_bookDAO.GetBook((string)Session["UserSessionID"], User_Book.ERelation.BORROW);
+                ViewBag.BorrowBookNumber = books.Count;
+                IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+                foreach (Book book in books)
+                {
+                    BorrowBookInfo borrowBookInfo = new BorrowBookInfo();
+                    borrowBookInfo.Id = book.Id;
+                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
+                    borrowBookInfo.Name = bookInfo.Name;
+                    borrowBookInfo.BorrowTime = bookInfo.Timestamp;
+                    /* TO-DO 添加返回时间*/
+                    //borrowBookInfo.ExpectedReturnTime = 
+                    model.Add(borrowBookInfo);
+                }
+            }
+            catch (BMException)
+            {
+                ViewBag.BorrowBookNumber = 0;
+            }
+            return View(model);
         }
 
         [LoggedOnFilter]
         public ActionResult DonateInfo()
         {
-            return View();
+            DonateInfoModel model = new DonateInfoModel();
+            IUser_BookDAO user_bookDAO = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
+            try
+            {
+                List<Book> books = user_bookDAO.GetBook((string)Session["UserSessionID"], User_Book.ERelation.DONATE);
+                ViewBag.BorrowBookNumber = books.Count;
+                IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+                foreach (Book book in books)
+                {
+                    DonateBookInfo donateBookInfo = new DonateBookInfo();
+                    donateBookInfo.Id = book.Id;
+                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
+                    donateBookInfo.Name = bookInfo.Name;
+                    donateBookInfo.DonateTime = bookInfo.Timestamp;
+                    model.Add(donateBookInfo);
+                }
+            }
+            catch (BMException)
+            {
+                ViewBag.DonateBookNumber = 0;
+            }
+            return View(model);
         }
 
         [LoggedOnFilter]
