@@ -25,10 +25,15 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, realation, time) " + "Values (" + user_id + ", " + isbn + ", " + (int)relation + ", " + DateTime.Now + "); " + "select @@IDENTITY as 'Identity'", connecter);
-                int id = Convert.ToInt32(myCommand.ExecuteScalar());
-                if (id == 0)
-                    throw new BMException("USER_BOOK ADD error");
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, realation, time) " + "Values (" + user_id + ", " + isbn + ", " + (int)relation + ", " + DateTime.Now + ")", connecter);
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
 
@@ -45,7 +50,14 @@ namespace GooCooServer.DAO
                     throw new BMException("Create Connnect Error");
                 }
                 SqlCommand myCommand = new SqlCommand("DELETE FROM USER_BOOKINFO WHERE user_id = "+user_id+" AND isbn = "+isbn+" AND relation = "+(int)relation+"", connecter);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch
+                {
+                    throw new BMException("");
+                }
             }
         }
 
@@ -66,7 +78,16 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = @isbn AND relation = "+(int)relation+"";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<User> users = new List<User>();                                
                 while (sqlDataReader.Read())
@@ -78,13 +99,20 @@ namespace GooCooServer.DAO
 
                 for (int i = 0; i < users.Count; i++)
                 {
-                    myParam = new SqlParameter("@id", SqlDbType.Char);
+                    myParam = new SqlParameter("@id", SqlDbType.VarChar);
                     myParam.Value = users[i].Id;
-                    sqlQuery = "SELECT * FROM USER WHERE id = @id";
+                    sqlQuery = "SELECT * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -142,6 +170,9 @@ namespace GooCooServer.DAO
                         bookInfos[i].Name = (string)sqlDataReader[1];
                         bookInfos[i].Timestamp = (DateTime)sqlDataReader[2];
                         bookInfos[i].Summary = (string)sqlDataReader[4];
+                        bookInfos[i].Author = (string)sqlDataReader[3];
+                        bookInfos[i].Publisher = (string)sqlDataReader[5];
+                        bookInfos[i].Photourl = (string)sqlDataReader[6];
                     }
                 }
                 if (bookInfos.Count != 0)
@@ -188,10 +219,18 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 myParam.Value = book_isbn;
-                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = @isbn AND relation = " + User_BookInfo.ERelation.ORDER + "  ORDER BY time LIMIT 1";
+                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = @isbn AND relation = " + User_BookInfo.ERelation.ORDER + "  ORDER BY time";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-                myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                myCommand.Parameters.Add(myParam); 
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 User user = null;
                 if (sqlDataReader.Read())
@@ -202,19 +241,28 @@ namespace GooCooServer.DAO
 
                 if (user != null)
                 {
-                    myParam = new SqlParameter("@id", SqlDbType.Char);
+                    myParam = new SqlParameter("@id", SqlDbType.VarChar);
                     myParam.Value = user.Id;
-                    sqlQuery = "SELECT * FROM USER WHERE id = @id LIMIT 1";
+                    sqlQuery = "SELECT * FROM USERINFO WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
 
                     if (sqlDataReader.Read())
                     {
                         user.Name = (string)sqlDataReader[1];
                         user.Authority = (User.EAuthority)sqlDataReader[3];
                         user.Repvalue = (int)sqlDataReader[4];
+                        user.Email = (string)sqlDataReader[5];
+                        user.Phonenumber = (string)sqlDataReader[6];
                     }
                     return user;
                 }

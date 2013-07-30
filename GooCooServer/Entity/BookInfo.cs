@@ -14,6 +14,20 @@ namespace GooCooServer.Entity
         private String photourl;
         //加一个作者
         private DateTime timestamp;
+        private String author;
+        private String publisher;
+
+        public String Author
+        {
+            get { return author; }
+            set { author = value; }
+        }
+
+        public String Publisher
+        {
+            get { return publisher; }
+            set { publisher = value; }
+        }
 
         public String Photourl
         {

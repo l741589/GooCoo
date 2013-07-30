@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -80,8 +80,8 @@ namespace GooCooWeb.Controllers
                 newUser.Id = model.Id;
                 newUser.Name = model.Name;
                 newUser.Password = model.Password;
-                //newUser.PhoneNumber = model.PhoneNumber;
-                //newUser.Email = model.Email;
+                newUser.Phonenumber = model.PhoneNumber;
+                newUser.Email = model.Email;
                 newUser.Repvalue = 0;
                 newUser.Authority = GooCooServer.Entity.User.EAuthority.USER;
 
@@ -93,7 +93,7 @@ namespace GooCooWeb.Controllers
                     logOnModel.Id = newUser.Id;
                     logOnModel.Password = newUser.Password;
                     logOnModel.RememberMe = false;
-                    LogOn(logOnModel, returnUrl);
+                    return LogOn(logOnModel, returnUrl);
                 }
                 catch (BMException ex)
                 {
@@ -115,6 +115,18 @@ namespace GooCooWeb.Controllers
                     filterContext.Result = new RedirectResult("/Home/Index");
                 }
             }
+        }
+
+        public ActionResult LogOut(String returnUrl)
+        {
+            Session["UserSessionID"] = null;
+            if (Request.Cookies["UserSessionID"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("UserSessionID");
+                cookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(cookie);
+            }
+            return Redirect(returnUrl);
         }
     }
 }

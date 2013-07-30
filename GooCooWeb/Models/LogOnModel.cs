@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
@@ -15,6 +15,7 @@ namespace GooCooWeb.Models
 
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(60, ErrorMessage = "密码必须至少包含6个字符。", MinimumLength = 6)]
         [Display(Name = "密码")]
         public string Password { get; set; }
 

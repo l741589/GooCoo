@@ -42,11 +42,11 @@
             </div>
             <div class="control-group">
                 <div class="control-label">
-                    <%: Html.LabelFor(model => model.PhoneNumer)%>
+                    <%: Html.LabelFor(model => model.PhoneNumber)%>
                 </div>
                 <div class="controls">
-                    <%: Html.TextBoxFor(model => model.PhoneNumer, new { @placeholder="Phone Number" }) %>
-                    <%: Html.ValidationMessageFor(model => model.PhoneNumer, null, new { @class = "text-error" })%>
+                    <%: Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder="Phone Number" }) %>
+                    <%: Html.ValidationMessageFor(model => model.PhoneNumber, null, new { @class = "text-error" })%>
                 </div>
             </div>
             <div class="control-group">
@@ -64,6 +64,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.PasswordFor(model => model.Password, new { @placeholder="Password" }) %>
+                    <%: Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-error" }) %>
                 </div>
             </div>
             <div class="control-group">

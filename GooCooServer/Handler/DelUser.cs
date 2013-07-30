@@ -31,7 +31,7 @@ namespace GooCooServer.Handler
                 dao.Del(user_id);
                 context.Response.Write("删除成功");
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 //context.Response.Write(e.Message);
                 context.Response.Write("成功");

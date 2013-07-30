@@ -92,7 +92,7 @@ namespace GooCooServer.Entity.Ex
 
         public override string ToString()
         {
-            String s = Isbn + " " + Name + " " + Timestamp.ToString("yyyy:MM:dd hh:mm:ss");
+            /*String s = Isbn + " " + Name + " " + Timestamp.ToString("yyyy:MM:dd hh:mm:ss");
             s = Mark + " " + s;
             if (Orderers != null && Books != null) s += "\n" + Orderers.Count + "/" + BorrowedBook + "/" + Count;
             if (Orderer_id != null) s += "\n" + "Orderer: " + Orderer_id;
@@ -107,7 +107,8 @@ namespace GooCooServer.Entity.Ex
                 }
             }
             s += "\n----------------------------------";
-            return s;
+            return s;*/
+            return Isbn + " " + Name;
         }
 
         public bool Filled
@@ -138,10 +139,13 @@ namespace GooCooServer.Entity.Ex
                 if (count == null) return RealCount;
                 else return (int)count;
             }
-            set
-            {
-                count = value;
-            }
+
         }
+
+        public void SetCount(int value)
+        {
+            count = value;
+        }
+
     }
 }

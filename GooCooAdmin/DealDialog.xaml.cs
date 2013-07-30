@@ -84,7 +84,10 @@ namespace GooCooAdmin
         void cb_relation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!((sender as ComboBox).SelectedItem as Label).IsEnabled)
-                (sender as ComboBox).SelectedIndex = lastsel;
+            {
+                if (lastsel!=(sender as ComboBox).SelectedIndex)
+                    (sender as ComboBox).SelectedIndex = lastsel;
+            }
             lastsel = (sender as ComboBox).SelectedIndex;
             HideAll();
             if (lastsel == 0)
@@ -178,8 +181,11 @@ namespace GooCooAdmin
                 cb_relation.SelectedIndex = 2;
             }
             else if (book != null)
-            {                
-                cb_relation.SelectedIndex = 1;
+            {
+                if (book.Filled && book.BorrowedBook > 0)
+                    cb_relation.SelectedIndex = 1;
+                else 
+                    cb_relation.SelectedIndex = 2;
             }
             lastsel = cb_relation.SelectedIndex;
 

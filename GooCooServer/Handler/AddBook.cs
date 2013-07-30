@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Web;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
 using GooCooServer.Utility;
@@ -29,19 +31,41 @@ namespace GooCooServer.Handler
             try
             {
                 IBookInfoDAO dao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
+                IBookDAO bdao = DAOFactory.createDAO("BookDAO") as IBookDAO;
                 String sbook = context.Request["book"];
-                String session = context.Request["session"];
+                int count = int.Parse(context.Request["count"]);
                 if (sbook == null) throw new NullReferenceException("user域为空");
-                BookInfo book = Util.DecodeJson<BookInfo>(sbook);
+                BookEx book = Util.DecodeJson<BookEx>(sbook);
+                book.SetCount(count);
                 if (book == null) throw new NullReferenceException("user解析失败");
-                dao.Add(book);
-                context.Response.Write("添加成功");
+                BookEx b = Util.CloneEntity<BookEx>(dao.Add(book));
+                if (book.Count != 0)
+                {
+                    b.Books = new List<BookEx.Book>();
+                    for (int i = 0; i < book.Count; ++i)
+                    {
+                        Book bk = bdao.Add(b);
+                        BookEx.Book bex = new BookEx.Book();
+                        bex.Id = bk.Id;
+                        bex.Owner = null;
+                        b.Books.Add(bex);
+                    }
+                }
+                context.Response.Write(Util.EncodeJson(book, "成功"));
             }
             catch (NullReferenceException e)
             {
                 context.Response.Write(e.Message);
             }
             catch (BMException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (ArgumentNullException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (FormatException e)
             {
                 context.Response.Write(e.Message);
             }

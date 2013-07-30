@@ -39,7 +39,9 @@ namespace GooCooServer.Handler
             {
                 try
                 {
-                    users = userDAO.GetByKeyword(context.Request["keyword"]);
+                    String keyword = context.Request["keyword"];
+                    if (keyword == null) keyword = "";
+                    users = userDAO.GetByKeyword(keyword);
                 }
                 catch(BMException e)
                 {

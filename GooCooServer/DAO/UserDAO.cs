@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using GooCooServer.Exception;
 using GooCooServer.Entity;
+using GooCooServer.Utility;
 
 
 namespace GooCooServer.DAO
@@ -34,7 +35,7 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+                SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
                 myParam.Value = ID;
                 SqlParameter myParam2 = new SqlParameter("@password", SqlDbType.Char);
                 myParam2.Value = password;
@@ -73,7 +74,14 @@ namespace GooCooServer.DAO
                     myCommand.Parameters.Add(myParam3);
                     myCommand.Parameters.Add(myParam2);
                     myCommand.Parameters.Add(myParam);
-                    myCommand.ExecuteNonQuery();
+                    try
+                    {
+                        myCommand.ExecuteNonQuery();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
                 }
                 return sessionID;
             }
@@ -97,8 +105,15 @@ namespace GooCooServer.DAO
                 }
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 users = new List<User>();
 
@@ -109,6 +124,8 @@ namespace GooCooServer.DAO
                     user.Name = (string)sqlDataReader[1];
                     user.Authority = (User.EAuthority)sqlDataReader[3];
                     user.Repvalue = (int)sqlDataReader[4];
+                    user.Email = (string)sqlDataReader[5];
+                    user.Phonenumber = (string)sqlDataReader[6];
                     users.Add(user);
                 }
             }
@@ -179,22 +196,34 @@ namespace GooCooServer.DAO
         {
             SqlParameter myParam = new SqlParameter("@keyWord", SqlDbType.VarChar);
             myParam.Value = keyWord;
-            string sqlQuery = "SELECT COUNT(name) FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
+            string sqlQuery;
+            if (keyWord == "" || keyWord == null)
+                sqlQuery = "SELECT COUNT(name) FROM USERINFO";
+            else
+                sqlQuery = "SELECT COUNT(name) FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
             return dbManagerCount(myParam, sqlQuery);
         }
 
         public List<User> GetByKeyword(String keyWord, int from = 0, int count = 0)
         {
-            SqlParameter myParam = new SqlParameter("@keyWord", SqlDbType.Char);
+            SqlParameter myParam = new SqlParameter("@keyWord", SqlDbType.VarChar);
             myParam.Value = keyWord;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
+            {
+                if (keyWord == "" || keyWord == null)
+                    sqlQuery = "SELECT * FROM USERINFO";
+                else
+                    sqlQuery = "SELECT * FROM USERINFO WHERE name LIKE  '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
+            }
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO)) AND name LIKE '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
+                if (keyWord == "" || keyWord == null)
+                    sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO))";
+                else
+                    sqlQuery = "SELECT TOP " + count + " * FROM USERINFO WHERE (id NOT IN (SELECT TOP " + to + " id FROM USERINFO)) AND name LIKE '%' + @keyWord + '%' OR id LIKE  '%' + @keyWord + '%'";
             }
 
             List<User> users = dbManagerList(myParam, sqlQuery);
@@ -233,7 +262,7 @@ namespace GooCooServer.DAO
                 }
                 catch (System.Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    throw new BMException("");
                 }
 
                 string userid = null;
@@ -259,7 +288,7 @@ namespace GooCooServer.DAO
                     }
                     catch (System.Exception e)
                     {
-                        Console.WriteLine(e.Message);
+                        throw new BMException("");
                     }
 
                     if (sqlDataReader.Read())
@@ -269,6 +298,8 @@ namespace GooCooServer.DAO
                         user.Name = (string)sqlDataReader[1];
                         user.Authority = (User.EAuthority)sqlDataReader[3];
                         user.Repvalue = (int)sqlDataReader[4];
+                        user.Email = (string)sqlDataReader[5];
+                        user.Phonenumber = (string)sqlDataReader[6];
                     }
                 }
                 if (user != null)
@@ -293,37 +324,35 @@ namespace GooCooServer.DAO
                 SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
                 myParam.Value = user.Id;
                 SqlParameter myParam1 = new SqlParameter("@name", SqlDbType.VarChar);
-                myParam.Value = user.Name;
+                myParam1.Value = user.Name;
                 SqlParameter myParam2 = new SqlParameter("@password", SqlDbType.Char);
-                myParam.Value = user.Password;
+                myParam2.Value = user.Password;
                 SqlParameter myParam3 = new SqlParameter("@authority", SqlDbType.Int);
-                myParam.Value = user.Authority;
+                myParam3.Value = user.Authority;
                 SqlParameter myParam4 = new SqlParameter("@repvalue", SqlDbType.Int);
-                myParam.Value = user.Repvalue;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue) " + "Values (@id, @name, @password, @authority, @repvalue); " + "select @@IDENTITY as 'Identity'", connecter);
+                myParam4.Value = user.Repvalue;
+                SqlParameter myParam5 = new SqlParameter("@email", SqlDbType.VarChar);
+                myParam5.Value = user.Email;                
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue, email, phonenumber) " + "Values (@id, @name, @password, @authority, @repvalue, @email, "+user.Phonenumber+")", connecter);
                 myCommand.Parameters.Add(myParam);
                 myCommand.Parameters.Add(myParam1);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam4);
-                int id = Convert.ToInt32(myCommand.ExecuteScalar());
-                if (id == 0)
-                    throw new BMException("USER ADD error");
-                else
+                myCommand.Parameters.Add(myParam5);
+                try
                 {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch(System.Exception e)
+                {
+                    throw new BMException("");
+                }
                     String sessionID = Session.createSession();
-                    String userID = user.Id;
-                    try
-                    {
-                        connecter.Open();
-                    }
-                    catch (System.Exception)
-                    {
-                        throw new BMException("Create Connnect Error");
-                    }
+                    String userID = user.Id;                  
                     myParam = new SqlParameter("@sessionid", SqlDbType.Char);
                     myParam.Value = sessionID;
-                    myParam2 = new SqlParameter("@userid", SqlDbType.Char);
+                    myParam2 = new SqlParameter("@userid", SqlDbType.VarChar);
                     myParam2.Value = userID;
                     myParam3 = new SqlParameter("@time", SqlDbType.DateTime);
                     myParam3.Value = DateTime.Now.AddDays(Session.ExpiredTime);
@@ -331,9 +360,15 @@ namespace GooCooServer.DAO
                     myCommand.Parameters.Add(myParam3);
                     myCommand.Parameters.Add(myParam2);
                     myCommand.Parameters.Add(myParam);
-                    myCommand.ExecuteNonQuery();
+                    try
+                    {
+                        myCommand.ExecuteNonQuery();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("");
+                    }
                     return sessionID;
-                }
             }
         }
 
@@ -351,13 +386,21 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
                 myParam.Value = session;
-                SqlParameter myParam1 = new SqlParameter("@session", SqlDbType.DateTime);
+                SqlParameter myParam1 = new SqlParameter("@nowTime", SqlDbType.DateTime);
                 myParam1.Value = DateTime.Now;
                 string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session AND time > @nowTime";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.Parameters.Add(myParam1);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                myCommand.Parameters.Add(myParam1); 
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 string userid = null;
 
@@ -368,9 +411,27 @@ namespace GooCooServer.DAO
 
                 if (userid != null)
                 {
-                    sqlQuery = "UPDATE USERINFO SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
-                    myCommand = new SqlCommand(sqlQuery, connecter);
-                    myCommand.ExecuteNonQuery();
+                    //sqlQuery = "UPDATE USERINFO SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
+                    //myCommand = new SqlCommand(sqlQuery, connecter);
+                    //try
+                    //{
+                    //    myCommand.ExecuteNonQuery();
+                    if (sqlDataReader!=null) sqlDataReader.Close();
+                    try{
+                        SqlHelper.Update(connecter, "USERINFO")
+                            .Add("id", SqlDbType.VarChar, user.Id)
+                            .Add("name", SqlDbType.VarChar, user.Name)
+                            .Add("password", SqlDbType.Char, user.Password)
+                            .Add("authority", SqlDbType.Int, (int)user.Authority)
+                            .Add("repvalue", SqlDbType.Int, user.Repvalue)
+                            .Add("email", SqlDbType.VarChar, user.Email)
+                            .Add("phonenumber", SqlDbType.VarChar, user.Phonenumber)
+                            .Where("id = @id").Execute();
+                    }
+                    catch (System.Exception e)
+                    {
+                        throw new BMException("");
+                    }
                 }
                 else
                     throw new BMException("USER SET Error");
@@ -390,11 +451,18 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@id", SqlDbType.Char);
+                SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
                 myParam.Value = ID;
                 SqlCommand myCommand = new SqlCommand("DELETE FROM USERINFO  " + "WHERE id = @id", connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
     }
