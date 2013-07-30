@@ -490,10 +490,7 @@ namespace GooCooAdmin
             {
                 gh_book.Add(Util.CloneEntity<BookEx>(elem));
             }
-            foreach (var elem in lb_book.Items)
-            {
-                gh_book.Add(elem as BookEx);
-            }
+            //foreach (var elem in lb_book.Items) gh_book.Add(elem as BookEx);
             (sender as Button).IsEnabled = true;
         }
 
