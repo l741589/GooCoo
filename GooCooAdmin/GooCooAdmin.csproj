@@ -69,6 +69,7 @@
     <Compile Include="UserInfoDialog.xaml.cs">
       <DependentUpon>UserInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Widget\BookGrid.cs" />
     <Compile Include="Widget\EGridStatus.cs" />
     <Compile Include="Widget\FilterToolBar.xaml.cs">
       <DependentUpon>FilterToolBar.xaml</DependentUpon>
@@ -76,6 +77,9 @@
     <Compile Include="Widget\GridHolder.cs" />
     <Compile Include="Utility\ListHolder.cs" />
     <Compile Include="Widget\InfoGrid.cs" />
+    <Compile Include="Widget\SpinEdit.xaml.cs">
+      <DependentUpon>SpinEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Widget\UserGrid.cs" />
     <Compile Include="Utility\Util.cs" />
     <Page Include="DealDialog.xaml">
@@ -107,6 +111,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Widget\FilterToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Widget\SpinEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

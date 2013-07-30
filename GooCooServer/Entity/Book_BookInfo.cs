@@ -10,9 +10,9 @@ namespace GooCooServer.Entity
     {
         private int book_id;//┓
         private String isbn;//┛primary key
-        private long timestamp;
+        private DateTime timestamp;
 
-        public long Timestamp
+        public DateTime Timestamp
         {
             get { return timestamp; }
             set { timestamp = value; }

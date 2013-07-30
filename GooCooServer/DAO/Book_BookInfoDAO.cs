@@ -35,7 +35,16 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE id = @id";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                   sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 string isbn = null;
 
@@ -53,8 +62,14 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT * FROM BOOKINFO WHERE isbn = @isbn";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -63,6 +78,9 @@ namespace GooCooServer.DAO
                         result.Name = (string)sqlDataReader[1];
                         result.Timestamp = (DateTime)sqlDataReader[2];
                         result.Summary = (string)sqlDataReader[4];
+                        result.Author = (string)sqlDataReader[3];
+                        result.Publisher = (string)sqlDataReader[5];
+                        result.Photourl = (string)sqlDataReader[6];
                     }
                 }
                 if (result != null)
@@ -89,7 +107,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM BOOK_BOOKINFO WHERE isbn = @isbn";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 List<int> bookID = new List<int>();
 
@@ -107,8 +133,14 @@ namespace GooCooServer.DAO
                     sqlQuery = "SELECT time FROM BOOK WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
-                    sqlDataReader.Close();
-                    sqlDataReader = myCommand.ExecuteReader();
+                    sqlDataReader.Close(); 
+                    try
+                    {
+                        sqlDataReader = myCommand.ExecuteReader();
+                    }
+                    catch (System.Exception)
+                    {
+                    }
 
                     if (sqlDataReader.Read())
                     {
@@ -140,6 +172,28 @@ namespace GooCooServer.DAO
                 SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 myParam.Value = isbn;
                 string sqlQuery = "SELECT COUNT(isbn) FROM BOOK_BOOKINFO WHERE isbn = @isbn";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                myCommand.Parameters.Add(myParam);
+                int count = (int)myCommand.ExecuteScalar();
+                return count;
+            }
+        }
+
+        public int GetAvaliableBookNumber(String isbn)
+        {
+            using (connecter = new SqlConnection(connectStr))
+            {
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                myParam.Value = isbn;
+                string sqlQuery = "SELECT COUNT(id) FROM BOOK_BOOKINFO WHERE isbn = @isbn AND (id NOT IN (SELECT book_id FROM USER_BOOK WHERE relation = "+(int)User_Book.ERelation.BORROW+" ))";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
                 int count = (int)myCommand.ExecuteScalar();

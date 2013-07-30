@@ -23,7 +23,7 @@ namespace GooCooServer.Entity
             get { return content; }
             set { content = value; }
         }
-        
+
         public DateTime Timestamp
         {
             get { return timestamp; }

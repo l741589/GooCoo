@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="GooCooAdmin.Widget.SpinEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="64">
+    <DockPanel LastChildFill="True">
+        <UniformGrid Rows="2" Columns="1" DockPanel.Dock="Right">
+            <Button Content="▲" FontSize="6" Click="Button_Click_1"/>
+            <Button Content="▼" FontSize="6" Click="Button_Click"/>
+        </UniformGrid>
+        <TextBox x:Name="tb" TextChanged="TextBox_TextChanged"/>
+    </DockPanel>
+</UserControl>

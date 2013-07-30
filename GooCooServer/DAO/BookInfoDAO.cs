@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using GooCooServer.Exception;
 using GooCooServer.Entity;
+using GooCooServer.Utility;
 
 namespace GooCooServer.DAO
 {
@@ -35,7 +36,15 @@ namespace GooCooServer.DAO
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
                 
                 bookInfos = new List<BookInfo>();
 
@@ -116,7 +125,7 @@ namespace GooCooServer.DAO
         {
             SqlParameter myParam = new SqlParameter("@keyWord", SqlDbType.Char);
             myParam.Value = keyWord;
-            string sqlQuery = "SELECT COUNT(name) FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' || isbn LIKE  '%' + @keyWord + '%'";
+            string sqlQuery = "SELECT COUNT(name) FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
             return dbManagerCount(myParam, sqlQuery);
         }
 
@@ -126,12 +135,20 @@ namespace GooCooServer.DAO
             myParam.Value = keyWord;
             string sqlQuery;
             if (from == 0 && count == 0)
-                sqlQuery = "SELECT * FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' || isbn LIKE  '%' + @keyWord + '%'";
+            {
+                if (keyWord == null || keyWord == "")
+                    sqlQuery = "SELECT * FROM BOOKINFO";
+                else                    
+                    sqlQuery = "SELECT * FROM BOOKINFO WHERE name LIKE  '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
+            }
             else
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO)) AND name LIKE '%' + @keyWord + '%' || isbn LIKE  '%' + @keyWord + '%'";
+                if (keyWord == null || keyWord == "")
+                    sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO))";
+                else
+                    sqlQuery = "SELECT TOP " + count + " * FROM BOOKINFO WHERE (isbn NOT IN (SELECT TOP " + to + " isbn FROM BOOKINFO)) AND name LIKE '%' + @keyWord + '%' OR isbn LIKE  '%' + @keyWord + '%'";
             }
 
             List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
@@ -142,12 +159,25 @@ namespace GooCooServer.DAO
                 throw new BMException("BOOKINFO GETBYKEYWORD error");
         }
 
+        public List<BookInfo> GetBookInfos(int n)
+        {
+            SqlParameter myParam = new SqlParameter("@number", SqlDbType.Int);
+            myParam.Value = n;            
+            string sqlQuery = "SELECT TOP @number * FROM BOOKINFO ORDER BY time DESC";            
+            List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
+
+            if (bookInfos.Count != 0)
+                return bookInfos;
+            else
+                throw new BMException("BOOKINFO GETBookInfos error");
+        }
+
         public BookInfo Get(String isbn)
         {
             SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
             myParam.Value = isbn;
             string sqlQuery;
-            sqlQuery = "SELECT * FROM BOOKINFO WHERE isbn = @isbn";
+            sqlQuery = "SELECT TOP 1 * FROM BOOKINFO WHERE isbn = @isbn";
 
             List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
 
@@ -169,6 +199,10 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
+                Task.Run(async () => { Util.Merge(book, await Util.GetBookFromInternet(book.Isbn), true); }).Wait();
+
+                if (book.Name == null)
+                    throw new BMException("");
                 SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 myParam.Value = book.Isbn;
                 SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
@@ -176,13 +210,24 @@ namespace GooCooServer.DAO
                 SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
                 myParam3.Value = book.Summary;
                 SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
-                myParam4.Value = book.Timestamp;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time) " + "Values (@isbn, @name, @summary, @time)", connecter);
+                if (book.Timestamp != default(DateTime))
+                    myParam4.Value = book.Timestamp;
+                else
+                    myParam4.Value = DateTime.Now;
+
+                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time, author, publisher, photourl) " + "Values (@isbn, @name, @summary, @time, "+book.Author+", "+book.Publisher+", "+book.Photourl+")", connecter);
                 myCommand.Parameters.Add(myParam4);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch(System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
             return book;
         }
@@ -203,7 +248,14 @@ namespace GooCooServer.DAO
                 myParam.Value = isbn;
                 SqlCommand myCommand = new SqlCommand("DELETE FROM BOOKINFO  " + "WHERE isbn = @isbn", connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
 
@@ -219,20 +271,38 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
-                myParam.Value = book.Isbn;
-                SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
-                myParam2.Value = book.Name;
-                SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
-                myParam3.Value = book.Summary;
-                SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
-                myParam4.Value = book.Timestamp;
-                SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);
-                myCommand.Parameters.Add(myParam4);
-                myCommand.Parameters.Add(myParam3);
-                myCommand.Parameters.Add(myParam2);
-                myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try{
+                SqlHelper.Update(connecter, "BOOKINFO")
+                    .Add("isbn", SqlDbType.Char, book.Isbn)
+                    .Add("name", SqlDbType.VarChar, book.Name)
+                    .Add("summary", SqlDbType.Text, book.Summary)
+                    .Add("time", SqlDbType.DateTime, book.Timestamp)
+                    .Add("author", SqlDbType.VarChar, book.Author)
+                    .Add("publisher", SqlDbType.VarChar, book.Publisher)
+                    .Add("photourl", SqlDbType.VarChar, book.Photourl)
+                    .Where("isbn = @isbn").Execute();
+                //SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                //myParam.Value = book.Isbn;
+                //SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
+                //myParam2.Value = book.Name;
+                //SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
+                //myParam3.Value = book.Summary;
+                //SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
+                //myParam4.Value = book.Timestamp;
+                //
+                //SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);               
+                //myCommand.Parameters.Add(myParam4);
+                //myCommand.Parameters.Add(myParam3);
+                //myCommand.Parameters.Add(myParam2);
+                //myCommand.Parameters.Add(myParam);
+                //try
+                //{
+                //    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
             }
         }
     }

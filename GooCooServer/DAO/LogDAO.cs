@@ -30,7 +30,15 @@ namespace GooCooServer.DAO
                 string sqlQuery = "SELECT * FROM LOG WHERE id = " + id + "";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
                 if (sqlDataReader.Read())
                 {
                     log = new Log();
@@ -70,7 +78,15 @@ namespace GooCooServer.DAO
                 }
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
 
                 logs = new List<Log>();
 

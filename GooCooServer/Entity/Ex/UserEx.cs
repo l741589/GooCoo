@@ -15,6 +15,7 @@ namespace GooCooServer.Entity.Ex
         public String Mark { get; set; }
         public List<String> Holds { get; set; }
         public List<String> Orders { get; set; }
+        public String Session { get; set; }
 
         public string ToString(String[] fields)
         {
@@ -39,6 +40,7 @@ namespace GooCooServer.Entity.Ex
         {
             String s = Id + " " + Name + " " + Authority;
             if (Mark != null) return Mark + " " + s;
+            if (Password != null) s += "\n" + Password;
             return s;
         }
     }

@@ -42,7 +42,15 @@ namespace GooCooServer.DAO
                 myParam.Value = book.Timestamp;
                 SqlCommand myCommand = new SqlCommand("INSERT INTO BOOK (time) " + "Values (@time); " + "select @@IDENTITY as 'Identity'", connecter);
                 myCommand.Parameters.Add(myParam);
-                int id = Convert.ToInt32(myCommand.ExecuteScalar());
+                int id = 0;
+                try
+                {
+                    id = Convert.ToInt32(myCommand.ExecuteScalar());
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("");
+                }
                 if (id == 0)
                     throw new BMException("BOOK ADD error");
                 else
@@ -55,7 +63,14 @@ namespace GooCooServer.DAO
                     myCommand = new SqlCommand("INSERT INTO BOOK_BOOKINFO (id, isbn) " + "Values (@id, @isbn)", connecter);
                     myCommand.Parameters.Add(myParam);
                     myCommand.Parameters.Add(myParam2);
-                    myCommand.ExecuteNonQuery();
+                    try
+                    {
+                        myCommand.ExecuteNonQuery();
+                    }
+                    catch (System.Exception)
+                    {
+                        book = null;
+                    }
                     return book;
                 }
             }
@@ -77,7 +92,14 @@ namespace GooCooServer.DAO
                 myParam.Value = id;
                 SqlCommand myCommand = new SqlCommand("DELETE FROM BOOK " + "WHERE id = @id", connecter);
                 myCommand.Parameters.Add(myParam);
-                myCommand.ExecuteNonQuery();
+                try
+                {
+                    myCommand.ExecuteNonQuery();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("DEl");
+                }
             }
         }
 
@@ -101,7 +123,14 @@ namespace GooCooServer.DAO
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
                 myCommand.Parameters.Add(myParam);
 
-                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception)
+                {
+                }
                 if (sqlDataReader.Read())
                 {
                     book = new Book();
