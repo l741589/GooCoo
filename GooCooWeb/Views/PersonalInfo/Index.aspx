@@ -17,8 +17,8 @@
             <form>
                 <fieldset>
                     <legend>个人信息</legend>
-                    <div class="alert alert-block">
-                        违规天数 【0】
+                    <div class="alert">
+                        借阅册数 【<%: Model.BorrowBookNumer %>】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;捐书册数 【<%: Model.DonateBookNumer %>】
                     </div>
                     <table class="table">
                         <tr>
@@ -26,14 +26,26 @@
                             <td><%: Model.Id %></td>
                         </tr>
                         <tr>
+                            <td><%: Html.LabelFor(model => model.Name) %></td>
+                            <td><%: Model.Name %></td>
+                        </tr>
+                        <tr>
                             <td><%: Html.LabelFor(model => model.PhoneNumer) %></td>
                             <td><%: Model.PhoneNumer %></td>
                         </tr>
                         <tr>
-                            <td><%: Html.LabelFor(model => model.Name) %></td>
-                            <td><%: Model.Name %></td>
+                            <td><%: Html.LabelFor(model => model.Email) %></td>
+                            <td><%: Model.Email %></td>
+                        </tr>
+                        <tr>
+                            <td><%: Html.LabelFor(model => model.Authority) %></td>
+                            <td><%: ViewBag.UserLevel %></td>
                         </tr>
                     </table>
+                    <div class="alert alert-error">
+                        违规天次 【<%: Model.Repvalue %>】
+                    </div>
+                    <button type="submit" class="btn btn-primary">修改信息</button>
                 </fieldset>
             </form>
         </div>

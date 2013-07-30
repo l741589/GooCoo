@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using GooCooServer.DAO;
 using System.Web.Routing;
+using GooCooServer.Entity;
 using GooCooServer.IDAO;
 using GooCooServer.Exception;
 using GooCooWeb.Models;
@@ -17,19 +18,57 @@ namespace GooCooWeb.Controllers
         //
         // GET: /PersonalInfo/
 
-      //  [LoggedOnFilter]
+        [LoggedOnFilter]
         public ActionResult Index()
         {
-            PersonalInfoModel model = new PersonalInfoModel();
-            model.Id = "1152789";
-            model.PhoneNumer = "18817369213";
-            model.Name = "林凡";
+            //获取用户基本信息
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User user = userDAO.Get((string)Session["UserSessionID"]);
+            PersonalInfoModel model = new PersonalInfoModel(user);
+
+            IUser_BookDAO user_bookDAO = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
+            //获取用户的借阅册数
+            try
+            {
+                List<Book> books = user_bookDAO.GetBook(user.Id, User_Book.ERelation.BORROW);
+                model.BorrowBookNumer = books.Count;
+            }
+            catch (BMException)
+            {
+                model.BorrowBookNumer = 0;
+            }
+
+            //获取用户的捐赠册数
+            try
+            {
+                List<Book> books = user_bookDAO.GetBook(user.Id, User_Book.ERelation.DONATE);
+                model.DonateBookNumer = books.Count;
+            }
+            catch (BMException)
+            {
+                model.DonateBookNumer = 0;
+            }
+
+            model.Authority = PersonalInfoModel.EAuthority.USER;
+            switch (model.Authority)
+            {
+                case PersonalInfoModel.EAuthority.ADMIN:
+                    ViewBag.UserLevel = "管理员";
+                    break;
+                case PersonalInfoModel.EAuthority.SUPERADMIN:
+                    ViewBag.UserLevel = "超级管理员";
+                    break;
+                default:
+                    ViewBag.UserLevel = "普通用户";
+                    break;
+            }         
             return View(model);
         }
 
-        [LoggedOnFilter]
+        //[LoggedOnFilter]
         public ActionResult BorrowInfo()
         {
+
             return View();
         }
 
