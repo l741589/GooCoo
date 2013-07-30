@@ -95,14 +95,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ajax\AjaxBookInfoUserController.cs" />
+    <Compile Include="Controllers\ajax\AjaxCommentController.cs" />
+    <Compile Include="Controllers\BookInfoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\PersonalInfoController.cs" />
+    <Compile Include="Controllers\SearchViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrowInfoModel.cs" />
     <Compile Include="Models\DonateInfoModel.cs" />
+    <Compile Include="Models\BookInfoModels\BookInfoRecordModel.cs" />
+    <Compile Include="Models\BookInfoModels\BookRecordModel.cs" />
+    <Compile Include="Models\BookInfoModels\CommentRecordModel.cs" />
     <Compile Include="Models\LogOnModel.cs" />
+    <Compile Include="Models\SearchResultModel.cs" />
     <Compile Include="Models\PersonalInfoModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -186,6 +194,12 @@
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Views\Account\LogOn.aspx" />
     <Content Include="Views\Account\Register.aspx" />
+    <Content Include="Views\BookInfo\Error.aspx" />
+    <Content Include="Views\BookInfo\Index.aspx" />
+    <Content Include="Views\SearchView\Index.aspx" />
+    <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
+    <Content Include="Views\SearchView\NoResult.aspx" />
+    <Content Include="Views\SearchView\searchBar.ascx" />
     <Content Include="Views\PersonalInfo\BorrowInfo.aspx" />
     <Content Include="Views\PersonalInfo\CollectInfo.aspx" />
     <Content Include="Views\PersonalInfo\DonateInfo.aspx" />
@@ -217,6 +231,7 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\FourAreasLayout.Master" />
     <Content Include="Views\Shared\ThreeAreasLayout.Master" />
+    <Content Include="Views\Shared\SearchViewLayout.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -228,7 +243,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GooCooServer\GooCooServer.csproj">
       <Project>{52f2764b-ea69-4926-b61e-af5b6360326e}</Project>
-      <Project>{b71c1636-a8da-4627-8cd6-f7384fce3c75}</Project>
       <Name>GooCooServer</Name>
     </ProjectReference>
   </ItemGroup>

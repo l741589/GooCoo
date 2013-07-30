@@ -5,18 +5,13 @@
     <Canvas>
         <Label x:Name="lb_id"  Canvas.Left="65" Canvas.Top="16" Width="158"/>
         <Label x:Name="lb_name" Canvas.Left="65" Canvas.Top="49" Width="158"/>
-        <ComboBox Canvas.Left="65" Canvas.Top="81" Width="158" SelectedIndex="0" IsEnabled="False" x:Name="cb_authory">
-            <Label Content="USER"></Label>
-            <Label Content="ADMIN"></Label>
-            <Label Content="SPUERADMIN"></Label>
-        </ComboBox>
         <Label Content="学号" Canvas.Left="10" Canvas.Top="16" Width="39"/>
-        <Label Content="姓名" Canvas.Left="10" Canvas.Top="49" Width="39"/>
-        <Label Content="权限" Canvas.Left="10" Canvas.Top="79" Width="39"/>
-        <Label Content="信誉值" Canvas.Left="10" Canvas.Top="115"/>
-        <Label x:Name="lb_repvalue" Content="Label" Canvas.Left="65" Canvas.Top="115" Width="158"/>
-        <Label Content="邮箱" Canvas.Left="10" Canvas.Top="145"/>
-        <Label x:Name="lb_email" Content="Label" Canvas.Left="65" Canvas.Top="145" Width="158"/>
+        <Label Content="姓名" Canvas.Left="10" Canvas.Top="46" Width="39"/>
+        <Label Content="权限" Canvas.Left="10" Canvas.Top="76" Width="39"/>
+        <Label Content="信誉值" Canvas.Left="10" Canvas.Top="106"/>
+        <Label x:Name="lb_repvalue" Content="Label" Canvas.Left="65" Canvas.Top="106" Width="158"/>
+        <Label Content="邮箱" Canvas.Left="10" Canvas.Top="136"/>
+        <Label x:Name="lb_email" Content="Label" Canvas.Left="65" Canvas.Top="136" Width="158"/>
         <ScrollViewer Height="100" Canvas.Left="10" Canvas.Top="220" Width="213">
             <ListBox x:Name="lb_holds"/>
         </ScrollViewer>
@@ -29,5 +24,8 @@
         <Label Content="预定的书" Canvas.Left="238" Canvas.Top="30" Width="202"/>
         <Label Content="持有的书" Canvas.Left="10" Canvas.Top="190" Width="213"/>
         <Label Content="收藏的书" Canvas.Left="238" Canvas.Top="190" Width="202"/>
+        <Label Content="电话" Canvas.Left="9" Canvas.Top="166"/>
+        <Label Content="Label" Canvas.Left="65" Canvas.Top="166" Width="158" x:Name="lb_phone"/>
+        <Label Content="Label" Canvas.Left="65" Canvas.Top="76" Width="158" x:Name="lb_authory"/>
     </Canvas>
 </Window>

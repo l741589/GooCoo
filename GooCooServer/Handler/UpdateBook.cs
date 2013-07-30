@@ -103,6 +103,7 @@ namespace GooCooServer.Handler
                 String sbook = context.Request["book"];
                 if (sbook == null) throw new NullReferenceException("user域为空");
                 book = Util.DecodeJson<BookEx>(sbook);
+                book.SetCount(int.Parse(context.Request["count"]));
                 RefillBook(book);
                 if (book == null) throw new NullReferenceException("user解析失败");
                 dao.Set(book);
@@ -116,6 +117,14 @@ namespace GooCooServer.Handler
                 context.Response.Write(Util.EncodeJson(book, "成功"));
             }
             catch (BMException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (ArgumentNullException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (FormatException e)
             {
                 context.Response.Write(e.Message);
             }

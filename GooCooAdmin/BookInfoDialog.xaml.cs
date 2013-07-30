@@ -16,22 +16,21 @@ using GooCooServer.Entity.Ex;
 namespace GooCooAdmin
 {
     /// <summary>
-    /// UserInfoDialog.xaml 的交互逻辑
+    /// BookInfoDialog.xaml 的交互逻辑
     /// </summary>
-    public partial class UserInfoDialog : Window
+    public partial class BookInfoDialog : Window
     {
-        public UserInfoDialog(UserEx user, List<BookEx> favors, List<BookEx> orders, List<BookEx> holds)
+        public BookInfoDialog(BookEx book, List<UserEx> favors, List<UserEx> orders, List<UserEx> borrows)
         {
             InitializeComponent();
-            lb_id.Content = user.Id;
-            lb_name.Content = user.Name;
-            lb_email.Content = user.Email;
-            lb_repvalue.Content = user.Repvalue;
-            lb_authory.Content = user.Authority.ToString();
-            lb_phone.Content = user.Phonenumber;
+            lb_isbn.Content = book.Isbn;
+            lb_name.Content = book.Name;
+            lb_author.Content = book.Author;
+            lb_publisher.Content = book.Publisher;
+            tb_summary.Text = book.Summary;
             foreach (var e in favors) lb_favors.Items.Add(e);
             foreach (var e in orders) lb_orders.Items.Add(e);
-            foreach (var e in holds) lb_holds.Items.Add(e);
+            foreach (var e in borrows) lb_holds.Items.Add(e);
         }
     }
 }
