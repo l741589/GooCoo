@@ -83,6 +83,36 @@
              %>
         </div>
     </div>
+    <div class="row-fluid">
+        <div class="span9">
+            <h4>书籍状态：</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>编号</td>
+                        <td>书籍状态</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% foreach (GooCooWeb.Models.BookInfoModels.BookRecordModel bookRecord in bookRecordList ){ %>
+                    <tr>
+                        <td><%:bookRecordList.IndexOf(bookRecord) + 1 %></td>
+                        <td>
+                            <%if (bookRecord.CurrentCondition == GooCooWeb.Models.BookInfoModels.BookCondition.AVAILABLE){ %>
+                                <p style="color:green">可借</p>
+                            <%} else { %>
+                                <p>借出-应还日期：<%:bookRecord.AvailableTime %></p>
+                            <%} %>
+                            
+                        </td>
+                    </tr>
+                    <%} %>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
 
 </asp:Content>
 
