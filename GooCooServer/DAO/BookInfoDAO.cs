@@ -214,12 +214,22 @@ namespace GooCooServer.DAO
                     myParam4.Value = book.Timestamp;
                 else
                     myParam4.Value = DateTime.Now;
+                SqlParameter myParam5 = new SqlParameter("@auth", SqlDbType.VarChar);
+                myParam5.Value = book.Author;
+                SqlParameter myParam6 = new SqlParameter("@pub", SqlDbType.VarChar);
+                myParam6.Value = book.Publisher;
+                SqlParameter myParam7 = new SqlParameter("@photo", SqlDbType.VarChar);
+                myParam7.Value = book.Photourl;
 
-                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time, author, publisher, photourl) " + "Values (@isbn, @name, @summary, @time, "+book.Author+", "+book.Publisher+", "+book.Photourl+")", connecter);
+                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time, author, publisher, photourl) " + "Values (@isbn, @name, @summary, @time, @auth, @pub, @photo)", connecter);
                 myCommand.Parameters.Add(myParam4);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam2);
                 myCommand.Parameters.Add(myParam);
+                myCommand.Parameters.Add(myParam5);
+                myCommand.Parameters.Add(myParam6);
+                myCommand.Parameters.Add(myParam7);
+                
                 try
                 {
                     myCommand.ExecuteNonQuery();

@@ -161,7 +161,7 @@ namespace GooCooServer.Utility
             summary = RegexParse(Properties.Resources.REGEX_SUMMARY, s, "value");
             author = RegexParse(Properties.Resources.REGEX_AUTHOR, s, "value");
             publisher = RegexParse(Properties.Resources.REGEX_PUBLISHER, s, "value");
-            if (isbn != null && name != null && photourl != null && summary != null)
+            if (isbn != null && name != null && photourl != null && summary != null && author != null && publisher != null && photourl != null)
             {
                 book.Isbn = isbn;
                 book.Name = name;
