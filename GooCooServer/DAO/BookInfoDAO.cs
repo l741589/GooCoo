@@ -262,23 +262,30 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
-                myParam.Value = book.Isbn;
-                SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
-                myParam2.Value = book.Name;
-                SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
-                myParam3.Value = book.Summary;
-                SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
-                myParam4.Value = book.Timestamp;
-
-                SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);               
-                myCommand.Parameters.Add(myParam4);
-                myCommand.Parameters.Add(myParam3);
-                myCommand.Parameters.Add(myParam2);
-                myCommand.Parameters.Add(myParam);
-                try
-                {
-                    myCommand.ExecuteNonQuery();
+                try{
+                SqlHelper.Update(connecter, "BOOKINFO")
+                    .Add("isbn", SqlDbType.Char, book.Isbn)
+                    .Add("name", SqlDbType.VarChar, book.Name)
+                    .Add("summary", SqlDbType.Text, book.Summary)
+                    .Add("time", SqlDbType.DateTime, book.Timestamp)
+                    .Where("isbn = @isbn").Execute();
+                //SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
+                //myParam.Value = book.Isbn;
+                //SqlParameter myParam2 = new SqlParameter("@name", SqlDbType.VarChar);
+                //myParam2.Value = book.Name;
+                //SqlParameter myParam3 = new SqlParameter("@summary", SqlDbType.VarChar);
+                //myParam3.Value = book.Summary;
+                //SqlParameter myParam4 = new SqlParameter("@time", SqlDbType.DateTime);
+                //myParam4.Value = book.Timestamp;
+                //
+                //SqlCommand myCommand = new SqlCommand("UPDATE BOOKINFO SET name = @name, summary = @summary, time = @time " + "WHERE isbn = @isbn", connecter);               
+                //myCommand.Parameters.Add(myParam4);
+                //myCommand.Parameters.Add(myParam3);
+                //myCommand.Parameters.Add(myParam2);
+                //myCommand.Parameters.Add(myParam);
+                //try
+                //{
+                //    myCommand.ExecuteNonQuery();
                 }
                 catch (System.Exception)
                 {

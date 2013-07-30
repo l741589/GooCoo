@@ -124,7 +124,7 @@ namespace GooCooAdmin
             }
         }
 
-        async void mi_exit_Click(object sender, RoutedEventArgs e)
+        void mi_exit_Click(object sender, RoutedEventArgs e)
         {
             //BookInfo book = await Util.GetBookFromInternet("9787121193255");
             Close();
@@ -132,7 +132,6 @@ namespace GooCooAdmin
 
         void mi_logout_Click(object sender, RoutedEventArgs e)
         {
-            pn_main.IsEnabled = false;
             Title = Properties.Resources.Title;
             bn_login.Visibility = Visibility.Visible;
             gh_user.Admin = gh_book.Admin = null;
@@ -169,7 +168,6 @@ namespace GooCooAdmin
                 String s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv);
                 if (s == null || s == "")
                 {
-                    pn_main.IsEnabled = false;
                     Title = Properties.Resources.Title;
                     bn_login.Visibility = Visibility.Visible;
                     MessageBox.Show(this, "登录失败");
@@ -225,6 +223,7 @@ namespace GooCooAdmin
             lb_user.SelectionChanged -= lb_user_SelectionChanged;
             if (lb_user.Items.Contains(sel_user)) lb_user.SelectedItem = sel_user; else sel_user = null;
             lb_user.SelectionChanged += lb_user_SelectionChanged;
+            lb_user.InvalidateArrange();
         }
 
         private void Update_Book_List()
@@ -237,6 +236,7 @@ namespace GooCooAdmin
             lb_book.SelectionChanged -= lb_book_SelectionChanged;
             if (lb_book.Items.Contains(sel_book)) lb_book.SelectedItem = sel_book; else sel_book = null;
             lb_book.SelectionChanged += lb_book_SelectionChanged;
+            lb_book.InvalidateArrange();
         }
 
 
@@ -333,7 +333,12 @@ namespace GooCooAdmin
                         break;
                 }
                 ret = await HttpHelper.Post(url, cv);
-                if (ret!=null) MessageBox.Show(this, ret);
+                if (ret != null)
+                {
+                    lb_book_SelectionChanged(lb_book, null);
+                    lb_user_SelectionChanged(lb_user, null);
+                    MessageBox.Show(this, ret);
+                }
             }
         }
 
@@ -348,7 +353,7 @@ namespace GooCooAdmin
             if (s == null) { WebError(); return; }
             object[] objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
             user_list["borrow"] = objs[0] as List<UserEx>;
-            Util.Merge(sel_book, objs[1] as BookEx);
+            Util.Merge(sel_book, objs[1] as BookEx, true);
             user_list.Priorities["borrow"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
@@ -356,7 +361,7 @@ namespace GooCooAdmin
             objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
             user_list["order"] = objs[0] as List<UserEx>;
             if ((objs[1] as BookEx).Orderer_id != null) sel_book.Orderer_id = null;
-            Util.Merge(sel_book, objs[1] as BookEx);
+            Util.Merge(sel_book, objs[1] as BookEx, true);
             user_list.Priorities["order"] = 2;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYFAVOR, cv);
@@ -485,6 +490,10 @@ namespace GooCooAdmin
             {
                 gh_book.Add(Util.CloneEntity<BookEx>(elem));
             }
+            foreach (var elem in lb_book.Items)
+            {
+                gh_book.Add(elem as BookEx);
+            }
             (sender as Button).IsEnabled = true;
         }
 
@@ -514,12 +523,13 @@ namespace GooCooAdmin
                 if (g.Entity.Isbn == null || g.Entity.Isbn == "") continue;
                 String url = null;
                 var cv = Util.CreateContentValue();
-                BookInfo book = Util.CloneEntity<BookInfo>(g.Entity);
+                BookEx book = g.Entity;
                 switch (g.Status)
                 {
                     case EGridStatus.新建:
                         url = Properties.Resources.URL_ADDBOOK;
                         cv.Add("book", Util.EncodeJson(book));
+                        cv.Add("count", book.Count.ToString());
                         break;
                     case EGridStatus.已删除:
                         url = Properties.Resources.URL_DELBOOK;
@@ -527,7 +537,7 @@ namespace GooCooAdmin
                         break;
                     case EGridStatus.已修改:
                         url = Properties.Resources.URL_UPDATEBOOK;
-                        String temp=Util.EncodeJson(g.Entity);
+                        String temp=Util.EncodeJson(book);
                         cv.Add("book", temp);
                         break;
                     case EGridStatus.新建并删除:

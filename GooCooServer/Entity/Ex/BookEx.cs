@@ -138,10 +138,13 @@ namespace GooCooServer.Entity.Ex
                 if (count == null) return RealCount;
                 else return (int)count;
             }
-            set
-            {
-                count = value;
-            }
+
         }
+
+        public void SetCount(int value)
+        {
+            count = value;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using GooCooServer.Exception;
 using GooCooServer.Entity;
+using GooCooServer.Utility;
 
 
 namespace GooCooServer.DAO
@@ -378,7 +379,7 @@ namespace GooCooServer.DAO
                 }
                 SqlParameter myParam = new SqlParameter("@session", SqlDbType.Char);
                 myParam.Value = session;
-                SqlParameter myParam1 = new SqlParameter("@session", SqlDbType.DateTime);
+                SqlParameter myParam1 = new SqlParameter("@nowTime", SqlDbType.DateTime);
                 myParam1.Value = DateTime.Now;
                 string sqlQuery = "SELECT * FROM SESSION WHERE session_id = @session AND time > @nowTime";
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
@@ -403,13 +404,22 @@ namespace GooCooServer.DAO
 
                 if (userid != null)
                 {
-                    sqlQuery = "UPDATE USERINFO SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
-                    myCommand = new SqlCommand(sqlQuery, connecter);
-                    try
-                    {
-                        myCommand.ExecuteNonQuery();
+                    //sqlQuery = "UPDATE USERINFO SET name = "+user.Name+", password = "+user.Password+", authority = "+user.Authority+", repvalue = "+user.Repvalue+" WHERE id = @id";
+                    //myCommand = new SqlCommand(sqlQuery, connecter);
+                    //try
+                    //{
+                    //    myCommand.ExecuteNonQuery();
+                    if (sqlDataReader!=null) sqlDataReader.Close();
+                    try{
+                        SqlHelper.Update(connecter, "USERINFO")
+                            .Add("id", SqlDbType.VarChar, user.Id)
+                            .Add("name", SqlDbType.VarChar, user.Name)
+                            .Add("password", SqlDbType.Char, user.Password)
+                            .Add("authority", SqlDbType.Int, (int)user.Authority)
+                            .Add("repvalue", SqlDbType.Int, user.Repvalue)
+                            .Where("id = @id").Execute();
                     }
-                    catch (System.Exception)
+                    catch (System.Exception e)
                     {
                         throw new BMException("");
                     }

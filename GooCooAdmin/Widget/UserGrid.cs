@@ -113,7 +113,7 @@ namespace GooCooAdmin.Widget
 
         async void pb_pw_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除)
+            if (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除 || pb_pw.Password==null || pb_pw.Password=="")
             {
                 update(false);
             }else
@@ -147,10 +147,21 @@ namespace GooCooAdmin.Widget
             if (updating) return;
             updating = true;
             if (moduleToView)
-            {                
+            {
                 tb_id.Text = Entity.Id;
                 tb_name.Text = Entity.Name;
-                cb_authority.SelectedIndex = (int)Entity.Authority;
+                if (Entity.Authority == UserEx.EAuthority.SUPERADMIN)
+                {
+                    if (cb_authority.Items.Count<3) 
+                        cb_authority.Items.Add("SUPER");
+                    cb_authority.SelectedIndex = 2;
+                    cb_authority.IsEnabled = false;
+                }
+                else
+                {
+                    cb_authority.SelectedIndex = (int)Entity.Authority;
+                    cb_authority.IsEnabled = true;
+                }
                 if (Deleted) bn_delete.Content = "恢复";
                 else bn_delete.Content = "删除";
                 if (Entity.Password != null) pb_pw.Password = Entity.Password;
@@ -162,13 +173,24 @@ namespace GooCooAdmin.Widget
             {
                 Entity.Id = tb_id.Text;
                 Entity.Name = tb_name.Text;
-                Entity.Authority = (UserEx.EAuthority)cb_authority.SelectedIndex;
-                if (pb_pw.Password != null)
+                if (cb_authority.SelectedIndex == 2)
+                {
+                    Entity.Authority = UserEx.EAuthority.SUPERADMIN;                    
+                }
+                else
+                {
+                    Entity.Authority = (UserEx.EAuthority)cb_authority.SelectedIndex;
+                }
+                if (pb_pw.Password != null && pb_pw.Password != "")
                 {
                     if (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除 || (App.Current.MainWindow as MainWindow).Granted(Entity))
                     {
                         Entity.Password = pb_pw.Password;
                     }
+                }
+                else
+                {
+                    Entity.Password = null;
                 }
                 UpdateLabel(lb_status);
                 bn_revert.IsEnabled = Status != EGridStatus.无变化 && RealEntity != null;
@@ -180,11 +202,12 @@ namespace GooCooAdmin.Widget
 
         public override bool RealEqual()
         {
-            return RealEntity.Id == Entity.Id && RealEntity.Name == Entity.Name && RealEntity.Authority == Entity.Authority;
+            return RealEntity.Id == Entity.Id && RealEntity.Name == Entity.Name && RealEntity.Authority == Entity.Authority && RealEntity.Password==Entity.Password;
         }
 
         public override void UpdateSuccess()
         {
+            Entity.Password = null;
             if (Status == EGridStatus.新建)
             {
                 tb_id.IsEnabled = false;
