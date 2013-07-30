@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GooCooServer.Entity.Ex;
 
 namespace GooCooAdmin
 {
@@ -19,9 +20,17 @@ namespace GooCooAdmin
     /// </summary>
     public partial class UserInfoDialog : Window
     {
-        public UserInfoDialog()
+        public UserInfoDialog(UserEx user, List<BookEx> favors, List<BookEx> orders, List<BookEx> holds)
         {
             InitializeComponent();
+            lb_id.Content = user.Id;
+            lb_name.Content = user.Name;
+            lb_email.Content = user.Email;
+            lb_repvalue.Content = user.Repvalue;
+            cb_authory.SelectedIndex = (int)user.Authority;
+            foreach (var e in favors) lb_favors.Items.Add(e);
+            foreach (var e in orders) lb_orders.Items.Add(e);
+            foreach (var e in holds) lb_holds.Items.Add(e);
         }
     }
 }
