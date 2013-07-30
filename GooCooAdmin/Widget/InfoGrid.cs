@@ -70,7 +70,7 @@ namespace GooCooAdmin.Widget
         public abstract bool RealEqual();
         public abstract void update(bool moduleToView = true);
 
-        public void Revert(bool includeNew = false){
+        public virtual void Revert(bool includeNew = false){
             if (includeNew && (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除)) Holder.Remove(this);
             else if (RealEntity!=null) Entity = Util.CloneEntity(RealEntity);
             if (Deleted) Deleted = false;
