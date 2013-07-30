@@ -214,7 +214,8 @@ namespace GooCooServer.DAO
                     myParam4.Value = book.Timestamp;
                 else
                     myParam4.Value = DateTime.Now;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time) " + "Values (@isbn, @name, @summary, @time)", connecter);
+
+                SqlCommand myCommand = new SqlCommand("INSERT INTO BOOKINFO (isbn, name, summary, time, author, publisher, photourl) " + "Values (@isbn, @name, @summary, @time, "+book.Author+", "+book.Publisher+", "+book.Photourl+")", connecter);
                 myCommand.Parameters.Add(myParam4);
                 myCommand.Parameters.Add(myParam3);
                 myCommand.Parameters.Add(myParam2);
@@ -276,6 +277,9 @@ namespace GooCooServer.DAO
                     .Add("name", SqlDbType.VarChar, book.Name)
                     .Add("summary", SqlDbType.Text, book.Summary)
                     .Add("time", SqlDbType.DateTime, book.Timestamp)
+                    .Add("author", SqlDbType.VarChar, book.Author)
+                    .Add("publisher", SqlDbType.VarChar, book.Publisher)
+                    .Add("photourl", SqlDbType.VarChar, book.Photourl)
                     .Where("isbn = @isbn").Execute();
                 //SqlParameter myParam = new SqlParameter("@isbn", SqlDbType.Char);
                 //myParam.Value = book.Isbn;

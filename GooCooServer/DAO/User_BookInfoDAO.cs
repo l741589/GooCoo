@@ -170,6 +170,9 @@ namespace GooCooServer.DAO
                         bookInfos[i].Name = (string)sqlDataReader[1];
                         bookInfos[i].Timestamp = (DateTime)sqlDataReader[2];
                         bookInfos[i].Summary = (string)sqlDataReader[4];
+                        bookInfos[i].Author = (string)sqlDataReader[3];
+                        bookInfos[i].Publisher = (string)sqlDataReader[5];
+                        bookInfos[i].Photourl = (string)sqlDataReader[6];
                     }
                 }
                 if (bookInfos.Count != 0)
@@ -258,6 +261,8 @@ namespace GooCooServer.DAO
                         user.Name = (string)sqlDataReader[1];
                         user.Authority = (User.EAuthority)sqlDataReader[3];
                         user.Repvalue = (int)sqlDataReader[4];
+                        user.Email = (string)sqlDataReader[5];
+                        user.Phonenumber = (string)sqlDataReader[6];
                     }
                     return user;
                 }

@@ -124,6 +124,8 @@ namespace GooCooServer.DAO
                     user.Name = (string)sqlDataReader[1];
                     user.Authority = (User.EAuthority)sqlDataReader[3];
                     user.Repvalue = (int)sqlDataReader[4];
+                    user.Email = (string)sqlDataReader[5];
+                    user.Phonenumber = (string)sqlDataReader[6];
                     users.Add(user);
                 }
             }
@@ -296,6 +298,8 @@ namespace GooCooServer.DAO
                         user.Name = (string)sqlDataReader[1];
                         user.Authority = (User.EAuthority)sqlDataReader[3];
                         user.Repvalue = (int)sqlDataReader[4];
+                        user.Email = (string)sqlDataReader[5];
+                        user.Phonenumber = (string)sqlDataReader[6];
                     }
                 }
                 if (user != null)
@@ -327,7 +331,7 @@ namespace GooCooServer.DAO
                 myParam3.Value = user.Authority;
                 SqlParameter myParam4 = new SqlParameter("@repvalue", SqlDbType.Int);
                 myParam4.Value = user.Repvalue;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue) " + "Values (@id, @name, @password, @authority, @repvalue)", connecter);
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USERINFO (id, name, password, authority, repvalue, email, phonenumber) " + "Values (@id, @name, @password, @authority, @repvalue, "+user.Email+", "+user.Phonenumber+")", connecter);
                 myCommand.Parameters.Add(myParam);
                 myCommand.Parameters.Add(myParam1);
                 myCommand.Parameters.Add(myParam2);
@@ -417,6 +421,8 @@ namespace GooCooServer.DAO
                             .Add("password", SqlDbType.Char, user.Password)
                             .Add("authority", SqlDbType.Int, (int)user.Authority)
                             .Add("repvalue", SqlDbType.Int, user.Repvalue)
+                            .Add("email", SqlDbType.VarChar, user.Email)
+                            .Add("phonenumber", SqlDbType.VarChar, user.Phonenumber)
                             .Where("id = @id").Execute();
                     }
                     catch (System.Exception e)

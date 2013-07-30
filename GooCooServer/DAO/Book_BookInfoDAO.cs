@@ -77,7 +77,10 @@ namespace GooCooServer.DAO
                         result.Isbn = (string)sqlDataReader[0];
                         result.Name = (string)sqlDataReader[1];
                         result.Timestamp = (DateTime)sqlDataReader[2];
-                        result.Summary = (string)sqlDataReader[4];                        
+                        result.Summary = (string)sqlDataReader[4];
+                        result.Author = (string)sqlDataReader[3];
+                        result.Publisher = (string)sqlDataReader[5];
+                        result.Photourl = (string)sqlDataReader[6];
                     }
                 }
                 if (result != null)

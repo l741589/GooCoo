@@ -167,8 +167,8 @@ namespace GooCooServer.Utility
                 book.Name = name;
                 book.Photourl = photourl;
                 book.Summary = summary;
-                //book.Author = root.SelectSingleNode("/entry/db:attribute[@name='author']/").InnerText;
-                //book.Publisher = root.SelectSingleNode("/entry/db:attribute[@name='publisher']/").InnerText;
+                book.Author = author;
+                book.Publisher = publisher;
                 book.Timestamp = default(DateTime);
                 return book;
             }
