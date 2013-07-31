@@ -178,12 +178,50 @@
 
         }
         function orderBook(isbn)
+        {            
+            //$.post('upload.php',{'sign':base64, 'score':currentScore}, function(data){ alert(data);});
+            $.post('<%:Url.Action("AddOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data)
+            {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function cancelOrderBook(isbn)
         {
-            alert("order" + isbn);
+            $.post('<%:Url.Action("RemoveOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
         }
         function favorBook(isbn)
+        {            
+            $.post('<%:Url.Action("AddFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function cancelFavorBook(isbn)
         {
-            alert("favor" + isbn);
+            $.post('<%:Url.Action("RemoveFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
         }
     </script>
 </asp:Content>
