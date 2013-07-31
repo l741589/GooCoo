@@ -126,8 +126,6 @@ namespace GooCooServer.Entity.Ex
             get
             {
                 if (Books == null) return false;
-                if (Orderers == null) return false;
-                if (Orderers.Count > 0 && Orderer_id == null) return false;
                 return true;
             }
         }
