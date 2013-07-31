@@ -26,20 +26,22 @@
                 <div class="pull-left">
                     <img class="media-object" src="<%:bookInfo.Photourl %>">
                     <div id="two-button">
-                        <button class="btn btn-small" type="button"
-                            <%if (isLoggedOn){ %>
-                            onclick="orderBook(<%:bookInfo.Isbn %>)"
-                            <%} else { %>
-                             onclick="changeToLoginPage()"
-                            <%} %>
+                        <button class="btn btn-small" type="button" 
+                            onclick=
+                                <%if (isLoggedOn){ %>
+                                    "orderBook(<%:bookInfo.Isbn %>)"
+                                <%} else { %>
+                                    "changeToLoginPage()"
+                                <%} %>
                             >预定</button>
 
                         <button class="btn btn-primary btn-small" type="button" 
-                            <%if (isLoggedOn){ %>
-                            onclick="favorBook(<%:bookInfo.Isbn %>)"
-                            <%} else { %>
-                            onclick="changeToLoginPage()"
-                            <%} %>
+                            onclick=
+                                <%if (isLoggedOn){ %>
+                                    "favorBook(<%:bookInfo.Isbn %>)"
+                                <%} else { %>
+                                    "changeToLoginPage()"
+                                <%} %>
                             >收藏</button>
                     </div>
                 </div>
@@ -101,10 +103,14 @@
             <h4>评论：</h4>
 
             <textarea class="span8" id="comment-content" rows="5"></textarea>
-            <button class="btn btn-primary" id="add-comment-button" type="button">Large button</button>
-
-
-
+            <button class="btn btn-primary" id="add-comment-button" type="button"
+                 onclick=
+                    <%if (isLoggedOn){ %>
+                        "addComment()"
+                    <%} else { %>
+                        "changeToLoginPage()"
+                    <%} %>
+                >确定</button>
             <%
                 foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
              %>
