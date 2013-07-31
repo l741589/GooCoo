@@ -12,8 +12,8 @@
 
             <ul class="nav pull-right">
                 <li>
-                    <form id="searchForm" class="navbar-search pull-right" action="#">
-                        <input type="text" class="search-query" placeholder="search" />
+                    <form id="searchForm" class="navbar-search pull-right" action="<%:Url.Action("Index","SearchView") %>">
+                        <input type="text" class="search-query" name="keyword" placeholder="search" />
                         <input type="submit" style="display: none" />
                     </form>
                 </li>
