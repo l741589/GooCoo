@@ -94,5 +94,23 @@ namespace GooCooAdmin.Properties {
                 return ((global::System.Windows.Media.Color)(this["CL_WHITE"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.60.36.35")]
+        public string SERVERADDR {
+            get {
+                return ((string)(this["SERVERADDR"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string DEBUGSERVERADDR {
+            get {
+                return ((string)(this["DEBUGSERVERADDR"]));
+            }
+        }
     }
 }
