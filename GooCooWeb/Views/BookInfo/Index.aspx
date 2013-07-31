@@ -8,7 +8,15 @@
     <% 
         GooCooWeb.Models.BookInfoModels.BookInfoRecordModel bookInfoRecord = ViewBag.BookInfoRecord;
         GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;
-        List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;        
+        List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;
+
+
+        bool isLoggedOn = false;
+        string userSessionID = (string)Session["UserSessionID"];
+        if (userSessionID != null)
+        {
+            isLoggedOn = true;
+        }        
      %>
     
     <div class="row-fluid">
@@ -18,8 +26,23 @@
                 <div class="pull-left">
                     <img class="media-object" src="<%:bookInfo.Photourl %>">
                     <div id="two-button">
-                        <button class="btn btn-small" type="button">预定</button>
-                        <button class="btn btn-primary btn-small" type="button">收藏</button>
+                        <button class="btn btn-small" type="button" 
+                            onclick=
+                                <%if (isLoggedOn){ %>
+                                    "orderBook(<%:bookInfo.Isbn %>)"
+                                <%} else { %>
+                                    "changeToLoginPage()"
+                                <%} %>
+                            >预定</button>
+
+                        <button class="btn btn-primary btn-small" type="button" 
+                            onclick=
+                                <%if (isLoggedOn){ %>
+                                    "favorBook(<%:bookInfo.Isbn %>)"
+                                <%} else { %>
+                                    "changeToLoginPage()"
+                                <%} %>
+                            >收藏</button>
                     </div>
                 </div>
                 <div class="media-body">
@@ -80,10 +103,14 @@
             <h4>评论：</h4>
 
             <textarea class="span8" id="comment-content" rows="5"></textarea>
-            <button class="btn btn-primary" id="add-comment-button" type="button">Large button</button>
-
-
-
+            <button class="btn btn-primary" id="add-comment-button" type="button"
+                 onclick=
+                    <%if (isLoggedOn){ %>
+                        "addComment(<%:bookInfo.Isbn %>)"
+                    <%} else { %>
+                        "changeToLoginPage()"
+                    <%} %>
+                >确定</button>
             <%
                 foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
              %>
@@ -142,8 +169,68 @@
 
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
     <script type="text/javascript">
-        function addComment()
-        { 
+        function changeToLoginPage()
+        {            
+            window.location = "<%:Url.Action("LogOn","Account", new {returnUrl = Request.RawUrl})%>" ;
+        }
+        function addComment(isbn)
+        {
+            var contentTextArea = document.getElementById("comment-content");
+            var content = contentTextArea.value;
+            $.post('<%:Url.Action("AddComment","AjaxComment")%>', { 'content': content, 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function orderBook(isbn)
+        {            
+            //$.post('upload.php',{'sign':base64, 'score':currentScore}, function(data){ alert(data);});
+            $.post('<%:Url.Action("AddOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data)
+            {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function cancelOrderBook(isbn)
+        {
+            $.post('<%:Url.Action("RemoveOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function favorBook(isbn)
+        {            
+            $.post('<%:Url.Action("AddFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
+        }
+        function cancelFavorBook(isbn)
+        {
+            $.post('<%:Url.Action("RemoveFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
         }
     </script>
 </asp:Content>

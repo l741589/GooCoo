@@ -19,7 +19,7 @@
                     int recordFrom = (ViewBag.SearchResult.CurrentPage - 1) * GooCooWeb.Models.SearchResultModel.recordPerPage + 1;
                     int recordTo = recordFrom + ViewBag.SearchResult.Results.Count - 1;
                  %>
-                搜索结果<%:recordFrom %>-<%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
+                搜索结果<%:recordFrom %> - <%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
             </p>
         
         <%foreach (GooCooServer.Entity.BookInfo bookInfo in ViewBag.SearchResult.Results)
