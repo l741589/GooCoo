@@ -189,25 +189,36 @@ namespace GooCooServer.DAO
 
         public User_BookInfo Get(String isbn, String user_id, User_BookInfo.ERelation relation = User_BookInfo.ERelation.ORDER)
         {
-            string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = " + isbn + " AND user_id = " + user_id + " AND relation = " + relation + "";
-            SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-            SqlDataReader sqlDataReader = myCommand.ExecuteReader();
-
-            User_BookInfo userbook = null;
-
-            if (sqlDataReader.Read())
+            using (connecter = new SqlConnection(connectStr))
             {
-                userbook = new User_BookInfo();
-                userbook.User = (string)sqlDataReader[0];
-                userbook.Isbn = (string)sqlDataReader[1];
-                userbook.Relation = (User_BookInfo.ERelation)sqlDataReader[2];
-                userbook.Timestamp = (DateTime)sqlDataReader[3];
-            }
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                string sqlQuery = "SELECT * FROM USER_BOOKINFO WHERE isbn = " + isbn + " AND user_id = " + user_id + " AND relation = " + (int)relation + "";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                SqlDataReader sqlDataReader = myCommand.ExecuteReader();
 
-            if (userbook != null)
-                return userbook;
-            else
-                throw new BMException("User_BookInfo get error");
+                User_BookInfo userbook = null;
+
+                if (sqlDataReader.Read())
+                {
+                    userbook = new User_BookInfo();
+                    userbook.User = (string)sqlDataReader[0];
+                    userbook.Isbn = (string)sqlDataReader[1];
+                    userbook.Relation = (User_BookInfo.ERelation)sqlDataReader[2];
+                    userbook.Timestamp = (DateTime)sqlDataReader[3];
+                }
+
+                if (userbook != null)
+                    return userbook;
+                else
+                    throw new BMException("User_BookInfo get error");
+            }
         }
 
         public User GetAvaliableUser(String book_isbn)

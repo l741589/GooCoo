@@ -13,6 +13,7 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row-fluid">
+        <div class="hero-unit">
         <table>
             <% List<GooCooServer.Entity.BookInfo> bookInfos = Model.GetBooks();
                for (int idx = 0; idx < bookInfos.Count; idx ++)
@@ -35,6 +36,7 @@
                 }
             %>                    
         </table>
+        </div>
     </div>
 </asp:Content>
 

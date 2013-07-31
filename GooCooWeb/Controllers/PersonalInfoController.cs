@@ -120,6 +120,7 @@ namespace GooCooWeb.Controllers
                     BorrowBookInfo borrowBookInfo = new BorrowBookInfo();
                     borrowBookInfo.Id = book.Id;
                     borrowBookInfo.Name = bookInfo.Name;
+                    borrowBookInfo.Isbn = bookInfo.Isbn;
                     borrowBookInfo.BorrowTime = user_bookDAO.Get(localUser.Id, book.Id, User_Book.ERelation.BORROW).Timestamp;
                     borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(borrowBookInfo.BorrowTime);
                     model.Add(borrowBookInfo);
@@ -152,6 +153,7 @@ namespace GooCooWeb.Controllers
                     DonateBookInfo donateBookInfo = new DonateBookInfo();
                     donateBookInfo.Id = book.Id;
                     donateBookInfo.Name = bookInfo.Name;
+                    donateBookInfo.Isbn = bookInfo.Isbn;
                     donateBookInfo.DonateTime = book.Timestamp;
                     model.Add(donateBookInfo);
                 }
@@ -213,6 +215,7 @@ namespace GooCooWeb.Controllers
 
                     User_BookInfo user_bookInfo = user_bookinfoDAO.Get(bookInfo.Isbn, localUser.Id, User_BookInfo.ERelation.ORDER);
                     preorderBookInfo.PreorderDate = user_bookInfo.Timestamp;
+                    model.Add(preorderBookInfo);
                 }
             }
             catch (BMException)

@@ -45,15 +45,13 @@
                                 {
                                     GooCooWeb.Models.PreorderBookInfo book = books[idx];
                             %>
-                            <a href="/BookInfo?isbn=<%: book.Isbn %>">
-                                    <tr>
+                                    <tr onclick="LinkTo(<%: book.Isbn %>)">
                                         <td><%: book.Name %></td>
                                         <td><%: book.Author %></td>
                                         <td><%: book.PreorderDate %></td>
                                         <td><%: book.BorrowedNumber %></td>
                                         <td class="text-success"><%: book.PreorderNumber %></td>
                                     </tr>
-                            </a>
                             <%
                                 } 
                             %>
@@ -73,6 +71,10 @@
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
     <script type="text/javascript">
         document.getElementById("nav_preorderInfo").className = "active";
+
+        function LinkTo(addr) {
+            window.location.href = "/BookInfo?isbn=" + addr;
+        }
     </script>
 </asp:Content>
 

@@ -38,20 +38,20 @@
                                     if (book.ExpectedReturnTime < DateTime.Now)
                                     {
                            %>
-                                        <tr class="error">
+                                        <tr class="error" onclick="LinkTo(<%: book.Isbn %>)">
                            <%
                                     }
                                     else
                                     if (idx % 2 == 0)
                                     {
-                            %>
-                                        <tr class="info">
+                            %> 
+                                        <tr class="info" onclick="LinkTo(<%: book.Isbn %>)">
                             <%
                                     }
                                     else
                                     {
                             %>
-                                        <tr>
+                                        <tr onclick="LinkTo(<%: book.Isbn %>)">
                             <%
                                     }   
                             %>
@@ -79,5 +79,9 @@
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
     <script type="text/javascript">
         document.getElementById("nav_borrowInfo").className = "active";
+
+        function LinkTo(addr) {
+            window.location.href = "/BookInfo?isbn=" + addr;
+        }
     </script>
 </asp:Content>

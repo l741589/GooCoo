@@ -86,7 +86,17 @@ namespace GooCooServer.DAO
                     }
                 }
                 if (result != null)
-                    return result;
+                {
+                    for (int i = 0; i < result.Count; i++)
+                        for (int j = i + 1; j < result.Count; j++)
+                            if (result[i].Timestamp < result[j].Timestamp)
+                            {
+                                DateTime temp = result[i].Timestamp;
+                                result[i].Timestamp = result[j].Timestamp;
+                                result[j].Timestamp = temp;
+                            }
+                            return result;
+                }
                 else
                     throw new BMException("BOOKINFO_COMMENT GETCOMMENT Error");
             }

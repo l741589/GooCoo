@@ -37,13 +37,13 @@
                                     if (idx % 2 == 0)
                                     {
                             %>
-                            <tr class="success">
+                            <tr class="success" onclick="LinkTo(<%: book.Isbn %>)">
                                 <%
                                     }
                                     else
                                     {
                                 %>
-                            <tr>
+                            <tr onclick="LinkTo(<%: book.Isbn %>)">
                                 <%
                                     }   
                                 %>
