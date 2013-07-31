@@ -36,7 +36,7 @@ namespace GooCooServer.Handler
                 dao.Add(user);
                 context.Response.Write("添加成功");
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 //context.Response.Write(e.Message);
                 context.Response.Write("成功");
