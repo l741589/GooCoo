@@ -13,7 +13,7 @@ namespace GooCooServer.DAO
 {
     public class CommentDAO : BaseDAO, ICommentDAO
     {
-        public Comment Add(Comment comment)
+        public Comment Add(Comment comment, String isbn, String userid)
         {
             using (connecter = new SqlConnection(connectStr))
             {
@@ -42,6 +42,24 @@ namespace GooCooServer.DAO
                 else
                 {
                     comment.Id = id;
+                    myCommand = new SqlCommand("INSERT INTO BOOKINFO_COMMENT (isbn, comment_id) " + "Values (" + isbn + ", " + comment.Id + ")", connecter);
+                    try
+                    {
+                        myCommand.ExecuteNonQuery();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("USER ADD error");
+                    }
+                    myCommand = new SqlCommand("INSERT INTO USER_COMMENT (user_id, comment_id) " + "Values (" + userid + ", " + comment.Id + ")", connecter);
+                    try
+                    {
+                        myCommand.ExecuteNonQuery();
+                    }
+                    catch (System.Exception)
+                    {
+                        throw new BMException("USER ADD error");
+                    }
                     return comment;
                 }
             }

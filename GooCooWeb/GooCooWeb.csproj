@@ -105,6 +105,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrowInfoModel.cs" />
+    <Compile Include="Models\CollectInfo.cs" />
     <Compile Include="Models\DonateInfoModel.cs" />
     <Compile Include="Models\BookInfoModels\BookInfoRecordModel.cs" />
     <Compile Include="Models\BookInfoModels\BookRecordModel.cs" />
@@ -196,6 +197,7 @@
     <Content Include="Views\Account\Register.aspx" />
     <Content Include="Views\BookInfo\Error.aspx" />
     <Content Include="Views\BookInfo\Index.aspx" />
+    <Content Include="Views\PersonalInfo\UpdateInfo.aspx" />
     <Content Include="Views\SearchView\Index.aspx" />
     <Content Include="Views\SearchView\newBooksRecommendPanel.ascx" />
     <Content Include="Views\SearchView\NoResult.aspx" />
