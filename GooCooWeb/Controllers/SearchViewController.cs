@@ -36,10 +36,7 @@ namespace GooCooWeb.Controllers
             resultModel.Keyword = keyword;
 
 
-            /*
-             * 暂时注释
-             * 
-            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("IBookInfoDao") as IBookInfoDAO;
+            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
             try
             {                
                 //计算结果总数
@@ -78,7 +75,10 @@ namespace GooCooWeb.Controllers
                     resultModel.Results = bookInfoDao.GetByKeyWord(keyword, 1 + (page - 1) * SearchResultModel.recordPerPage, SearchResultModel.recordPerPage);
                 }                
             }
-            */
+
+
+
+            /*
 
             ///////////////测试用结果
             resultModel.ResultCount = 190;
@@ -97,7 +97,7 @@ namespace GooCooWeb.Controllers
                 tempResultArray.Add(bookInfo);
             }
             resultModel.Results = tempResultArray;
-
+            */
 
 
             if (resultModel.ResultCount == 0)
