@@ -115,7 +115,7 @@
                 >确定</button>
             </div>
                 <table class="table table-striped span9" >
-                    <tbody>
+                    <tbody id="comment-table-body">
                 <%
                     foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
                  %>
@@ -198,8 +198,18 @@
 
             $.post('<%:Url.Action("AddComment","AjaxComment")%>', { 'content': content, 'isbn': isbn }, function (data) {
                 $('#add-comment-button').button('reset');
+
                 if (data.result) {
-                    alert("成功");
+                    var tableBody = document.getElementById("comment-table-body");                    
+                    var firstChild = tableBody.firstChild;
+
+                    var tr = document.createElement("tr");
+                    tr.innerHTML = "<td><p><p><span class='comment-author'>" + data.userName +"</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class='comment-time'>"
+                         + data.time + "</span></p>" + "<p>" + data.content + "</p>";                    
+                    tableBody.insertBefore(tr, firstChild);
+
+                    contentTextArea.value = "";
+
                 }
                 else {
                     alert("失败");

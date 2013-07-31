@@ -29,7 +29,9 @@ namespace GooCooWeb.Controllers.ajax
                 comment.Content = content;                
                 commentDAO.Add(comment, isbn, user.Id);
                 //commentDAO.Add(comment, isbn, userSessionID);
-                return Json(new { result = true });
+
+
+                return Json(new { result = true, content = comment.Content, userName = user.Name, time = Convert.ToString(comment.Timestamp) });
             }
             catch (Exception)
             {
