@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
-    <% Html.RenderPartial("newBooksRecommendPanel"); %>
+    
 
 
     <div class="span8">        
@@ -17,6 +17,7 @@
         </div>
     </div>
 
+    <% Html.RenderPartial("newBooksRecommendPanel"); %>
 
 </asp:Content>
 

@@ -166,7 +166,7 @@ namespace GooCooServer.DAO
         {
             SqlParameter myParam = new SqlParameter("@number", SqlDbType.Int);
             myParam.Value = n;            
-            string sqlQuery = "SELECT TOP @number * FROM BOOKINFO ORDER BY time DESC";            
+            string sqlQuery = "SELECT TOP " + n +" * FROM BOOKINFO ORDER BY time DESC";            
             List<BookInfo> bookInfos = dbManagerList(myParam, sqlQuery);
 
             if (bookInfos.Count != 0)

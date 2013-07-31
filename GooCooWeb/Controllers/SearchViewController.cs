@@ -17,6 +17,11 @@ namespace GooCooWeb.Controllers
         // GET: /SearchView/      
         public ActionResult Index(string keyword, string type = "标题", int page = 0)
         {
+            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
+
+           List<BookInfo> recommentBooks = bookInfoDao.GetBookInfos(3);
+           ViewBag.RecommentBooks = recommentBooks;
+
             SearchResultModel resultModel = new SearchResultModel();
             //防止恶意请求
             if (!type.Equals("标题") && !type.Equals("ISBN") && !type.Equals("模糊"))
@@ -25,6 +30,7 @@ namespace GooCooWeb.Controllers
             }
 
             resultModel.SearchType = type;
+
             if (keyword == null || keyword.Length == 0)
             {
                 resultModel.Keyword = "";
@@ -36,10 +42,8 @@ namespace GooCooWeb.Controllers
             resultModel.Keyword = keyword;
 
 
-            /*
-             * 暂时注释
-             * 
-            IBookInfoDAO bookInfoDao = DAOFactory.createDAO("IBookInfoDao") as IBookInfoDAO;
+            
+
             try
             {                
                 //计算结果总数
@@ -58,7 +62,7 @@ namespace GooCooWeb.Controllers
                 resultModel.TotalPage = resultModel.ResultCount / SearchResultModel.recordPerPage + 1;
                 resultModel.HasSearch = true;
             }
-            catch (Exception e) {                
+            catch (Exception) {                
             }
            
 
@@ -78,7 +82,10 @@ namespace GooCooWeb.Controllers
                     resultModel.Results = bookInfoDao.GetByKeyWord(keyword, 1 + (page - 1) * SearchResultModel.recordPerPage, SearchResultModel.recordPerPage);
                 }                
             }
-            */
+
+
+
+            /*
 
             ///////////////测试用结果
             resultModel.ResultCount = 190;
@@ -97,7 +104,7 @@ namespace GooCooWeb.Controllers
                 tempResultArray.Add(bookInfo);
             }
             resultModel.Results = tempResultArray;
-
+            */
 
 
             if (resultModel.ResultCount == 0)

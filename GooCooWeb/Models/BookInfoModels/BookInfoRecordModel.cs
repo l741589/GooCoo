@@ -79,8 +79,15 @@ namespace GooCooWeb.Models.BookInfoModels
                         List<CommentRecordModel> commentRecordList = CommentRecordModel.toRecord(commentList);
                         this.TopComments = commentRecordList;
                     }
-                    catch (Exception) { }
+                    catch (Exception)
+                    { }
                 }
+                else
+                { 
+                    this.TopComments = new List<CommentRecordModel>();
+                }
+
+
 
                 //剩余数量
                 this.AvailableCount = book_bookInfoDAO.GetAvaliableBookNumber(isbn);

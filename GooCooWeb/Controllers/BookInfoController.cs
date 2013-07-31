@@ -19,18 +19,15 @@ namespace GooCooWeb.Controllers
         public ActionResult Index(string isbn)
         {
 
-            /*
-             *暂时注释，数据库调整好后需要取消 
-             * 
             BookInfoRecordModel bookInfoRecord = new BookInfoRecordModel(isbn);
             ViewBag.BookInfoRecord = bookInfoRecord;
             if (bookInfoRecord.Bookinfo == null)
             {
                 return View("Error");
             }
-            */
+            
 
-
+            /*
             /////////////////
             //测试数据
             BookInfoRecordModel bookInfoRecord = new BookInfoRecordModel();
@@ -78,6 +75,8 @@ namespace GooCooWeb.Controllers
 
             ViewBag.BookInfoRecord = bookInfoRecord;
             ////////////////////////////////
+            */
+
             return View();
         }
 

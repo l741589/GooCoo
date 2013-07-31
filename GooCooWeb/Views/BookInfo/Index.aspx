@@ -78,41 +78,24 @@
     <div class="row-fluid">
         <div class="span9">
             <h4>评论：</h4>
+
+            <textarea class="span8" id="comment-content" rows="5"></textarea>
+            <button class="btn btn-primary" id="add-comment-button" type="button">Large button</button>
+
+
+
             <%
-                
+                foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
+             %>
+            <p>
+                <%:commentRecord.CommentMaker.Name%>:<%:commentRecord.Content.Content %>
+            </p>
+            <%
+                }
              %>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="span9">
-            <h4>书籍状态：</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>编号</td>
-                        <td>书籍状态</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <% foreach (GooCooWeb.Models.BookInfoModels.BookRecordModel bookRecord in bookRecordList ){ %>
-                    <tr>
-                        <td><%:bookRecordList.IndexOf(bookRecord) + 1 %></td>
-                        <td>
-                            <%if (bookRecord.CurrentCondition == GooCooWeb.Models.BookInfoModels.BookCondition.AVAILABLE){ %>
-                                <p style="color:green">可借</p>
-                            <%} else { %>
-                                <p>借出-应还日期：<%:bookRecord.AvailableTime %></p>
-                            <%} %>
-                            
-                        </td>
-                    </tr>
-                    <%} %>
-                </tbody>
-
-            </table>
-        </div>
-    </div>
+   
 
 </asp:Content>
 
@@ -158,4 +141,9 @@
 </asp:Content>
 
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
+    <script type="text/javascript">
+        function addComment()
+        { 
+        }
+    </script>
 </asp:Content>
