@@ -34,9 +34,20 @@ namespace GooCooServer.Handler
                 IBookDAO b = DAOFactory.createDAO("BookDAO") as IBookDAO;
                 BookInfo bi = new BookInfo();
                 bi.Isbn = isbn;
-                while (num-->0)
+                while (num-- > 0)
                 {
-                    Book book = b.Add(bi);
+                    Book book = null;
+                    try
+                    {
+                         book = b.Add(bi);
+                         if (book == null) throw new BMException("");
+                    }
+                    catch (BMException)
+                    {
+                        IBookInfoDAO bidao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
+                        bidao.Add(bi);
+                        book = b.Add(bi);
+                    }
                     if (user_id != null && user_id != "")
                     {
                         IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
@@ -57,9 +68,9 @@ namespace GooCooServer.Handler
             {
                 context.Response.Write(e.Message);
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException e)
             {
-                context.Response.Write("捐书成功N");
+                context.Response.Write(e.Message);
             }
             catch (ArgumentNullException e)
             {

@@ -60,6 +60,7 @@ namespace GooCooAdmin.Widget
             bn_detail.Content = "详细";
             bn_detail.Click += bn_detail_Click;
             tb_phone.TextChanged += tb_name_TextChanged;
+            se_repvalue.IsEnabled = false;
 
             Children.Add(bn_detail);
             Children.Add(bn_revert);
@@ -118,6 +119,7 @@ namespace GooCooAdmin.Widget
             lb_status.HorizontalContentAlignment = HorizontalAlignment.Center;
             tb_email.TextChanged += tb_name_TextChanged;
             se_repvalue.ValueChanged += se_repvalue_ValueChanged;
+            se_repvalue.IsEnabled = false;
             bn_detail.Content = "详细";
             bn_detail.Click += bn_detail_Click;
             tb_phone.TextChanged += tb_name_TextChanged;

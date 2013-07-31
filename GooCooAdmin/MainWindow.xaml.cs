@@ -565,7 +565,7 @@ namespace GooCooAdmin
         {
             TabControl tc = sender as TabControl;
             if (tc.SelectedIndex != 3) return;
-            DateTime today = DateTime.UtcNow;
+            DateTime today = DateTime.Now;
             dp_end.SelectedDate = today;
             DateTime yesterday = today.AddDays(-1);
             dp_start.SelectedDate = yesterday;
@@ -579,7 +579,7 @@ namespace GooCooAdmin
             String s = await Util.CreateContentValue()
                 .Add("time", Util.EncodeJson(dates))
                 .Post(Properties.Resources.URL_GETLOG);
-            if (s == null) { WebError(); return; }
+            if (s == null || s=="") { WebError(); return; }
             List<Log> logs = Util.DecodeJson<List<Log>>(s);
             foreach (var log in logs)
             {

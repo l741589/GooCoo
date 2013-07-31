@@ -40,9 +40,9 @@ namespace GooCooServer.Handler
                 try
                 {
                     List<User> lus = ub.GetUser(book_isbn);
-                    User avaliableuser = ub.GetAvaliableUser(book_isbn);
+                    /*User avaliableuser = ub.GetAvaliableUser(book_isbn);
                     if (avaliableuser != null)
-                        book.Orderer_id = avaliableuser.Id;
+                        book.Orderer_id = avaliableuser.Id;*/
                     foreach (var e in lus)
                     {
                         UserEx u = Util.CloneEntity<UserEx>(e);
