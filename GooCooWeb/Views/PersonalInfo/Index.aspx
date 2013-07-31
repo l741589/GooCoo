@@ -4,9 +4,6 @@
     个人信息
 </asp:Content>
 
-<asp:Content ID="OtherCss" ContentPlaceHolderID="OtherCssStyle" runat="server">
-</asp:Content>
-
 <asp:Content ID="LeftNavbar" ContentPlaceHolderID="LeftNavbar" runat="server">
     <% Html.RenderPartial("LeftNavbar"); %>
 </asp:Content>

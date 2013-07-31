@@ -88,4 +88,7 @@
 
 
 <asp:Content ID="Content6" ContentPlaceHolderID="Footer" runat="server">
+    <footer class="span6 offset3">
+        <% Html.RenderPartial("~/Views/Shared/Footer.ascx"); %>
+    </footer>
 </asp:Content>

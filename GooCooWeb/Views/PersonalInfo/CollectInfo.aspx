@@ -13,6 +13,28 @@
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row-fluid">
+        <table>
+            <% List<GooCooServer.Entity.BookInfo> bookInfos = Model.GetBooks();
+               for (int idx = 0; idx < bookInfos.Count; idx ++)
+               {
+                   GooCooServer.Entity.BookInfo bookInfo = bookInfos[idx];
+                   if (idx % 4 == 0)
+                   {
+            %>
+                        <tr>
+            <%      } 
+            %>
+                            <td><a href="/BookInfo?isbn=<%: bookInfo.Isbn %>"><img src="<%: bookInfo.Photourl %>" alt="<%: bookInfo.Name %>"/></a></td>
+            <%      
+                    if (idx % 4 == 3 || idx == bookInfos.Count)
+                    {
+            %>
+                        </tr>
+            <%
+                    }
+                }
+            %>                    
+        </table>
     </div>
 </asp:Content>
 
