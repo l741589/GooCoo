@@ -580,7 +580,17 @@ namespace GooCooAdmin
                 .Add("time", Util.EncodeJson(dates))
                 .Post(Properties.Resources.URL_GETLOG);
             if (s == null) { WebError(); return; }
-            List<Log> logs = Util.DecodeJson<List<Log>>(s);
+            List<Log> logs = null;
+            try
+            {
+                logs = Util.DecodeJson<List<Log>>(s);
+            }
+            catch
+            {
+                MessageBox.Show(this, s);
+                return;
+            }
+            if (logs!=null)
             foreach (var log in logs)
             {
                 dg_log.Items.Add(log);
