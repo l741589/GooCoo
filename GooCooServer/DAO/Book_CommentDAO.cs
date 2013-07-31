@@ -63,7 +63,7 @@ namespace GooCooServer.DAO
                 {
                     myParam = new SqlParameter("@id", SqlDbType.Int);
                     myParam.Value = commentID[i];
-                    sqlQuery = "SELECT conent time FROM COMMENT WHERE id = @id";
+                    sqlQuery = "SELECT content,time FROM COMMENT WHERE id = @id";
                     myCommand = new SqlCommand(sqlQuery, connecter);
                     myCommand.Parameters.Add(myParam);
                     sqlDataReader.Close();
