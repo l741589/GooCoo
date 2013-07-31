@@ -17,6 +17,10 @@
             <Label Content="用户" DockPanel.Dock="Left"/>
             <Label x:Name="tb_user"/>
         </DockPanel>
+        <DockPanel x:Name="dp_password" LastChildFill="True" Margin="0,8,0,0">
+            <Label Content="密码" DockPanel.Dock="Left"/>
+            <PasswordBox x:Name="pb_pw"/>
+        </DockPanel>
         <DockPanel x:Name="dp_book" LastChildFill="True" Margin="0,8,0,0">
             <Label Content="书籍" DockPanel.Dock="Left"/>
             <Label x:Name="tb_book"/>

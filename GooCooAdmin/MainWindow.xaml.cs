@@ -45,6 +45,8 @@ namespace GooCooAdmin
         private UserEx adminUser = null;
         private GridHolder<UserEx> gh_user = new GridHolder<UserEx>();
         private GridHolder<BookEx> gh_book = new GridHolder<BookEx>();
+        private bool booktextchanging = false;
+        private bool usertextchanging = false;
 
         #region 公用
 
@@ -70,7 +72,15 @@ namespace GooCooAdmin
             Title = Properties.Resources.Title;
             user_list = new ListHolder<UserEx>();
             book_list = new ListHolder<BookEx>();
-            bn_login_Click(bn_login, null);            
+            Visibility = Visibility.Hidden;
+            while (Visibility == Visibility.Hidden)
+            {
+                if (login() == 1)
+                {
+                    Close();
+                    break;
+                }
+            }
         }
 
         void WebError()
@@ -157,6 +167,51 @@ namespace GooCooAdmin
             }
         }
 
+        int login()
+        {
+            LoginDialog dlg = new LoginDialog();
+            bool? dr = dlg.ShowDialog();
+            if (dr == true)
+            {
+                Dictionary<String, String> cv = new Dictionary<string, string>();
+                cv.Add("id", dlg.tb_id.Text);
+                cv.Add("pw", dlg.pb_pw.Password);
+                String s = null;
+                Task.Run(async () => { s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv); }).Wait();
+                if (s == null || s == "")
+                {
+                    Title = Properties.Resources.Title;
+                    bn_login.Visibility = Visibility.Visible;
+                    MessageBox.Show(this, "登录失败");
+
+                }
+                else
+                {
+                    UserEx user = Util.DecodeJson<UserEx>(s);
+                    adminUser = user;
+                    if (user.Authority == UserEx.EAuthority.ADMIN || user.Authority == UserEx.EAuthority.SUPERADMIN)
+                    {
+                        tc_main.IsEnabled = true;
+                        Title = user.Name + "(" + user.Authority + ")";
+                        bn_login.Visibility = Visibility.Collapsed;
+                        gh_user.Admin = gh_book.Admin = user.Authority;
+                        Visibility = Visibility.Visible;
+                        return 0;
+                    }
+                    else
+                    {
+                        tc_main.IsEnabled = false;
+                        Title = user.Name + "(" + user.Authority + ")";
+                        bn_login.Visibility = Visibility.Visible;
+                        gh_user.Admin = gh_book.Admin = user.Authority;
+                        MessageBox.Show(this, "该用户没有权限使用GooCoo图书管理系统");
+                    }
+                }
+            }
+            else return 1;
+            return 0;
+        }
+
         async void bn_login_Click(object sender, RoutedEventArgs e)
         {
             LoginDialog dlg = new LoginDialog();
@@ -171,6 +226,7 @@ namespace GooCooAdmin
                     Title = Properties.Resources.Title;
                     bn_login.Visibility = Visibility.Visible;
                     MessageBox.Show(this, "登录失败");
+
                 }
                 else
                 {
@@ -182,6 +238,8 @@ namespace GooCooAdmin
                         Title = user.Name + "(" + user.Authority + ")";
                         bn_login.Visibility = Visibility.Collapsed;
                         gh_user.Admin = gh_book.Admin = user.Authority;
+                        Visibility = Visibility.Visible;
+                        return;
                     }
                     else
                     {
@@ -243,26 +301,36 @@ namespace GooCooAdmin
 
         async void tb_book_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (booktextchanging) return;
+            booktextchanging = true;
+            String keyword = (sender as TextBox).Text;
+            if (keyword == null || keyword == "") { booktextchanging = false; return; }
             Dictionary<String, String> cv = new Dictionary<String, String>();
-            cv.Add("keyword", (sender as TextBox).Text);
+            cv.Add("keyword", keyword);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK, cv);
-            if (s == null) { WebError(); return; }
+            if (s == null) { WebError(); booktextchanging = false; return; }
             book_list["search"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
             book_list.Priorities["search"] = 1;
             Update_Book_List();
+            booktextchanging = false; return; 
         }
 
         async void tb_user_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (usertextchanging) return;
+            usertextchanging = true;
+            String keyword = (sender as TextBox).Text;
+            if (keyword == null || keyword == "") { usertextchanging = true; return; }
             Dictionary<String, String> cv = new Dictionary<String, String>();
-            cv.Add("keyword", (sender as TextBox).Text);
+            cv.Add("keyword", keyword);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER, cv);
-            if (s == null) { WebError(); return; }
+            if (s == null) { WebError(); usertextchanging = true; return; }
             user_list["search"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
             user_list.Priorities["search"] = 1;
             Update_User_List();
+            usertextchanging = true; return; 
         }
 
         public bool Granted(UserEx user = null)
@@ -272,36 +340,57 @@ namespace GooCooAdmin
             return false;
         }
 
-        public async Task<bool> Grant(UserEx user = null)
+        public async Task<bool> Grant(UserEx user = null,String password = null)
         {
             if (user == null) user = sel_user;
             if (user == AuthorisedUser) return true;
-            LoginDialog dlg = new LoginDialog();
-            dlg.tb_id.Text = user.Id.ToString();
-            dlg.tb_id.IsEnabled = false;
-            dlg.pb_pw.Focus();
-            if (dlg.ShowDialog() == true)
+            if (password != null)
             {
-                Dictionary<String, String> cv = new Dictionary<string, string>();
-                cv.Add("id", dlg.tb_id.Text);
-                cv.Add("pw", dlg.pb_pw.Password);
-                String s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv);
-                if (s == null || s == "")
+                String s = await Util.CreateContentValue().Add("id", user.Id).Add("pw", password).Post(Properties.Resources.URL_LOGIN);
+                if (s != null && s != "")
                 {
-                    MessageBox.Show(this, "登录失败");
-                    return false;
+                    try
+                    {
+                        UserEx temp_user = Util.DecodeJson<UserEx>(s);
+                        if (temp_user != null)
+                        {
+                            adminUser = temp_user;
+                            return true;
+                        }
+                    }
+                    catch { }
                 }
-                else
-                {
-                    UserEx u = Util.DecodeJson<UserEx>(s);
-                    Debug.Assert(u == user, "登录用户不是目标用户");
-                    AuthorisedUser = u;
-                    return true;
-                }
+                return false;
             }
             else
             {
-                return false;
+                LoginDialog dlg = new LoginDialog();
+                dlg.tb_id.Text = user.Id.ToString();
+                dlg.tb_id.IsEnabled = false;
+                dlg.pb_pw.Focus();
+                if (dlg.ShowDialog() == true)
+                {
+                    Dictionary<String, String> cv = new Dictionary<string, string>();
+                    cv.Add("id", dlg.tb_id.Text);
+                    cv.Add("pw", dlg.pb_pw.Password);
+                    String s = await HttpHelper.Post(Properties.Resources.URL_LOGIN, cv);
+                    if (s == null || s == "")
+                    {
+                        MessageBox.Show(this, "登录失败");
+                        return false;
+                    }
+                    else
+                    {
+                        UserEx u = Util.DecodeJson<UserEx>(s);
+                        Debug.Assert(u == user, "登录用户不是目标用户");
+                        AuthorisedUser = u;
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -316,7 +405,7 @@ namespace GooCooAdmin
                 Dictionary<String, String> cv = new Dictionary<string, string>();
                 switch (dlg.cb_relation.SelectedIndex)
                 {
-                    case 0: if (sel_user == null || !await Grant()) { MessageBox.Show(this, "操作失败"); return; }
+                    case 0: if (sel_user == null || !await Grant(sel_user,dlg.pb_pw.Password)) { MessageBox.Show(this, "操作失败"); return; }
                         url = Properties.Resources.URL_BORROW;
                         cv.Add("user", sel_user.Id);
                         cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
@@ -332,6 +421,27 @@ namespace GooCooAdmin
                         if (sel_user != null) cv.Add("user", sel_user.Id);
                         break;
                 }
+                ret = await HttpHelper.Post(url, cv);
+                if (ret != null)
+                {
+                    lb_book_SelectionChanged(lb_book, null);
+                    lb_user_SelectionChanged(lb_user, null);
+                    MessageBox.Show(this, ret);
+                }
+            }
+        }
+
+        private async void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            DealDialog dlg = new DealDialog(null, null);
+            if (dlg.ShowDialog() == true)
+            {
+                String ret = null;
+                String url = null;
+                Dictionary<String, String> cv = new Dictionary<string, string>();
+                url = Properties.Resources.URL_DONATE;
+                cv.Add("book", dlg.tb_isbn.Text);
+                cv.Add("num", dlg.tb_num.Text);
                 ret = await HttpHelper.Post(url, cv);
                 if (ret != null)
                 {
@@ -404,7 +514,16 @@ namespace GooCooAdmin
         {
             (sender as Button).IsEnabled = false;
             gh_user.Clear();
-            String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER);
+            String keyword = tb_syncUser.Text;
+            String s = null;
+            if (keyword == "" || keyword == null)
+            {
+                s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER);
+            }
+            else
+            {
+                s = await Util.CreateContentValue().Add("keyword", keyword).Post(Properties.Resources.URL_FINDUSER);
+            }
             if (s == null) { WebError(); (sender as Button).IsEnabled = true; return; }
             List<User> ret = Util.DecodeJson<List<User>>(s);
             foreach (var elem in ret)
@@ -445,6 +564,7 @@ namespace GooCooAdmin
                 {                    
                     case EGridStatus.新建: 
                         url = Properties.Resources.URL_ADDUSER;
+                        if (user.Password == null || user.Password == null) user.Password = "password";
                         cv.Add("user", Util.EncodeJson(user));
                         break;
                     case EGridStatus.已删除:
@@ -483,8 +603,16 @@ namespace GooCooAdmin
         {
             (sender as Button).IsEnabled = false;
             gh_book.Clear();
-
-            String s = await Util.CreateContentValue().Add("flag","1").Post(Properties.Resources.URL_FINDBOOK);
+            String keyword = tb_syncBook.Text;
+            String s = null;
+            if (keyword == "" || keyword == null)
+            {
+                s = await Util.CreateContentValue().Add("flag", "1").Post(Properties.Resources.URL_FINDBOOK);
+            }
+            else
+            {
+                s = await Util.CreateContentValue().Add("keyword", keyword).Add("flag", "1").Post(Properties.Resources.URL_FINDBOOK);
+            }
             if (s == null) { WebError(); (sender as Button).IsEnabled = true; return; }
             List<BookEx> ret = Util.DecodeJson<List<BookEx>>(s);
             foreach (var elem in ret)
@@ -588,5 +716,7 @@ namespace GooCooAdmin
         }
 
         #endregion        
+
+        
     }
 }

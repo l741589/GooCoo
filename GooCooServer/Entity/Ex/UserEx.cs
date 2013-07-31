@@ -38,9 +38,10 @@ namespace GooCooServer.Entity.Ex
 
         public override string ToString()
         {
-            String s = Id + " " + Name + " " + Authority;
-            if (Mark != null) return Mark + " " + s;
+            //String s = Id + " " + Name + " " + Authority;
+            //if (Mark != null) return Mark + " " + s;
             //if (Password != null) s += "\n" + Password;
+            String s = String.Format("{0,-15} {1}", Id, Name);
             return s;
         }
     }
