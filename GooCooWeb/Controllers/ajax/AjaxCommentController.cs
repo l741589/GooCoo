@@ -12,30 +12,29 @@ namespace GooCooWeb.Controllers.ajax
     public class AjaxCommentController : Controller
     {
         //
-        // GET: /AjaxComment/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
+        // POST: /AjaxComment/
 
         [HttpPost]
-        public ActionResult AddComment(string content, int bookInfoId)
+        public ActionResult AddComment(string content, string isbn)
         {
             try
             {
-                ICommentDAO commentDAO = DAOFactory.createDAO("CommentDAO") as ICommentDAO;
-                IUser_CommentDAO user_commentDAO = DAOFactory.createDAO("User_CommentDAO") as IUser_CommentDAO;
+                IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;                
+                string userSessionID = (string)Session["UserSessionID"];
+                User user = userDAO.Get(userSessionID);
 
+                ICommentDAO commentDAO = DAOFactory.createDAO("CommentDAO") as ICommentDAO;
+                IUser_CommentDAO user_commentDAO = DAOFactory.createDAO("User_CommentDAO") as IUser_CommentDAO;                
                 Comment comment = new Comment();
-                comment.Content = content;
+                comment.Content = content;                
+                commentDAO.Add(comment, isbn, user.Id);
+                //commentDAO.Add(comment, isbn, userSessionID);
                 return Json(new { result = true });
             }
             catch (Exception)
             {
                 return Json(new { result = false });
             }
-
         }
     }
 }

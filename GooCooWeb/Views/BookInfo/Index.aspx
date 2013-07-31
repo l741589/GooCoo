@@ -106,7 +106,7 @@
             <button class="btn btn-primary" id="add-comment-button" type="button"
                  onclick=
                     <%if (isLoggedOn){ %>
-                        "addComment()"
+                        "addComment(<%:bookInfo.Isbn %>)"
                     <%} else { %>
                         "changeToLoginPage()"
                     <%} %>
@@ -173,9 +173,18 @@
         {            
             window.location = "<%:Url.Action("LogOn","Account", new {returnUrl = Request.RawUrl})%>" ;
         }
-        function addComment()
+        function addComment(isbn)
         {
-
+            var contentTextArea = document.getElementById("comment-content");
+            var content = contentTextArea.value;
+            $.post('<%:Url.Action("AddComment","AjaxComment")%>', { 'content': content, 'isbn': isbn }, function (data) {
+                if (data.result) {
+                    alert("成功");
+                }
+                else {
+                    alert("失败");
+                }
+            });
         }
         function orderBook(isbn)
         {            
