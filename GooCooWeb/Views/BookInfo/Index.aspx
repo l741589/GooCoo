@@ -8,7 +8,15 @@
     <% 
         GooCooWeb.Models.BookInfoModels.BookInfoRecordModel bookInfoRecord = ViewBag.BookInfoRecord;
         GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;
-        List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;        
+        List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;
+
+
+        bool isLoggedOn = false;
+        string userSessionID = (string)Session["UserSessionID"];
+        if (userSessionID != null)
+        {
+            isLoggedOn = true;
+        }        
      %>
     
     <div class="row-fluid">
@@ -18,8 +26,21 @@
                 <div class="pull-left">
                     <img class="media-object" src="<%:bookInfo.Photourl %>">
                     <div id="two-button">
-                        <button class="btn btn-small" type="button">预定</button>
-                        <button class="btn btn-primary btn-small" type="button">收藏</button>
+                        <button class="btn btn-small" type="button"
+                            <%if (isLoggedOn){ %>
+                            onclick="orderBook(<%:bookInfo.Isbn %>)"
+                            <%} else { %>
+                             onclick="changeToLoginPage()"
+                            <%} %>
+                            >预定</button>
+
+                        <button class="btn btn-primary btn-small" type="button" 
+                            <%if (isLoggedOn){ %>
+                            onclick="favorBook(<%:bookInfo.Isbn %>)"
+                            <%} else { %>
+                            onclick="changeToLoginPage()"
+                            <%} %>
+                            >收藏</button>
                     </div>
                 </div>
                 <div class="media-body">
@@ -142,8 +163,21 @@
 
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
     <script type="text/javascript">
+        function changeToLoginPage()
+        {            
+            window.location = "<%:Url.Action("LogOn","Account", new {returnUrl = Request.RawUrl})%>" ;
+        }
         function addComment()
-        { 
+        {
+
+        }
+        function orderBook(isbn)
+        {
+            alert("order" + isbn);
+        }
+        function favorBook(isbn)
+        {
+            alert("favor" + isbn);
         }
     </script>
 </asp:Content>

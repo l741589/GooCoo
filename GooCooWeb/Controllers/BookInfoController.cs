@@ -25,7 +25,7 @@ namespace GooCooWeb.Controllers
             {
                 return View("Error");
             }
-            
+            //Request.RawUrl
 
             /*
             /////////////////
