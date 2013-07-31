@@ -108,7 +108,9 @@ namespace GooCooServer.Entity.Ex
             }
             s += "\n----------------------------------";
             return s;*/
-            return Isbn + " " + Name;
+            String s=Isbn + " " + Name+" "+Author+" "+Publisher;
+            if (Mark != null && Mark != "") s = Mark + " " + s;
+            return s;
         }
 
         public bool Filled
