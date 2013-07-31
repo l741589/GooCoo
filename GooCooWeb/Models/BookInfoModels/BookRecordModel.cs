@@ -44,9 +44,9 @@ namespace GooCooWeb.Models.BookInfoModels
                 {
                     bookRecordModel.CurrentCondition = BookCondition.BORROW;
                 }
-                resultList.Add(bookRecordModel);
-
-                //还差AvailableTime
+                DateTime t = user_bookDAO.Get(tempUser.Id, book.Id, User_Book.ERelation.BORROW).Timestamp;
+                bookRecordModel.AvailableTime = Book.getReturnTime(t);
+                resultList.Add(bookRecordModel);                                
             }
 
             return resultList;

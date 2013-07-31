@@ -119,7 +119,7 @@
                             <%if (bookRecord.CurrentCondition == GooCooWeb.Models.BookInfoModels.BookCondition.AVAILABLE){ %>
                                 <p style="color:green">可借</p>
                             <%} else { %>
-                                <p>借出-应还日期：<%:GooCooServer.Entity.Book.getReturnTime(bookRecord.AvailableTime) %></p>
+                                <p>借出-应还日期：<%:bookRecord.AvailableTime %></p>
                             <%} %>
                             
                         </td>
