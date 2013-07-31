@@ -10,7 +10,7 @@ namespace GooCooServer.IDAO
 {
     public interface ICommentDAO : IBaseDAO
     {
-        Comment Add(Comment comment);
+        Comment Add(Comment comment, String isbn, String userid);
         Comment Get(int id);
         void Del(int id);
         void Set(Comment comment);
