@@ -115,8 +115,8 @@ namespace GooCooWeb.Controllers
                     BorrowBookInfo borrowBookInfo = new BorrowBookInfo();
                     borrowBookInfo.Id = book.Id;
                     borrowBookInfo.Name = bookInfo.Name;
-                    borrowBookInfo.BorrowTime = book.Timestamp;
-                    borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(book.Timestamp);
+                    borrowBookInfo.BorrowTime = user_bookDAO.Get(localUser.Id, book.Id, User_Book.ERelation.BORROW).Timestamp;
+                    borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(borrowBookInfo.BorrowTime);
                     model.Add(borrowBookInfo);
                 }
             }
@@ -147,7 +147,7 @@ namespace GooCooWeb.Controllers
                     DonateBookInfo donateBookInfo = new DonateBookInfo();
                     donateBookInfo.Id = book.Id;
                     donateBookInfo.Name = bookInfo.Name;
-                    donateBookInfo.DonateTime = bookInfo.Timestamp;
+                    donateBookInfo.DonateTime = book.Timestamp;
                     model.Add(donateBookInfo);
                 }
             }
