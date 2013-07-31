@@ -103,6 +103,11 @@
     <div class="row-fluid">
         <div class="span9">
             <h4>书籍状态：</h4>
+            <%if (bookRecordList == null || bookRecordList.Count == 0){ %>
+            <div class="span7">
+                <p>暂无书籍</p>
+            </div>
+            <%} else { %>
             <table class="table">
                 <thead>
                     <tr>
@@ -128,6 +133,7 @@
                 </tbody>
 
             </table>
+            <%} %>
         </div>
     </div>
 
@@ -145,7 +151,8 @@
                     <%} %>
                 >确定</button>
             </div>
-                <table class="table table-striped span9" >
+            <div class="span11">
+                <table class="table table-striped" style="width:inherit" >
                     <tbody id="comment-table-body">
                 <%
                     foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
@@ -161,6 +168,7 @@
                     %>
                         </tbody>
                 </table>     
+            </div>
         </div>       
         
     </div>

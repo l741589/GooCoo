@@ -58,7 +58,9 @@ namespace GooCooWeb.Models.BookInfoModels
                     bookRecordList = BookRecordModel.toRecord(bookList);
                     this.Books = bookRecordList;
                 }
-                catch (Exception) { }
+                catch (Exception) { 
+                    this.Books = new List<BookRecordModel>();
+                }
 
                 //评论信息            
                 IBook_CommentDAO book_commentDAO = DAOFactory.createDAO("Book_CommentDAO") as IBook_CommentDAO;
