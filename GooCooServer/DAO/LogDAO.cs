@@ -62,7 +62,7 @@ namespace GooCooServer.DAO
             return dbManagerCount(myParam, sqlQuery);
         }
 
-        public List<Log> dbManagerList(string sqlQuery)
+        public List<Log> dbManagerList(string sqlQuery, SqlParameter time1, SqlParameter time2)
         {
             List<Log> logs;
 
@@ -77,7 +77,10 @@ namespace GooCooServer.DAO
                     throw new BMException("Create Connnect Error");
                 }
                 SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
-
+                if (time1 != null)
+                    myCommand.Parameters.Add(time1);
+                if (time2 != null)
+                    myCommand.Parameters.Add(time2);
                 SqlDataReader sqlDataReader = null;
                 try
                 {
@@ -104,9 +107,13 @@ namespace GooCooServer.DAO
 
         public List<Log> GetBetween(DateTime start_time, DateTime end_time)
         {
+            SqlParameter time1 = new SqlParameter("@time1", SqlDbType.DateTime);
+            time1.Value = start_time;
+            SqlParameter time2 = new SqlParameter("@time2", SqlDbType.DateTime);
+            time2.Value = end_time;
 
-            string sqlQuery = "SELECT * FROM LOG WHERE time >= "+start_time+" AND time <= "+end_time+"";
-            List<Log> logs = dbManagerList(sqlQuery);
+            string sqlQuery = "SELECT * FROM LOG WHERE time >= @time1 AND time <= @time2";
+            List<Log> logs = dbManagerList(sqlQuery, time1, time2);
 
             if (logs.Count != 0)
                 return logs;
@@ -126,7 +133,7 @@ namespace GooCooServer.DAO
                 sqlQuery = "SELECT TOP " + count + " * FROM LOG WHERE (id NOT IN (SELECT TOP " + to + " id FROM LOG))";
             }
 
-            List<Log> logs = dbManagerList(sqlQuery);
+            List<Log> logs = dbManagerList(sqlQuery, null, null);
 
             if (logs.Count != 0)
                 return logs;

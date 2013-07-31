@@ -32,7 +32,7 @@ namespace GooCooAdmin.Utility
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://10.60.36.35:" + Properties.Settings.Default.PORT + "/" + path);
+                WebRequest request = WebRequest.Create("http://localhost:" + Properties.Settings.Default.PORT + "/" + path);
                 request.Method = "POST";
                 string postData = BuildArgs(args);
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
