@@ -185,7 +185,41 @@ namespace GooCooWeb.Controllers
         [LoggedOnFilter]
         public ActionResult PreorderInfo()
         {
-            return View();
+            PreorderInfoModel model = new PreorderInfoModel();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
+            IUser_BookInfoDAO user_bookinfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+            try
+            {
+                List<BookInfo> books = user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.ORDER);
+                ViewBag.PreorderBookNumber = books.Count;
+ 
+                IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+                foreach (BookInfo bookInfo in books)
+                {
+                    PreorderBookInfo preorderBookInfo = new PreorderBookInfo();
+                    preorderBookInfo.Isbn = bookInfo.Isbn;
+                    preorderBookInfo.Name = bookInfo.Name;
+                    preorderBookInfo.Author = bookInfo.Author;
+                    preorderBookInfo.BorrowedNumber = book_bookinfoDAO.GetBook(bookInfo.Isbn).Count - book_bookinfoDAO.GetAvaliableBookNumber(bookInfo.Isbn);
+                    try
+                    {
+                        preorderBookInfo.PreorderNumber = user_bookinfoDAO.GetUser(bookInfo.Isbn, User_BookInfo.ERelation.ORDER).Count;
+                    }
+                    catch (BMException)
+                    {
+                        preorderBookInfo.PreorderNumber = 0;
+                    }
+
+                    User_BookInfo user_bookInfo = user_bookinfoDAO.Get(bookInfo.Isbn, localUser.Id, User_BookInfo.ERelation.ORDER);
+                    preorderBookInfo.PreorderDate = user_bookInfo.Timestamp;
+                }
+            }
+            catch (BMException)
+            {
+                ViewBag.PreorderBookNumber = 0;
+            }
+            return View(model);
         }
     }
 
