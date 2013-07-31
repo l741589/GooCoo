@@ -14,9 +14,11 @@ namespace GooCooWeb.Models.BookInfoModels
         public const int CommentHomePageCount = 10;
 
         public BookInfo Bookinfo { get; set; }
-        public int AvailableCount { get; set; }     //剩余数量(出去借走、预定的书籍之后)
-        public int OrderCount { get; set; }         //预定数量
+        public int AvailableCount { get; set; }     //剩余数量(出去借走、预定的书籍之后)  ， 为0时可预定
+
+        
         public List<BookRecordModel> Books { get; set; }
+        
 
         //Comment
         public List<CommentRecordModel> TopComments { get; set; }       //最新评论,其余评论使用ajax获取
@@ -94,16 +96,9 @@ namespace GooCooWeb.Models.BookInfoModels
 
                 //剩余数量
                 this.AvailableCount = book_bookInfoDAO.GetAvaliableBookNumber(isbn);
-                //计算被预定的数量
-                int borrowCount = 0;                
-                foreach (BookRecordModel bookRecord in this.Books)
-                {
-                    if (bookRecord.CurrentCondition == BookCondition.BORROW)
-                    {
-                        borrowCount++;
-                    }
-                }
-                this.OrderCount = this.Books.Count - borrowCount - this.AvailableCount;
+
+               
+   
             }
         }
     }

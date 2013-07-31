@@ -28,23 +28,54 @@
                         <img class="media-object" src="<%:GooCooServer.Entity.BookInfo.getMidPhotoUrl(bookInfo) %>">
                     </a>
                     <div id="two-button">
-                        <button class="btn btn-small" type="button" 
+                        <%if (bookInfoRecord.AvailableCount == 0){ %>
+                        <button class="btn btn-small" type="button"  data-loading-text="Loading..." id="order-button"
                             onclick=
                                 <%if (isLoggedOn){ %>
-                                    "orderBook(<%:bookInfo.Isbn %>)"
+                                    <%if (ViewBag.HasOrder){ %>
+                                        "cancelOrderBook(<%:bookInfo.Isbn %>)"
+                                    <%} else { %>
+                                        "orderBook(<%:bookInfo.Isbn %>)"
+                                    <% } %>
                                 <%} else { %>
                                     "changeToLoginPage()"
                                 <%} %>
-                            >预定</button>
+                            >
+                            <%if (isLoggedOn){ %>
+                                    <%if (ViewBag.HasOrder){ %>
+                                        取消预定
+                                    <%} else { %>
+                                        预定
+                                    <% } %>
+                                <%} else { %>
+                                    预定
+                                <%} %>
 
-                        <button class="btn btn-primary btn-small" type="button" 
+                        </button>
+                        <%} %>
+
+                        <button class="btn btn-primary btn-small" type="button" data-loading-text="Loading..." id="favor-button"
                             onclick=
                                 <%if (isLoggedOn){ %>
-                                    "favorBook(<%:bookInfo.Isbn %>)"
+                                    <%if (ViewBag.HasFavor){ %>
+                                        "cancelFavorBook(<%:bookInfo.Isbn %>)"
+                                    <%} else { %>
+                                        "favorBook(<%:bookInfo.Isbn %>)"
+                                    <%} %>
                                 <%} else { %>
                                     "changeToLoginPage()"
                                 <%} %>
-                            >收藏</button>
+                            >
+                             <%if (isLoggedOn){ %>
+                                    <%if (ViewBag.HasFavor){ %>
+                                        取消收藏
+                                    <%} else { %>
+                                        收藏
+                                    <%} %>
+                                    <%} else { %>
+                                        收藏
+                                    <%} %>
+                        </button>
                     </div>
                 </div>
                 <div class="media-body">
@@ -212,7 +243,7 @@
 
                 }
                 else {
-                    alert("失败");
+                    alert("评论失败，请稍后再试");
                 }
             });
         }
@@ -241,7 +272,8 @@
             });
         }
         function favorBook(isbn)
-        {            
+        {
+            
             $.post('<%:Url.Action("AddFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
                 if (data.result) {
                     alert("成功");
