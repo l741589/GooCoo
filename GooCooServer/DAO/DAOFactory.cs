@@ -27,10 +27,10 @@ namespace GooCooServer.DAO
                 case "UserDAO":
                     requestDAO = new UserDAO();
                     break;
-                case "CommandDAO":
+                case "CommentDAO":
                     requestDAO = new CommentDAO();
                     break;
-                case "BookInfo_ComentDAO":
+                case "Book_CommentDAO":
                     requestDAO = new Book_CommentDAO();
                     break;
                 case "LogDAO":
