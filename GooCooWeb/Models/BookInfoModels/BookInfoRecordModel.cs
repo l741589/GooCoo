@@ -78,8 +78,8 @@ namespace GooCooWeb.Models.BookInfoModels
                     List<Comment> commentList = null;
                     try
                     {
-                        int bookCount = BookInfoRecordModel.CommentHomePageCount < commentCount ? BookInfoRecordModel.CommentHomePageCount : commentCount;
-                        commentList = book_commentDAO.GetComment(bookinfo.Isbn, 1, bookCount);
+                        //int bookCount = BookInfoRecordModel.CommentHomePageCount < commentCount ? BookInfoRecordModel.CommentHomePageCount : commentCount;
+                        commentList = book_commentDAO.GetComment(bookinfo.Isbn, 1, commentCount);
                         //转换为CommentRecord
                         List<CommentRecordModel> commentRecordList = CommentRecordModel.toRecord(commentList);
                         this.TopComments = commentRecordList;

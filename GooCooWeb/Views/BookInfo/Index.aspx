@@ -157,12 +157,14 @@
                 <%
                     foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
                  %>
+                        
                 <tr>
                     <td>
                         <p><span class="comment-author"><%:commentRecord.CommentMaker.Name%></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment-time"><%:commentRecord.Content.Timestamp %></span></p>
                         <p><%:commentRecord.Content.Content %></p>                        
                     </td>
                 </tr>
+                        
                     <%
                         }
                     %>
@@ -248,6 +250,15 @@
                     tableBody.insertBefore(tr, firstChild);
 
                     contentTextArea.value = "";
+
+                    tr.style = "display: none;";
+                    //$(tr).slideDown(500);
+                    //$(tr).slideToggle(1000);
+                    //tr.style = "height:0px";
+
+
+                    $(tr).fadeIn(700);
+                    
 
                 }
                 else {
