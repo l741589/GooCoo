@@ -64,8 +64,12 @@ namespace GooCooAdmin
             mi_exit.Click += mi_exit_Click;
             lb_user.SelectionChanged += lb_user_SelectionChanged;
             lb_book.SelectionChanged += lb_book_SelectionChanged;
+            lb_ruser.SelectionChanged += lb_user_SelectionChanged;
+            lb_rbook.SelectionChanged += lb_book_SelectionChanged;
             lb_book.MouseDoubleClick += lb_book_MouseDoubleClick;
             lb_user.MouseDoubleClick += lb_book_MouseDoubleClick;
+            lb_rbook.MouseDoubleClick += lb_book_MouseDoubleClick;
+            lb_ruser.MouseDoubleClick += lb_book_MouseDoubleClick;
             bn_syncUser.Click += bn_sync_Click;
             bn_addUser.Click += bn_addUser_Click;
 
@@ -274,27 +278,69 @@ namespace GooCooAdmin
         private void Update_User_List()
         {
             lb_user.Items.Clear();
-            foreach (UserEx e in user_list.ToList())
+            lb_ruser.Items.Clear();
+            var searchlist = user_list["search"];
+            if (searchlist != null)
             {
-                int index = lb_user.Items.Add(e);
+                foreach (UserEx e in searchlist)
+                {
+                    lb_user.Items.Add(e);
+                }
+            }
+            var rlist = user_list.ToList();
+            if (rlist == null || rlist.Count == 0)
+            {
+                dp_ruser.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                foreach (UserEx e in rlist)
+                {
+                    int index = lb_ruser.Items.Add(e);
+                }
+                dp_ruser.Visibility = Visibility.Visible;
             }
             lb_user.SelectionChanged -= lb_user_SelectionChanged;
+            lb_ruser.SelectionChanged -= lb_user_SelectionChanged;
             if (lb_user.Items.Contains(sel_user)) lb_user.SelectedItem = sel_user; else sel_user = null;
             lb_user.SelectionChanged += lb_user_SelectionChanged;
+            lb_ruser.SelectionChanged += lb_user_SelectionChanged;
             lb_user.InvalidateArrange();
+            lb_ruser.InvalidateArrange();
         }
 
         private void Update_Book_List()
         {
             lb_book.Items.Clear();
-            foreach (BookEx e in book_list.ToList())
+            lb_rbook.Items.Clear();
+            var searchlist = book_list["search"];
+            if (searchlist != null)
             {
-                lb_book.Items.Add(e);
+                foreach (BookEx e in searchlist)
+                {
+                    lb_book.Items.Add(e);
+                }
+            }
+            var rlist = book_list.ToList();
+            if (rlist == null || rlist.Count == 0)
+            {
+                dp_rbook.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                foreach (BookEx e in rlist)
+                {
+                    int index = lb_rbook.Items.Add(e);
+                }
+                dp_rbook.Visibility = Visibility.Visible;
             }
             lb_book.SelectionChanged -= lb_book_SelectionChanged;
+            lb_rbook.SelectionChanged -= lb_book_SelectionChanged;
             if (lb_book.Items.Contains(sel_book)) lb_book.SelectedItem = sel_book; else sel_book = null;
             lb_book.SelectionChanged += lb_book_SelectionChanged;
+            lb_rbook.SelectionChanged += lb_book_SelectionChanged;
             lb_book.InvalidateArrange();
+            lb_rbook.InvalidateArrange();
         }
 
 
@@ -311,7 +357,7 @@ namespace GooCooAdmin
             if (s == null) { WebError(); booktextchanging = false; return; }
             book_list["search"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;
             book_list.reset();
-            book_list.Priorities["search"] = 1;
+            book_list.Priorities["search"] = -1;
             Update_Book_List();
             booktextchanging = false; return; 
         }
@@ -321,16 +367,16 @@ namespace GooCooAdmin
             if (usertextchanging) return;
             usertextchanging = true;
             String keyword = (sender as TextBox).Text;
-            if (keyword == null || keyword == "") { usertextchanging = true; return; }
+            if (keyword == null || keyword == "") { usertextchanging = false; return; }
             Dictionary<String, String> cv = new Dictionary<String, String>();
             cv.Add("keyword", keyword);
             String s = await HttpHelper.Post(Properties.Resources.URL_FINDUSER, cv);
-            if (s == null) { WebError(); usertextchanging = true; return; }
+            if (s == null) { WebError(); usertextchanging = false; return; }
             user_list["search"] = Util.DecodeJson(s, typeof(List<UserEx>)) as List<UserEx>;
             user_list.reset();
-            user_list.Priorities["search"] = 1;
+            user_list.Priorities["search"] = -1;
             Update_User_List();
-            usertextchanging = true; return; 
+            usertextchanging = false; return; 
         }
 
         public bool Granted(UserEx user = null)
@@ -340,13 +386,13 @@ namespace GooCooAdmin
             return false;
         }
 
-        public async Task<bool> Grant(UserEx user = null,String password = null)
+        public async Task<bool> Grant(String user = null,String password = null)
         {
-            if (user == null) user = sel_user;
-            if (user == AuthorisedUser) return true;
+            if (sel_user != null && user == null) user = sel_user.Id;
+            if (AuthorisedUser != null && user == AuthorisedUser.Id) return true;
             if (password != null)
             {
-                String s = await Util.CreateContentValue().Add("id", user.Id).Add("pw", password).Post(Properties.Resources.URL_LOGIN);
+                String s = await Util.CreateContentValue().Add("id", user).Add("pw", password).Post(Properties.Resources.URL_LOGIN);
                 if (s != null && s != "")
                 {
                     try
@@ -365,7 +411,7 @@ namespace GooCooAdmin
             else
             {
                 LoginDialog dlg = new LoginDialog();
-                dlg.tb_id.Text = user.Id.ToString();
+                dlg.tb_id.Text = user;
                 dlg.tb_id.IsEnabled = false;
                 dlg.pb_pw.Focus();
                 if (dlg.ShowDialog() == true)
@@ -382,7 +428,7 @@ namespace GooCooAdmin
                     else
                     {
                         UserEx u = Util.DecodeJson<UserEx>(s);
-                        Debug.Assert(u == user, "登录用户不是目标用户");
+                        Debug.Assert(u.Id == user, "登录用户不是目标用户");
                         AuthorisedUser = u;
                         return true;
                     }
@@ -405,9 +451,18 @@ namespace GooCooAdmin
                 Dictionary<String, String> cv = new Dictionary<string, string>();
                 switch (dlg.cb_relation.SelectedIndex)
                 {
-                    case 0: if (sel_user == null || !await Grant(sel_user,dlg.pb_pw.Password)) { MessageBox.Show(this, "操作失败"); return; }
-                        url = Properties.Resources.URL_BORROW;
-                        cv.Add("user", sel_user.Id);
+                    case 0:
+                        if (sel_user == null)
+                        {
+                            if (!await Grant(dlg.x.Text, dlg.pb_pw.Password)) { MessageBox.Show(this, "操作失败"); return; }
+                            cv.Add("user", dlg.x.Text);
+                        }
+                        else
+                        {
+                            if (!await Grant(sel_user.Id, dlg.pb_pw.Password)) { MessageBox.Show(this, "操作失败"); return; }
+                            cv.Add("user", sel_user.Id);
+                        }
+                        url = Properties.Resources.URL_BORROW;                        
                         cv.Add("book", (dlg.cb_bookid.SelectedValue as Label).Content.ToString());
                         break;
                     case 1:
@@ -455,6 +510,10 @@ namespace GooCooAdmin
         async void lb_book_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListBox).SelectedItem == null) return;
+            if (sender == lb_user) { lb_ruser.UnselectAll(); dp_ruser.Visibility = Visibility.Collapsed; }
+            if (sender == lb_ruser) lb_user.UnselectAll();
+            if (sender == lb_book) { lb_rbook.UnselectAll(); dp_rbook.Visibility = Visibility.Collapsed; }
+            if (sender == lb_rbook) lb_book.UnselectAll();
             Dictionary<String, String> cv = new Dictionary<string, string>();
             sel_book = (sender as ListBox).SelectedValue as BookEx;
 
@@ -464,7 +523,7 @@ namespace GooCooAdmin
             object[] objs = Util.DecodeJson(s, typeof(List<UserEx>), typeof(BookEx));
             user_list["borrow"] = objs[0] as List<UserEx>;
             Util.Merge(sel_book, objs[1] as BookEx, true);
-            user_list.Priorities["borrow"] = 2;
+            user_list.Priorities["borrow"] = 3;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETUSERBYORDER, cv);
             if (s == null) { WebError(); return; }
@@ -486,13 +545,17 @@ namespace GooCooAdmin
         async void lb_user_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender as ListBox).SelectedItem == null) return;
+            if (sender == lb_user) { lb_ruser.UnselectAll(); dp_ruser.Visibility = Visibility.Collapsed; }
+            if (sender == lb_ruser) lb_user.UnselectAll();
+            if (sender == lb_book) { lb_rbook.UnselectAll(); dp_rbook.Visibility = Visibility.Collapsed; }
+            if (sender == lb_rbook) lb_book.UnselectAll();
             Dictionary<String, String> cv = new Dictionary<string, string>();
             sel_user = (sender as ListBox).SelectedValue as UserEx;
             cv.Add("user", sel_user.Id);
             String s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYBORROW, cv);
             if (s == null) { WebError(); return; }
             book_list["borrow"] = Util.DecodeJson(s, typeof(List<BookEx>)) as List<BookEx>;            
-            book_list.Priorities["borrow"] = 2;
+            book_list.Priorities["borrow"] = 3;
 
             s = await HttpHelper.Post(Properties.Resources.URL_GETBOOKBYORDER, cv);
             if (s == null) { WebError(); return; }

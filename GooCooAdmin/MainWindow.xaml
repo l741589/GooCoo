@@ -18,30 +18,6 @@
             <TabItem Header="书籍业务">
                 <UniformGrid Columns="2" Rows="1" DockPanel.Dock="Bottom">
                     <DockPanel LastChildFill="True">
-                        <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap"  DockPanel.Dock="Top">
-                            <TextBox.Resources>
-                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
-                                    <VisualBrush.Visual>
-                                        <TextBlock FontStyle="Italic" Text="搜索用户"/>
-                                    </VisualBrush.Visual>
-                                </VisualBrush>
-                            </TextBox.Resources>
-                            <TextBox.Style>
-                                <Style TargetType="TextBox">
-                                    <Style.Triggers>
-                                        <Trigger Property="Text" Value="{x:Null}">
-                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
-                                        </Trigger>
-                                        <Trigger Property="Text" Value="">
-                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBox.Style>
-                        </TextBox>
-                        <ListBox x:Name="lb_user"/>
-                    </DockPanel>
-                    <DockPanel LastChildFill="True">
                         <TextBox x:Name="tb_book" Height="23" TextWrapping="NoWrap"  DockPanel.Dock="Top">
                             <TextBox.Resources>
                                 <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
@@ -63,8 +39,40 @@
                                 </Style>
                             </TextBox.Style>
                         </TextBox>
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" Visibility="Collapsed" x:Name="dp_rbook">
+                            <Label Content="与该用户相关的书籍"  DockPanel.Dock="Top"/>
+                            <ListBox DockPanel.Dock="Bottom" Height="128" x:Name="lb_rbook"/>
+                        </DockPanel>
                         <ListBox x:Name="lb_book"/>
                     </DockPanel>
+                    <DockPanel LastChildFill="True">
+                        <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap"  DockPanel.Dock="Top">
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="搜索用户"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" Visibility="Collapsed" x:Name="dp_ruser">
+                            <Label Content="与该书相关的用户"  DockPanel.Dock="Top"/>
+                            <ListBox DockPanel.Dock="Bottom" Height="128" x:Name="lb_ruser"/>
+                        </DockPanel>
+                        <ListBox x:Name="lb_user"/>
+                    </DockPanel>                    
                 </UniformGrid>
             </TabItem>
             <TabItem Header="管理用户">

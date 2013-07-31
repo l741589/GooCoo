@@ -42,6 +42,15 @@ namespace GooCooServer.Entity.Ex
             //if (Mark != null) return Mark + " " + s;
             //if (Password != null) s += "\n" + Password;
             String s = String.Format("{0,-15} {1}", Id, Name);
+            if (Mark != null)
+            {
+                switch (Mark)
+                {
+                    case "B": s = "借阅 " + s; break;
+                    case "O": s = "预定 " + s; break;
+                    case "F": s = "收藏 " + s; break;
+                }
+            }
             return s;
         }
     }
