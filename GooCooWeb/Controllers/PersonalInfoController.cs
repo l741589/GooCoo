@@ -79,20 +79,25 @@ namespace GooCooWeb.Controllers
         [HttpPost]
         public ActionResult UpdateInfo(PersonalInfoModel model)
         {
-            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            if (ModelState.IsValid)
+            {
+                IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
 
-            User user = new User();
-            user.Id = model.Id;
-            user.Name = model.Name;
-            user.Password = model.Password;
-            user.Phonenumber = model.PhoneNumber;
-            user.Email = model.Email;
-            user.Repvalue = 0;
-            user.Authority = (GooCooServer.Entity.User.EAuthority)model.Authority;
+                User user = new User();
+                user.Id = model.Id;
+                user.Name = model.Name;
+                user.Password = model.Password;
+                user.Phonenumber = model.PhoneNumber;
+                user.Email = model.Email;
+                user.Repvalue = 0;
+                user.Authority = (GooCooServer.Entity.User.EAuthority)model.Authority;
 
-            string userSessionID = (string)Session["UserSessionID"];
-            userDAO.Set(userSessionID, user);
-            return Redirect("/PersonalInfo/Index");
+                string userSessionID = (string)Session["UserSessionID"];
+                userDAO.Set(userSessionID, user);
+                return Redirect("/PersonalInfo/Index");
+            }
+
+            return View(model);
         }
 
         [LoggedOnFilter]
@@ -161,7 +166,11 @@ namespace GooCooWeb.Controllers
         [LoggedOnFilter]
         public ActionResult CollectInfo()
         {
-            return View();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
+            IUser_BookInfoDAO user_bookinfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+            CollectInfoModel model = new CollectInfoModel(user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.FAVOR));
+            return View(model);
         }
 
         [LoggedOnFilter]

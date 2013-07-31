@@ -8,9 +8,14 @@ using GooCooServer.Entity;
 
 namespace GooCooWeb.Models
 {
-    public class CollectInfo
+    public class CollectInfoModel
     {
         private List<BookInfo> books = new List<BookInfo>();
+
+        public CollectInfoModel(List<BookInfo> books)
+        {
+            this.books = books;
+        }
 
         public void Add(BookInfo bookInfo)
         {

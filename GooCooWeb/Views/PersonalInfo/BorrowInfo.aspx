@@ -20,7 +20,7 @@
                     <div class="alert">
                         借阅册数 【<%: ViewBag.BorrowBookNumber %>】
                     </div>
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>图书编号</th>
@@ -35,6 +35,13 @@
                                 for (int idx = 0; idx < books.Count; idx++)
                                 {
                                     GooCooWeb.Models.BorrowBookInfo book = books[idx];
+                                    if (book.ExpectedReturnTime < DateTime.Now)
+                                    {
+                           %>
+                                        <tr class="error">
+                           <%
+                                    }
+                                    else
                                     if (idx % 2 == 0)
                                     {
                             %>
