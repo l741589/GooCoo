@@ -14,7 +14,8 @@
                     <h5 class="media-heading"><%:bookInfo.Name %></h5>
                 </a>
                 <p class="book-author">作者：<%:bookInfo.Author %>></p>
-                <p class="book-description"><%:bookInfo.Summary %></p>
+                <%const int description_length = 100; %>
+                <p class="book-description"><%:bookInfo.Summary.Length > description_length? bookInfo.Summary.Substring(0,description_length) + "..." : bookInfo.Summary %></p>
             </div>
         </div>
         <%} %>            

@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
            
-    <div class="span8"> 
+    <div class="span8 offset1"> 
         <% Html.RenderPartial("searchBar"); %>
 
         <% if (ViewBag.SearchResult.HasSearch){ %>
@@ -32,7 +32,7 @@
                     <p class="media-heading"><%:bookInfo.Name %></p>
                 </a>
                 <p class="book-author">作者：<%:bookInfo.Author %></p>
-                <%const int description_length = 100; %>
+                <%const int description_length = 180; %>
                 <p class="book-description"><%:bookInfo.Summary.Length > description_length? bookInfo.Summary.Substring(0,description_length) + "..." : bookInfo.Summary %></p>
             </div>
         </div>

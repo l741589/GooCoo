@@ -140,6 +140,19 @@ namespace GooCooServer.DAO
             return dbManagerCount(myParam, sqlQuery);
         }
 
+        public bool isExist(String ID)
+        {
+            SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);
+            myParam.Value = ID;
+            string sqlQuery = "SELECT TOP 1 * FROM USERINFO WHERE id = @id";
+            List<User> users = dbManagerList(myParam, sqlQuery);
+
+            if (users != null || users.Count != 0)
+                return true;
+            else
+                return false;
+        }
+
         public List<User> GetByID(String ID, int from = 0, int count = 0)
         {
             SqlParameter myParam = new SqlParameter("@id", SqlDbType.VarChar);

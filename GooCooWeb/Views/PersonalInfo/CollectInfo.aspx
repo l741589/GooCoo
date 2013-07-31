@@ -12,9 +12,9 @@
 </asp:Content>
 
 <asp:Content ID="MainContent" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="row-fluid">
-        <div class="hero-unit">
-        <table>
+    <div class="hero-unit">
+        <div class="row-fluid">
+        <table style="width:100%;">
             <% List<GooCooServer.Entity.BookInfo> bookInfos = Model.GetBooks();
                for (int idx = 0; idx < bookInfos.Count; idx ++)
                {
@@ -25,7 +25,7 @@
                         <tr>
             <%      } 
             %>
-                            <td><a href="/BookInfo?isbn=<%: bookInfo.Isbn %>"><img src="<%: bookInfo.Photourl %>" alt="<%: bookInfo.Name %>"/></a></td>
+                            <td><a class="thumbnail" href="/BookInfo?isbn=<%: bookInfo.Isbn %>"><img style="width: 120px; height: 145px;" class="media-object" src="<%: bookInfo.Photourl %>" alt="<%: bookInfo.Name %>"/></a></td>
             <%      
                     if (idx % 4 == 3 || idx == bookInfos.Count)
                     {

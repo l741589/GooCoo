@@ -6,7 +6,7 @@
             <a class="brand" href="/">GooCoo</a>
 
             <ul class="nav pull-left">
-                <li><a href="#">首页</a></li>
+                <li><a href="<%:Url.Action("Index", "Home") %>">首页</a></li>
                 <li><a href="<%:Url.Action("Index","SearchView") %>">搜索</a></li>
             </ul>
 
