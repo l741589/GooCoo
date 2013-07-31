@@ -31,8 +31,9 @@
                 <a class="book-title" target="_blank" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
                     <p class="media-heading"><%:bookInfo.Name %></p>
                 </a>
-                <p class="book-author">作者：<%:bookInfo.Author %>></p>
-                <p class="book-description"><%:bookInfo.Summary %></p>
+                <p class="book-author">作者：<%:bookInfo.Author %></p>
+                <%const int description_length = 100; %>
+                <p class="book-description"><%:bookInfo.Summary.Length > description_length? bookInfo.Summary.Substring(0,description_length) + "..." : bookInfo.Summary %></p>
             </div>
         </div>
         </div>
