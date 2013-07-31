@@ -58,7 +58,7 @@ namespace GooCooWeb.Models.BookInfoModels
                     bookRecordList = BookRecordModel.toRecord(bookList);
                     this.Books = bookRecordList;
                 }
-                catch (Exception) { 
+                catch (Exception e) { 
                     this.Books = new List<BookRecordModel>();
                 }
 
