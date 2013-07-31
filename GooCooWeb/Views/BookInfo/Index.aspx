@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/SearchViewLayout.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">            
-    Index
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    <%:ViewBag.BookInfoRecord.Bookinfo.Name %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <% 
         GooCooWeb.Models.BookInfoModels.BookInfoRecordModel bookInfoRecord = ViewBag.BookInfoRecord;
-        GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;
+        GooCooServer.Entity.BookInfo bookInfo = bookInfoRecord.Bookinfo;        
         List<GooCooWeb.Models.BookInfoModels.BookRecordModel> bookRecordList = bookInfoRecord.Books;
 
 
@@ -24,7 +24,9 @@
             <h2><%:bookInfo.Name %></h2>
                 <div class="media">
                 <div class="pull-left">
-                    <img class="media-object" src="<%:bookInfo.Photourl %>">
+                    <a href="<%:GooCooServer.Entity.BookInfo.getLargePhotoUrl(bookInfo) %>">
+                        <img class="media-object" src="<%:GooCooServer.Entity.BookInfo.getMidPhotoUrl(bookInfo) %>">
+                    </a>
                     <div id="two-button">
                         <button class="btn btn-small" type="button" 
                             onclick=
@@ -177,9 +179,10 @@
         {
             var contentTextArea = document.getElementById("comment-content");
             var content = contentTextArea.value;
-            $().button('loading');
+            $('#add-comment-button').button('loading');
 
             $.post('<%:Url.Action("AddComment","AjaxComment")%>', { 'content': content, 'isbn': isbn }, function (data) {
+                $('#add-comment-button').button('reset');
                 if (data.result) {
                     alert("成功");
                 }

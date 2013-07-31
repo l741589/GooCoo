@@ -82,5 +82,18 @@ namespace GooCooServer.Entity
         {
             return isbn.GetHashCode();
         }
+
+        public static string getMidPhotoUrl(BookInfo bookInfo)
+        {
+            string smallUrl = bookInfo.photourl;
+            string midUrl = smallUrl.Replace("img3.douban.com/spic/", "img3.douban.com/mpic/");            
+            return midUrl;
+        }
+        public static string getLargePhotoUrl(BookInfo bookInfo)
+        {
+            string smallUrl = bookInfo.photourl;
+            string largeUrl = smallUrl.Replace("img3.douban.com/spic/", "img3.douban.com/lpic/");
+            return largeUrl;
+        }
     }
 }
