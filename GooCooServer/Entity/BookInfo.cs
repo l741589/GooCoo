@@ -12,7 +12,6 @@ namespace GooCooServer.Entity
         private String name;
         private String summary;
         private String photourl;
-        //加一个作者
         private DateTime timestamp;
         private String author;
         private String publisher;

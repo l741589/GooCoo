@@ -79,9 +79,9 @@ namespace GooCooAdmin.Widget
         async void bn_detail_Click(object sender, RoutedEventArgs e)
         {
             BookEx user = new BookEx();
-            var borrows = Util.DecodeJson(await Util.CreateContentValue().Add("book", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYBORROW), typeof(List<UserEx>), typeof(BookEx))[0] as List<UserEx>;
-            var favors = Util.DecodeJson<List<UserEx>>(await Util.CreateContentValue().Add("book", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYFAVOR));
-            var orders = Util.DecodeJson(await Util.CreateContentValue().Add("book", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYORDER), typeof(List<UserEx>), typeof(BookEx))[0] as List<UserEx>;
+            var borrows = Util.DecodeJson(await Util.CreateContentValue().Add("isbn", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYBORROW), typeof(List<UserEx>), typeof(BookEx))[0] as List<UserEx>;
+            var favors = Util.DecodeJson<List<UserEx>>(await Util.CreateContentValue().Add("isbn", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYFAVOR));
+            var orders = Util.DecodeJson(await Util.CreateContentValue().Add("isbn", Entity.Isbn).Post(Properties.Resources.URL_GETUSERBYORDER), typeof(List<UserEx>), typeof(BookEx))[0] as List<UserEx>;
             new BookInfoDialog(Entity, favors, orders, borrows).Show();
         }
 
@@ -91,7 +91,7 @@ namespace GooCooAdmin.Widget
             AddCol(36, GridUnitType.Pixel);
             AddCol(36, GridUnitType.Pixel);
             AddCol(36, GridUnitType.Pixel);
-            AddCol(72, GridUnitType.Pixel);
+            AddCol(96, GridUnitType.Pixel);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
