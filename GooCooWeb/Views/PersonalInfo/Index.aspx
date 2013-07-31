@@ -42,7 +42,7 @@
                     <div class="alert alert-error">
                         违规天次 【<%: Model.Repvalue %>】
                     </div>
-                    <button type="submit" class="btn btn-primary">修改信息</button>
+                    <%: Html.ActionLink("修改信息", "UpdateInfo", "PersonalInfo", null, new { @class = "btn btn-primary" }) %>
                 </fieldset>
             </form>
         </div>

@@ -105,7 +105,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BorrowInfoModel.cs" />
-    <Compile Include="Models\CollectInfo.cs" />
+    <Compile Include="Models\CollectInfoModel.cs" />
     <Compile Include="Models\DonateInfoModel.cs" />
     <Compile Include="Models\BookInfoModels\BookInfoRecordModel.cs" />
     <Compile Include="Models\BookInfoModels\BookRecordModel.cs" />

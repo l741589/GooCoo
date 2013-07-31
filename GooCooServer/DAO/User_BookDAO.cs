@@ -195,33 +195,44 @@ namespace GooCooServer.DAO
 
         public User_Book Get(String user_id, int book, User_Book.ERelation relation = User_Book.ERelation.BORROW)
         {
-            string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = "+book+" AND user_id = "+user_id+" AND relation = "+(int)relation+"";
-            SqlCommand myCommand = new SqlCommand(sqlQuery, connecter); 
-            SqlDataReader sqlDataReader = null;
-            try
+            using (connecter = new SqlConnection(connectStr))
             {
-                sqlDataReader = myCommand.ExecuteReader();
-            }
-            catch (System.Exception)
-            {
-                throw new BMException("");
-            }
+                try
+                {
+                    connecter.Open();
+                }
+                catch (System.Exception)
+                {
+                    throw new BMException("Create Connnect Error");
+                }
+                string sqlQuery = "SELECT * FROM USER_BOOK WHERE book_id = " + book + " AND user_id = " + user_id + " AND relation = " + (int)relation + "";
+                SqlCommand myCommand = new SqlCommand(sqlQuery, connecter);
+                SqlDataReader sqlDataReader = null;
+                try
+                {
+                    sqlDataReader = myCommand.ExecuteReader();
+                }
+                catch (System.Exception e)
+                {
+                    throw new BMException("");
+                }
 
-            User_Book userbook = null;
-            
-            if (sqlDataReader.Read())
-            {
-                userbook = new User_Book();
-                userbook.User = (string)sqlDataReader[0];
-                userbook.Book = (int)sqlDataReader[1];
-                userbook.Relation = (User_Book.ERelation)sqlDataReader[2];
-                userbook.Timestamp = (DateTime)sqlDataReader[3];
-            }
+                User_Book userbook = null;
 
-            if (userbook != null)
-                return userbook;
-            else
-                throw new BMException("User_Book get error");
+                if (sqlDataReader.Read())
+                {
+                    userbook = new User_Book();
+                    userbook.User = (string)sqlDataReader[0];
+                    userbook.Book = (int)sqlDataReader[1];
+                    userbook.Relation = (User_Book.ERelation)sqlDataReader[2];
+                    userbook.Timestamp = (DateTime)sqlDataReader[3];
+                }
+
+                if (userbook != null)
+                    return userbook;
+                else
+                    throw new BMException("User_Book get error");
+            }
         }
     }
 }

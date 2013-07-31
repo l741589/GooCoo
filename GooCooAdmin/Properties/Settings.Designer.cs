@@ -25,7 +25,7 @@ namespace GooCooAdmin.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11681")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10001")]
         public int PORT {
             get {
                 return ((int)(this["PORT"]));
