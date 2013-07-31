@@ -35,12 +35,11 @@ namespace GooCooServer.Handler
             {
                 try
                 {
-                    List<User> lus = ub.GetUser(book_isbn);
-                    User avaliableuser = ub.GetAvaliableUser(book_isbn);
+                    List<User> lus = ub.GetUser(book_isbn,User_BookInfo.ERelation.FAVOR);
+                    //User avaliableuser = ub.GetAvaliableUser(book_isbn);
                     foreach (var e in lus)
                     {
                         UserEx u = Util.CloneEntity<UserEx>(e);
-                        u.Orders.Add(book_isbn);
                         users.Add(u);
                     }
                 }

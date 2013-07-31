@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +32,11 @@ namespace GooCooAdmin.Utility
         {
             try
             {
-                WebRequest request = WebRequest.Create("http://localhost:" + Properties.Settings.Default.PORT + "/" + path);
+#if DEBUG
+                WebRequest request = WebRequest.Create("http://" + Properties.Settings.Default.DEBUGSERVERADDR + ":" + Properties.Settings.Default.DEBUGPORT + "/" + path);
+#else
+                WebRequest request = WebRequest.Create("http://"+Properties.Settings.Default.SERVERADDR+":" + Properties.Settings.Default.PORT + "/" + path);
+#endif
                 request.Method = "POST";
                 string postData = BuildArgs(args);
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);

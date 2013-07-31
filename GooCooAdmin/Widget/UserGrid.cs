@@ -18,7 +18,7 @@ namespace GooCooAdmin.Widget
         private Button bn_revert = new Button();
         private TextBox tb_id = new TextBox();
         private TextBox tb_name = new TextBox();
-        private PasswordBox pb_pw = new PasswordBox();
+        //private PasswordBox pb_pw = new PasswordBox();
         private ComboBox cb_authority = new ComboBox();
         private Label lb_status = new Label();
         private SpinEdit se_repvalue = new SpinEdit();
@@ -35,7 +35,7 @@ namespace GooCooAdmin.Widget
             AddCol(36, GridUnitType.Pixel);
             AddCol(64, GridUnitType.Pixel);
             AddCol(2, GridUnitType.Star);
-            AddCol(2, GridUnitType.Star);
+            //AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(64, GridUnitType.Pixel);
@@ -49,7 +49,7 @@ namespace GooCooAdmin.Widget
             bn_revert.IsEnabled = false;
             tb_id.TextChanged += tb_name_TextChanged;
             tb_name.TextChanged += tb_name_TextChanged;
-            pb_pw.PasswordChanged += pb_pw_PasswordChanged;
+            //pb_pw.PasswordChanged += pb_pw_PasswordChanged;
             cb_authority.Items.Add("USER");
             cb_authority.Items.Add("ADMIN");
             if (authory != UserEx.EAuthority.SUPERADMIN) cb_authority.IsEnabled = false;
@@ -60,30 +60,32 @@ namespace GooCooAdmin.Widget
             bn_detail.Content = "详细";
             bn_detail.Click += bn_detail_Click;
             tb_phone.TextChanged += tb_name_TextChanged;
+            se_repvalue.IsEnabled = false;
 
             Children.Add(bn_detail);
             Children.Add(bn_revert);
             Children.Add(bn_delete);
             Children.Add(tb_id);
             Children.Add(tb_name);
-            Children.Add(pb_pw);
+            //Children.Add(pb_pw);
             Children.Add(tb_email);
             Children.Add(tb_phone);
             Children.Add(se_repvalue);            
             Children.Add(cb_authority);
             Children.Add(lb_status);
 
-            SetColumn(bn_detail, 0);
-            SetColumn(bn_revert, 1);
-            SetColumn(bn_delete, 2);
-            SetColumn(tb_id, 3);
-            SetColumn(tb_name, 4);
-            SetColumn(pb_pw, 5);
-            SetColumn(tb_email, 6);
-            SetColumn(tb_phone, 7);
-            SetColumn(se_repvalue, 8);
-            SetColumn(cb_authority, 9);
-            SetColumn(lb_status, 10);
+            int col=0;
+            SetColumn(bn_detail, col++);
+            SetColumn(bn_revert, col++);
+            SetColumn(bn_delete, col++);
+            SetColumn(tb_id, col++);
+            SetColumn(tb_name, col++);
+            //SetColumn(pb_pw, col++);
+            SetColumn(tb_email, col++);
+            SetColumn(tb_phone, col++);
+            SetColumn(se_repvalue, col++);
+            SetColumn(cb_authority, col++);
+            SetColumn(lb_status, col++);
             
             update();
         }        
@@ -96,7 +98,7 @@ namespace GooCooAdmin.Widget
             AddCol(36, GridUnitType.Pixel);
             AddCol(64, GridUnitType.Pixel);
             AddCol(2, GridUnitType.Star);
-            AddCol(2, GridUnitType.Star);
+            //AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(64, GridUnitType.Pixel);
@@ -110,7 +112,7 @@ namespace GooCooAdmin.Widget
             tb_id.IsEnabled = false;
             tb_id.TextChanged += tb_name_TextChanged;
             tb_name.TextChanged += tb_name_TextChanged;
-            pb_pw.PasswordChanged += pb_pw_PasswordChanged;
+            //pb_pw.PasswordChanged += pb_pw_PasswordChanged;
             cb_authority.Items.Add("USER");
             cb_authority.Items.Add("ADMIN");
             if (authory != UserEx.EAuthority.SUPERADMIN) cb_authority.IsEnabled = false;
@@ -118,6 +120,7 @@ namespace GooCooAdmin.Widget
             lb_status.HorizontalContentAlignment = HorizontalAlignment.Center;
             tb_email.TextChanged += tb_name_TextChanged;
             se_repvalue.ValueChanged += se_repvalue_ValueChanged;
+            se_repvalue.IsEnabled = false;
             bn_detail.Content = "详细";
             bn_detail.Click += bn_detail_Click;
             tb_phone.TextChanged += tb_name_TextChanged;
@@ -127,24 +130,25 @@ namespace GooCooAdmin.Widget
             Children.Add(bn_delete);
             Children.Add(tb_id);
             Children.Add(tb_name);
-            Children.Add(pb_pw);
+            //Children.Add(pb_pw);
             Children.Add(tb_email);
             Children.Add(tb_phone);
             Children.Add(se_repvalue);
             Children.Add(cb_authority);
             Children.Add(lb_status);
 
-            SetColumn(bn_detail, 0);
-            SetColumn(bn_revert, 1);
-            SetColumn(bn_delete, 2);
-            SetColumn(tb_id, 3);
-            SetColumn(tb_name, 4);
-            SetColumn(pb_pw, 5);
-            SetColumn(tb_email, 6);
-            SetColumn(tb_phone, 7);
-            SetColumn(se_repvalue, 8);
-            SetColumn(cb_authority, 9);
-            SetColumn(lb_status, 10);
+            int col = 0;
+            SetColumn(bn_detail, col++);
+            SetColumn(bn_revert, col++);
+            SetColumn(bn_delete, col++);
+            SetColumn(tb_id, col++);
+            SetColumn(tb_name, col++);
+            //SetColumn(pb_pw, col++);
+            SetColumn(tb_email, col++);
+            SetColumn(tb_phone, col++);
+            SetColumn(se_repvalue, col++);
+            SetColumn(cb_authority, col++);
+            SetColumn(lb_status, col++);
             update();
         }
 
@@ -162,7 +166,7 @@ namespace GooCooAdmin.Widget
             update(false);
         }
 
-        async void pb_pw_PasswordChanged(object sender, RoutedEventArgs e)
+        /*async void pb_pw_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除 || pb_pw.Password == null || pb_pw.Password == "")
             {
@@ -171,7 +175,7 @@ namespace GooCooAdmin.Widget
             else
                 if (await (App.Current.MainWindow as MainWindow).Grant(Entity)) update(false);
                 else pb_pw.Password = RealEntity.Password;
-        }
+        }*/
 
         void bn_revert_Click(object sender, RoutedEventArgs e)
         {
@@ -179,9 +183,35 @@ namespace GooCooAdmin.Widget
             update();
         }
 
-        void bn_delete_Click(object sender, RoutedEventArgs e)
+        async void bn_delete_Click(object sender, RoutedEventArgs e)
         {
-            Deleted = !Deleted;
+            Deleted = true;
+            update();
+            if (MessageBox.Show(App.Current.MainWindow, "是否确定删除该用户", Properties.Resources.Title, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (Status == EGridStatus.新建并删除)
+                {
+                    Holder.Remove(this);
+                    return;
+                }
+                String ret = await Util.CreateContentValue().Add("user", Entity.Id).Post(Properties.Resources.URL_DELUSER);
+                if (ret.Contains("成功"))
+                {
+                    UpdateSuccess();
+                    MessageBox.Show(App.Current.MainWindow, "删除成功");
+                }
+                //if (false)
+                else
+                {
+                    Deleted = false;
+                    MessageBox.Show(App.Current.MainWindow, "删除失败");
+                }
+            }
+            else
+            {
+                Deleted = false;
+            }
+            if (MarkToRemove) Holder.Remove(this);
             update();
         }
 
@@ -217,7 +247,7 @@ namespace GooCooAdmin.Widget
                 }
                 if (Deleted) bn_delete.Content = "恢复";
                 else bn_delete.Content = "删除";
-                if (Entity.Password != null) pb_pw.Password = Entity.Password;
+                //if (Entity.Password != null) pb_pw.Password = Entity.Password;
                 se_repvalue.Value = Entity.Repvalue;
                 tb_email.Text = Entity.Email;
                 tb_phone.Text = Entity.Phonenumber;
@@ -238,6 +268,7 @@ namespace GooCooAdmin.Widget
                 {
                     Entity.Authority = (UserEx.EAuthority)cb_authority.SelectedIndex;
                 }
+                /*
                 if (pb_pw.Password != null && pb_pw.Password != "")
                 {
                     if (Status == EGridStatus.新建 || Status == EGridStatus.新建并删除 || (App.Current.MainWindow as MainWindow).Granted(Entity))
@@ -248,7 +279,7 @@ namespace GooCooAdmin.Widget
                 else
                 {
                     Entity.Password = null;
-                }
+                }*/
                 Entity.Repvalue = se_repvalue.Value;
                 Entity.Email = tb_email.Text;
                 Entity.Phonenumber = tb_phone.Text;
@@ -280,7 +311,7 @@ namespace GooCooAdmin.Widget
 
         public override void Revert(bool includeNew = false)
         {
-            pb_pw.Password = null;
+            //pb_pw.Password = null;
             base.Revert(includeNew);
         }
     }

@@ -108,8 +108,16 @@ namespace GooCooServer.Entity.Ex
             }
             s += "\n----------------------------------";
             return s;*/
-            String s=Isbn + " " + Name+" "+Author+" "+Publisher;
-            if (Mark != null && Mark != "") s = Mark + " " + s;
+            String s = Isbn + "\t" + Name + "\t" + Author + "\t" + Publisher;
+            if (Mark != null)
+            {
+                switch (Mark)
+                {
+                    case "B": s = "借阅 " + s; break;
+                    case "O": s = "预定 " + s; break;
+                    case "F": s = "收藏 " + s; break;
+                }
+            }
             return s;
         }
 

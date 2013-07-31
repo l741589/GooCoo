@@ -33,8 +33,8 @@ namespace GooCooAdmin
             this.user = user;
             if (user != null)
             {
-                tb_user.Content = this.user.ToString(new String[] { "Id", "Name" });
-                tb_user.ToolTip = this.user.ToString();
+                lb_user.Content = this.user.ToString(new String[] { "Id", "Name" });
+                lb_user.ToolTip = this.user.ToString();
             }
             if (book != null)
             {
@@ -79,6 +79,8 @@ namespace GooCooAdmin
             dp_isbn.Visibility = Visibility.Collapsed;
             dp_num.Visibility = Visibility.Collapsed;
             dp_bookid.Visibility = Visibility.Collapsed;
+            dp_password.Visibility = Visibility.Collapsed;
+            dp_user_editable.Visibility = Visibility.Collapsed;
         }
 
         void cb_relation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -92,8 +94,10 @@ namespace GooCooAdmin
             HideAll();
             if (lastsel == 0)
             {
-                dp_user.Visibility = Visibility.Visible;
+                if (user != null) dp_user.Visibility = Visibility.Visible;
+                else dp_user_editable.Visibility = Visibility.Visible;
                 dp_bookid.Visibility = Visibility.Visible;
+                dp_password.Visibility = Visibility.Visible;
                 cb_bookid.Items.Clear();
                 foreach (BookEx.Book b in book.Books)
                 {
@@ -184,8 +188,12 @@ namespace GooCooAdmin
             {
                 if (book.Filled && book.BorrowedBook > 0)
                     cb_relation.SelectedIndex = 1;
-                else 
+                else
                     cb_relation.SelectedIndex = 2;
+            }
+            else
+            {
+                cb_relation.SelectedIndex = 2;
             }
             lastsel = cb_relation.SelectedIndex;
 

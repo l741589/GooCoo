@@ -164,9 +164,35 @@ namespace GooCooAdmin.Widget
             update();
         }
 
-        void bn_delete_Click(object sender, RoutedEventArgs e)
+        async void bn_delete_Click(object sender, RoutedEventArgs e)
         {
-            Deleted = !Deleted;
+            Deleted = true;
+            update();
+            if (MessageBox.Show(App.Current.MainWindow, "是否确定删除该书籍", Properties.Resources.Title, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (Status == EGridStatus.新建并删除)
+                {
+                    Holder.Remove(this);
+                    return;
+                }
+                String ret = await Util.CreateContentValue().Add("isbn", Entity.Isbn).Post(Properties.Resources.URL_DELBOOK);
+                if (ret.Contains("成功"))
+                {
+                    UpdateSuccess();
+                    MessageBox.Show(App.Current.MainWindow, "删除成功");
+                }
+                //if (false)
+                else
+                {
+                    Deleted = false;
+                    MessageBox.Show(App.Current.MainWindow, "删除失败");
+                }
+            }
+            else
+            {
+                Deleted = false;
+            }
+            if (MarkToRemove) Holder.Remove(this);
             update();
         }
 

@@ -9,32 +9,126 @@
                 <MenuItem Header="登出" x:Name="mi_logout"/>
                 <MenuItem Header="退出" x:Name="mi_exit"/>
             </MenuItem>
+            <MenuItem Header="捐书(_D)" Click="MenuItem_Click">
+                
+            </MenuItem>
         </Menu>
         <Button x:Name="bn_login" Content="登录" DockPanel.Dock="Top" IsDefault="True"/>
         <TabControl Margin="8,8,8,8" x:Name="tc_main" IsEnabled="False" SelectionChanged="tc_main_SelectionChanged">
             <TabItem Header="书籍业务">
                 <UniformGrid Columns="2" Rows="1" DockPanel.Dock="Bottom">
                     <DockPanel LastChildFill="True">
-                        <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap" Text="搜索用户"  DockPanel.Dock="Top"/>
-                        <ListBox x:Name="lb_user"/>
-                    </DockPanel>
-                    <DockPanel LastChildFill="True">
-                        <TextBox x:Name="tb_book" Height="23" TextWrapping="NoWrap" Text="搜索书籍"  DockPanel.Dock="Top"/>
+                        <TextBox x:Name="tb_book" Height="23" TextWrapping="NoWrap"  DockPanel.Dock="Top">
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="搜索书籍"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" Visibility="Collapsed" x:Name="dp_rbook">
+                            <Label Content="与该用户相关的书籍"  DockPanel.Dock="Top"/>
+                            <ListBox DockPanel.Dock="Bottom" Height="128" x:Name="lb_rbook"/>
+                        </DockPanel>
                         <ListBox x:Name="lb_book"/>
                     </DockPanel>
+                    <DockPanel LastChildFill="True">
+                        <TextBox x:Name="tb_user" Height="23" TextWrapping="NoWrap"  DockPanel.Dock="Top">
+                            <TextBox.Resources>
+                                <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                    <VisualBrush.Visual>
+                                        <TextBlock FontStyle="Italic" Text="搜索用户"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </TextBox.Resources>
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="{x:Null}">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,8,0,0" Visibility="Collapsed" x:Name="dp_ruser">
+                            <Label Content="与该书相关的用户"  DockPanel.Dock="Top"/>
+                            <ListBox DockPanel.Dock="Bottom" Height="128" x:Name="lb_ruser"/>
+                        </DockPanel>
+                        <ListBox x:Name="lb_user"/>
+                    </DockPanel>                    
                 </UniformGrid>
             </TabItem>
             <TabItem Header="管理用户">
                 <DockPanel LastChildFill="True">
                     <ToolBarTray DockPanel.Dock="Top">
                         <ToolBar ToolBarTray.IsLocked="False">
-                            <Button x:Name="bn_syncUser" Content="获取数据"/>
                             <Button x:Name="bn_addUser" Content="添加用户"/>
                             <Button x:Name="bn_commitUser" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitUser_Click"/>
                             <Button x:Name="bn_revertUser" Content="全部还原" Click="bn_revertUser_Click"/>
                         </ToolBar>
+                        <ToolBar>
+                            <TextBox MinWidth="108" x:Name="tb_syncUser">
+                                <TextBox.Resources>
+                                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                        <VisualBrush.Visual>
+                                            <TextBlock FontStyle="Italic" Text="在此输入关键字"/>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </TextBox.Resources>
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="{x:Null}">
+                                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button x:Name="bn_syncUser" Content="获取数据"/>
+                        </ToolBar>
                         <Widget:FilterToolBar Tag="user" x:Name="ftb_user"/>
                     </ToolBarTray>
+                    <Grid DockPanel.Dock="Top" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="108" />
+                            <ColumnDefinition Width="64"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="64"/>
+                            <ColumnDefinition Width="72"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="操作" Grid.Column="0" HorizontalContentAlignment="Center"/>
+                        <Label Content="学号" Grid.Column="1" HorizontalContentAlignment="Center"/>
+                        <Label Content="姓名" Grid.Column="2" HorizontalContentAlignment="Center"/>
+                        <Label Content="邮箱" Grid.Column="3" HorizontalContentAlignment="Center"/>
+                        <Label Content="邮箱" Grid.Column="4" HorizontalContentAlignment="Center"/>
+                        <Label Content="信誉值" Grid.Column="5" HorizontalContentAlignment="Center"/>
+                        <Label Content="权限" Grid.Column="6" HorizontalContentAlignment="Center"/>
+                        <Label Content="状态" Grid.Column="7" HorizontalContentAlignment="Center"/>
+                    </Grid>
                     <ScrollViewer x:Name="sv_user" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     </ScrollViewer>
                 </DockPanel>
@@ -44,13 +138,54 @@
                 <DockPanel LastChildFill="True">
                     <ToolBarTray DockPanel.Dock="Top">
                         <ToolBar ToolBarTray.IsLocked="False">
-                            <Button x:Name="bn_syncBook" Content="获取数据" Click="bn_syncBook_Click"/>
                             <Button x:Name="bn_addBook" Content="添加书籍" Click="bn_addBook_Click"/>
                             <Button x:Name="bn_commitBook" Content="提交更改" VerticalAlignment="Bottom" Click="bn_commitBook_Click"/>
                             <Button x:Name="bn_revertBook" Content="全部还原" Click="bn_revertBook_Click"/>
                         </ToolBar>
+                        <ToolBar>
+                            <TextBox MinWidth="108" x:Name="tb_syncBook">
+                                <TextBox.Resources>
+                                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.3" Stretch="None" AlignmentX="Left">
+                                        <VisualBrush.Visual>
+                                            <TextBlock FontStyle="Italic" Text="在此输入关键字"/>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </TextBox.Resources>
+                                <TextBox.Style>
+                                    <Style TargetType="TextBox">
+                                        <Style.Triggers>
+                                            <Trigger Property="Text" Value="{x:Null}">
+                                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                            </Trigger>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <Button x:Name="bn_syncBook" Content="获取数据" Click="bn_syncBook_Click"/>
+                        </ToolBar>
                         <Widget:FilterToolBar Tag="book" x:Name="ftb_book"/>
                     </ToolBarTray>
+                    <Grid DockPanel.Dock="Top" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="108" />
+                            <ColumnDefinition Width="96"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="96"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="操作" Grid.Column="0" HorizontalContentAlignment="Center"/>
+                        <Label Content="ISBN" Grid.Column="1" HorizontalContentAlignment="Center"/>
+                        <Label Content="书名" Grid.Column="2" HorizontalContentAlignment="Center"/>
+                        <Label Content="作者" Grid.Column="3" HorizontalContentAlignment="Center"/>
+                        <Label Content="出版商" Grid.Column="4" HorizontalContentAlignment="Center"/>
+                        <Label Content="本数" Grid.Column="5" HorizontalContentAlignment="Center"/>
+                        <Label Content="状态" Grid.Column="7" HorizontalContentAlignment="Center"/>
+                    </Grid>
                     <ScrollViewer x:Name="sv_book" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         
                     </ScrollViewer>

@@ -120,7 +120,7 @@ namespace GooCooAdmin.Utility
                             case "favor": mark = "F"; break;
                         }
                         f.GetType().GetProperty("Mark").SetValue(f, mark);
-                        ret.Add(f);
+                        if (e.Value >= 0)   ret.Add(f);
                     }
                 }
             }
