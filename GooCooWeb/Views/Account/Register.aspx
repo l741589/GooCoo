@@ -30,6 +30,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.Id, new { @placeholder="Student Number" }) %>
+                    <%: Html.ValidationMessageFor(model => model.Id, null, new { @class = "text-error" })%>
                 </div>
             </div>
             <div class="control-group">
@@ -38,6 +39,7 @@
                 </div>
                 <div class="controls">
                     <%: Html.TextBoxFor(model => model.Name, new { @placeholder="Your Name" }) %>
+                    <%: Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-error" })%>
                 </div>
             </div>
             <div class="control-group">
