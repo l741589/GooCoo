@@ -86,13 +86,13 @@ namespace GooCooServer.Entity
         public static string getMidPhotoUrl(BookInfo bookInfo)
         {
             string smallUrl = bookInfo.photourl;
-            string midUrl = smallUrl.Replace("img3.douban.com/spic/", "img3.douban.com/mpic/");            
+            string midUrl = smallUrl.Replace("douban.com/spic/", "douban.com/mpic/");            
             return midUrl;
         }
         public static string getLargePhotoUrl(BookInfo bookInfo)
         {
             string smallUrl = bookInfo.photourl;
-            string largeUrl = smallUrl.Replace("img3.douban.com/spic/", "img3.douban.com/lpic/");
+            string largeUrl = smallUrl.Replace("douban.com/spic/", "douban.com/lpic/");
             return largeUrl;
         }
     }

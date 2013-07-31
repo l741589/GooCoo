@@ -24,7 +24,7 @@
             <h2><%:bookInfo.Name %></h2>
                 <div class="media">
                 <div class="pull-left">
-                    <a href="<%:GooCooServer.Entity.BookInfo.getLargePhotoUrl(bookInfo) %>">
+                    <a target="_blank" href="<%:GooCooServer.Entity.BookInfo.getLargePhotoUrl(bookInfo) %>">
                         <img class="media-object" src="<%:GooCooServer.Entity.BookInfo.getMidPhotoUrl(bookInfo) %>">
                     </a>
                     <div id="two-button">
@@ -103,8 +103,8 @@
     <div class="row-fluid">
         <div class="span9">
             <h4>评论：</h4>
-
-            <textarea class="span8" id="comment-content" rows="5"></textarea>
+            <div class="row-fluid">
+            <textarea class="span10" id="comment-content" rows="5" style="margin-left:20px"></textarea>
             <button class="btn btn-primary" id="add-comment-button" type="button" data-loading-text="Loading..."
                  onclick=
                     <%if (isLoggedOn){ %>
@@ -113,16 +113,25 @@
                         "changeToLoginPage()"
                     <%} %>
                 >确定</button>
-            <%
-                foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
-             %>
-            <p>
-                <%:commentRecord.CommentMaker.Name%>:<%:commentRecord.Content.Content %>
-            </p>
-            <%
-                }
-             %>
-        </div>
+            </div>
+                <table class="table table-striped span9" >
+                    <tbody>
+                <%
+                    foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
+                 %>
+                <tr>
+                    <td>
+                        <p><span class="comment-author"><%:commentRecord.CommentMaker.Name%></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment-time"><%:commentRecord.Content.Timestamp %></span></p>
+                        <p><%:commentRecord.Content.Content %></p>                        
+                    </td>
+                </tr>
+                    <%
+                        }
+                    %>
+                        </tbody>
+                </table>     
+        </div>       
+        
     </div>
    
 
@@ -153,7 +162,13 @@
             width: 85%;
             padding: 0px;
         }
-
+        .comment-author {
+            color:#8a8a8a;
+            font:15px;
+        }
+        .comment-time {
+            color:#aaaaaa;
+        }
         dt, dd {
             padding: 0px;
             margin: 0px auto;
