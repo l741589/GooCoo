@@ -23,6 +23,7 @@ namespace GooCooAdmin.Widget
         private Label lb_status = new Label();
         private SpinEdit se_repvalue = new SpinEdit();
         private TextBox tb_email = new TextBox();
+        private TextBox tb_phone = new TextBox();
         private bool updating = false;
         private Button bn_detail = new Button();
 
@@ -33,6 +34,7 @@ namespace GooCooAdmin.Widget
             AddCol(36, GridUnitType.Pixel);
             AddCol(36, GridUnitType.Pixel);
             AddCol(64, GridUnitType.Pixel);
+            AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
@@ -56,6 +58,8 @@ namespace GooCooAdmin.Widget
             tb_email.TextChanged += tb_name_TextChanged;
             se_repvalue.ValueChanged += se_repvalue_ValueChanged;
             bn_detail.Content = "详细";
+            bn_detail.Click += bn_detail_Click;
+            tb_phone.TextChanged += tb_name_TextChanged;
 
             Children.Add(bn_detail);
             Children.Add(bn_revert);
@@ -64,6 +68,7 @@ namespace GooCooAdmin.Widget
             Children.Add(tb_name);
             Children.Add(pb_pw);
             Children.Add(tb_email);
+            Children.Add(tb_phone);
             Children.Add(se_repvalue);            
             Children.Add(cb_authority);
             Children.Add(lb_status);
@@ -75,9 +80,10 @@ namespace GooCooAdmin.Widget
             SetColumn(tb_name, 4);
             SetColumn(pb_pw, 5);
             SetColumn(tb_email, 6);
-            SetColumn(se_repvalue, 7);
-            SetColumn(cb_authority, 8);
-            SetColumn(lb_status, 9);
+            SetColumn(tb_phone, 7);
+            SetColumn(se_repvalue, 8);
+            SetColumn(cb_authority, 9);
+            SetColumn(lb_status, 10);
             
             update();
         }        
@@ -89,6 +95,7 @@ namespace GooCooAdmin.Widget
             AddCol(36, GridUnitType.Pixel);
             AddCol(36, GridUnitType.Pixel);
             AddCol(64, GridUnitType.Pixel);
+            AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
             AddCol(2, GridUnitType.Star);
@@ -113,6 +120,7 @@ namespace GooCooAdmin.Widget
             se_repvalue.ValueChanged += se_repvalue_ValueChanged;
             bn_detail.Content = "详细";
             bn_detail.Click += bn_detail_Click;
+            tb_phone.TextChanged += tb_name_TextChanged;
 
             Children.Add(bn_detail);
             Children.Add(bn_revert);
@@ -121,6 +129,7 @@ namespace GooCooAdmin.Widget
             Children.Add(tb_name);
             Children.Add(pb_pw);
             Children.Add(tb_email);
+            Children.Add(tb_phone);
             Children.Add(se_repvalue);
             Children.Add(cb_authority);
             Children.Add(lb_status);
@@ -132,9 +141,10 @@ namespace GooCooAdmin.Widget
             SetColumn(tb_name, 4);
             SetColumn(pb_pw, 5);
             SetColumn(tb_email, 6);
-            SetColumn(se_repvalue, 7);
-            SetColumn(cb_authority, 8);
-            SetColumn(lb_status, 9);
+            SetColumn(tb_phone, 7);
+            SetColumn(se_repvalue, 8);
+            SetColumn(cb_authority, 9);
+            SetColumn(lb_status, 10);
             update();
         }
 
@@ -210,6 +220,8 @@ namespace GooCooAdmin.Widget
                 if (Entity.Password != null) pb_pw.Password = Entity.Password;
                 se_repvalue.Value = Entity.Repvalue;
                 tb_email.Text = Entity.Email;
+                tb_phone.Text = Entity.Phonenumber;
+                bn_detail.IsEnabled = !(Status == EGridStatus.新建 || Status == EGridStatus.新建并删除);
                 UpdateLabel(lb_status);
                 bn_revert.IsEnabled = Status != EGridStatus.无变化 && RealEntity!=null;
                 if (Holder!=null) Holder.Filter(((MainWindow)App.Current.MainWindow).ftb_user.Status);
@@ -239,6 +251,8 @@ namespace GooCooAdmin.Widget
                 }
                 Entity.Repvalue = se_repvalue.Value;
                 Entity.Email = tb_email.Text;
+                Entity.Phonenumber = tb_phone.Text;
+                bn_detail.IsEnabled = !(Status == EGridStatus.新建 || Status == EGridStatus.新建并删除);
                 UpdateLabel(lb_status);
                 bn_revert.IsEnabled = Status != EGridStatus.无变化 && RealEntity != null;
                 if (Holder != null) Holder.Filter(((MainWindow)App.Current.MainWindow).ftb_user.Status);
@@ -250,7 +264,8 @@ namespace GooCooAdmin.Widget
         public override bool RealEqual()
         {
             return RealEntity.Id == Entity.Id && RealEntity.Name == Entity.Name && RealEntity.Authority == Entity.Authority
-                && RealEntity.Password == Entity.Password && RealEntity.Repvalue == Entity.Repvalue && RealEntity.Email == Entity.Email;
+                && RealEntity.Password == Entity.Password && RealEntity.Repvalue == Entity.Repvalue
+                && RealEntity.Email == Entity.Email && RealEntity.Phonenumber == Entity.Phonenumber;
         }
 
         public override void UpdateSuccess()

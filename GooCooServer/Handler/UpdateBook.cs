@@ -73,25 +73,26 @@ namespace GooCooServer.Handler
         void RefillBook(BookEx book)
         {
             if (book.Filled) return;
-            if (book.Books == null)
+            if (book.Books == null) book.Books = new List<BookEx.Book>(); else book.Books.Clear();
+            IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+            IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
+            if (bb != null && ub != null)
             {
-                book.Books = new List<BookEx.Book>();
-                IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
-                IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
-                if (bb != null && ub!=null)
+                List<Book> books = bb.GetBook(book.Isbn);
+                foreach (var e in books)
                 {
-                    List<Book> books=bb.GetBook(book.Isbn);
-                    foreach (var e in books)
+                    BookEx.Book b = new BookEx.Book();
+                    b.Id = e.Id;
+                    User u = null;
+                    try
                     {
-                        BookEx.Book b = new BookEx.Book();
-                        b.Id = e.Id;
-                        User u = ub.GetUser(b.Id);
-                        if (u == null) b.Owner = null; else b.Owner = u.Id;
-                        book.Books.Add(b);
+                        u = ub.GetUser(b.Id);
                     }
+                    catch (BMException) { }
+                    if (u == null) b.Owner = null; else b.Owner = u.Id;
+                    book.Books.Add(b);
                 }
             }
-
         }
 
         public void ProcessRequest(HttpContext context)
@@ -103,6 +104,7 @@ namespace GooCooServer.Handler
                 String sbook = context.Request["book"];
                 if (sbook == null) throw new NullReferenceException("user域为空");
                 book = Util.DecodeJson<BookEx>(sbook);
+                book.SetCount(int.Parse(context.Request["count"]));
                 RefillBook(book);
                 if (book == null) throw new NullReferenceException("user解析失败");
                 dao.Set(book);
@@ -116,6 +118,14 @@ namespace GooCooServer.Handler
                 context.Response.Write(Util.EncodeJson(book, "成功"));
             }
             catch (BMException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (ArgumentNullException e)
+            {
+                context.Response.Write(e.Message);
+            }
+            catch (FormatException e)
             {
                 context.Response.Write(e.Message);
             }

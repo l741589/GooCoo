@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+using GooCooServer.Entity.Ex;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
 using GooCooServer.Utility;
@@ -30,41 +31,40 @@ namespace GooCooServer.Handler
         public void ProcessRequest(HttpContext context)
         {
             IBookInfoDAO bookInfoDAO = (IBookInfoDAO)DAOFactory.createDAO("BookInfoDAO");
+            IBook_BookInfoDAO bb = (IBook_BookInfoDAO)DAOFactory.createDAO("Book_BookInfoDAO");
 
-            List<BookInfo> books;
+            List<BookEx> books = new List<BookEx>();
             if (bookInfoDAO != null)
             {
                 try
                 {
-                    books = bookInfoDAO.GetByKeyWord(context.Request["keyword"]);
+
+                    String keyword = context.Request["keyword"];
+                    bool flag = context.Request["flag"] == "1";
+                    if (keyword == null) keyword = "";
+                    List<BookInfo> infos = bookInfoDAO.GetByKeyWord(keyword);
+                    foreach (BookInfo info in infos)
+                    {
+                        BookEx bex = Util.CloneEntity<BookEx>(info);
+                        if (flag)
+                        {
+                            bex.Books = new List<BookEx.Book>();
+                            var bs = bb.GetBook(info.Isbn);
+                            foreach (var b in bs)
+                            {
+                                BookEx.Book bk = new BookEx.Book();
+                                bk.Id = b.Id;
+                                bk.Owner = null;
+                                bex.Books.Add(bk);
+                            }
+                        }
+                        books.Add(bex);
+                    }
                 }
                 catch (BMException)
                 {
-                    books = new List<BookInfo>();
+                    books = new List<BookEx>();
                 }
-            }
-            else
-            {
-                books = new List<BookInfo>();
-                BookInfo book;
-                book = new BookInfo();
-                book.Isbn = "2323ewew3232";
-                book.Name = "sdfergw34fdd";
-                book.Timestamp = DateTime.Now;
-                books.Add(book);
-
-                book = new BookInfo();
-                book.Isbn = "sd34t344rt3";
-                book.Name = "供热为复位";
-                book.Timestamp = DateTime.UtcNow;
-                books.Add(book);
-
-                book = new BookInfo();
-                book.Isbn = "2323ew23232";
-                book.Name = "sdfergw34fdd";
-                book.Timestamp = DateTime.Now;
-                books.Add(book);
-
             }
             context.Response.Output.Write(Util.EncodeJson(books));
         }

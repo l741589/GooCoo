@@ -119,6 +119,8 @@ namespace GooCooServer.DAO
                         users[i].Name = (string)sqlDataReader[1];
                         users[i].Authority = (User.EAuthority)sqlDataReader[3];
                         users[i].Repvalue = (int)sqlDataReader[4];
+                        users[i].Email = (string)sqlDataReader[5];
+                        users[i].Phonenumber = (string)sqlDataReader[6];
                     }
                 }
                 if (users.Count != 0)

@@ -63,6 +63,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BookInfoDialog.xaml.cs">
+      <DependentUpon>BookInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DealDialog.xaml.cs">
       <DependentUpon>DealDialog.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
     </Compile>
     <Compile Include="Widget\UserGrid.cs" />
     <Compile Include="Utility\Util.cs" />
+    <Page Include="BookInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DealDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -471,7 +471,7 @@ namespace GooCooAdmin
                 }
             }
             gh_user.RemoveAllMarked();
-            MessageBox.Show("提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
+            MessageBox.Show(this,"提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
             (sender as Button).IsEnabled = true;
         }
 
@@ -483,17 +483,15 @@ namespace GooCooAdmin
         {
             (sender as Button).IsEnabled = false;
             gh_book.Clear();
-            String s = await HttpHelper.Post(Properties.Resources.URL_FINDBOOK);
+
+            String s = await Util.CreateContentValue().Add("flag","1").Post(Properties.Resources.URL_FINDBOOK);
             if (s == null) { WebError(); (sender as Button).IsEnabled = true; return; }
-            List<BookInfo> ret = Util.DecodeJson<List<BookInfo>>(s);
+            List<BookEx> ret = Util.DecodeJson<List<BookEx>>(s);
             foreach (var elem in ret)
             {
-                gh_book.Add(Util.CloneEntity<BookEx>(elem));
+                gh_book.Add(elem);
             }
-            foreach (var elem in lb_book.Items)
-            {
-                gh_book.Add(elem as BookEx);
-            }
+            //foreach (var elem in lb_book.Items) gh_book.Add(elem as BookEx);
             (sender as Button).IsEnabled = true;
         }
 
@@ -539,6 +537,7 @@ namespace GooCooAdmin
                         url = Properties.Resources.URL_UPDATEBOOK;
                         String temp=Util.EncodeJson(book);
                         cv.Add("book", temp);
+                        cv.Add("count", book.Count.ToString());
                         break;
                     case EGridStatus.新建并删除:
                         g.UpdateSuccess();
@@ -555,7 +554,7 @@ namespace GooCooAdmin
                 }
             }
             gh_book.RemoveAllMarked();
-            MessageBox.Show("提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
+            MessageBox.Show(this,"提交完成，共提交" + count + "个项目，成功" + successcount + "个项目");
             (sender as Button).IsEnabled = true;
         }
         #endregion

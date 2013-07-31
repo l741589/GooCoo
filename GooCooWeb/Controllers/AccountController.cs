@@ -95,7 +95,7 @@ namespace GooCooWeb.Controllers
                     logOnModel.RememberMe = false;
                     return LogOn(logOnModel, returnUrl);
                 }
-                catch (BMException ex)
+                catch (BMException)
                 {
                     ModelState.AddModelError("", "该学号已被注册");
                 }
