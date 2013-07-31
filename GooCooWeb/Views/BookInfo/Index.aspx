@@ -28,23 +28,54 @@
                         <img class="media-object" src="<%:GooCooServer.Entity.BookInfo.getMidPhotoUrl(bookInfo) %>">
                     </a>
                     <div id="two-button">
-                        <button class="btn btn-small" type="button" 
+                        <%if (bookInfoRecord.AvailableCount == 0){ %>
+                        <button class="btn btn-small" type="button"  data-loading-text="Loading..." id="order-button"
                             onclick=
                                 <%if (isLoggedOn){ %>
-                                    "orderBook(<%:bookInfo.Isbn %>)"
+                                    <%if (ViewBag.HasOrder){ %>
+                                        "changeOrder(<%:bookInfo.Isbn %>)"
+                                    <%} else { %>
+                                        "changeOrder(<%:bookInfo.Isbn %>)"
+                                    <% } %>
                                 <%} else { %>
                                     "changeToLoginPage()"
                                 <%} %>
-                            >预定</button>
+                            >
+                            <%if (isLoggedOn){ %>
+                                    <%if (ViewBag.HasOrder){ %>
+                                        取消预定
+                                    <%} else { %>
+                                        预定
+                                    <% } %>
+                                <%} else { %>
+                                    预定
+                                <%} %>
 
-                        <button class="btn btn-primary btn-small" type="button" 
+                        </button>
+                        <%} %>
+
+                        <button class="btn btn-primary btn-small" type="button" data-loading-text="Loading..." id="favor-button"
                             onclick=
                                 <%if (isLoggedOn){ %>
-                                    "favorBook(<%:bookInfo.Isbn %>)"
+                                    <%if (ViewBag.HasFavor){ %>
+                                        "changeFavor(<%:bookInfo.Isbn %>)"
+                                    <%} else { %>
+                                        "changeFavor(<%:bookInfo.Isbn %>)"
+                                    <%} %>
                                 <%} else { %>
                                     "changeToLoginPage()"
                                 <%} %>
-                            >收藏</button>
+                            >
+                             <%if (isLoggedOn){ %>
+                                    <%if (ViewBag.HasFavor){ %>
+                                        取消收藏
+                                    <%} else { %>
+                                        收藏
+                                    <%} %>
+                                    <%} else { %>
+                                        收藏
+                                    <%} %>
+                        </button>
                     </div>
                 </div>
                 <div class="media-body">
@@ -72,6 +103,11 @@
     <div class="row-fluid">
         <div class="span9">
             <h4>书籍状态：</h4>
+            <%if (bookRecordList == null || bookRecordList.Count == 0){ %>
+            <div class="span7">
+                <p>暂无书籍</p>
+            </div>
+            <%} else { %>
             <table class="table">
                 <thead>
                     <tr>
@@ -88,7 +124,7 @@
                             <%if (bookRecord.CurrentCondition == GooCooWeb.Models.BookInfoModels.BookCondition.AVAILABLE){ %>
                                 <p style="color:green">可借</p>
                             <%} else { %>
-                                <p>借出-应还日期：<%:GooCooServer.Entity.Book.getReturnTime(bookRecord.AvailableTime) %></p>
+                                <p>借出-应还日期：<%:bookRecord.AvailableTime %></p>
                             <%} %>
                             
                         </td>
@@ -97,6 +133,7 @@
                 </tbody>
 
             </table>
+            <%} %>
         </div>
     </div>
 
@@ -114,22 +151,26 @@
                     <%} %>
                 >确定</button>
             </div>
-                <table class="table table-striped span9" >
+            <div class="span11">
+                <table class="table table-striped" style="width:inherit" >
                     <tbody id="comment-table-body">
                 <%
                     foreach ( GooCooWeb.Models.BookInfoModels.CommentRecordModel commentRecord in bookInfoRecord.TopComments){
                  %>
+                        
                 <tr>
                     <td>
                         <p><span class="comment-author"><%:commentRecord.CommentMaker.Name%></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment-time"><%:commentRecord.Content.Timestamp %></span></p>
                         <p><%:commentRecord.Content.Content %></p>                        
                     </td>
                 </tr>
+                        
                     <%
                         }
                     %>
                         </tbody>
                 </table>     
+            </div>
         </div>       
         
     </div>
@@ -210,55 +251,133 @@
 
                     contentTextArea.value = "";
 
+                    tr.style = "display: none;";
+                    //$(tr).slideDown(500);
+                    //$(tr).slideToggle(1000);
+                    //tr.style = "height:0px";
+
+
+                    $(tr).fadeIn(700);
+                    
+
                 }
                 else {
-                    alert("失败");
+                    alert("评论失败，请稍后再试");
                 }
             });
+        }
+
+
+        var isOrder =
+            <%if (ViewBag.HasOrder){%>
+            true
+            <%} else {%>
+        false
+        <%}%>
+        ;
+
+        function changeOrder(isbn)
+        {
+            if (isOrder) {
+                cancelOrderBook(isbn);
+            }
+            else {
+                orderBook(isbn);
+            }
         }
         function orderBook(isbn)
         {            
             //$.post('upload.php',{'sign':base64, 'score':currentScore}, function(data){ alert(data);});
+            $('#order-button').button('loading');
+
             $.post('<%:Url.Action("AddOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data)
             {
+                var button = document.getElementById("order-button");
                 if (data.result) {
-                    alert("成功");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "取消预定";
+                    isOrder = !isOrder;
                 }
                 else {
-                    alert("失败");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "预定";
+                    alert("预定失败，请稍后再试");
                 }
             });
         }
         function cancelOrderBook(isbn)
         {
+            $('#order-button').button('loading');
             $.post('<%:Url.Action("RemoveOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                var button = document.getElementById("order-button");
                 if (data.result) {
-                    alert("成功");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "预定";
+                    isOrder = !isOrder;
                 }
                 else {
-                    alert("失败");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "取消预定";
+                    alert("取消预定失败，请稍后再试");
                 }
             });
         }
+        
+
+
+
+
+        var isFavor =
+            <%if (ViewBag.HasFavor){%>
+            true
+            <%} else {%>
+            false       
+            <%}%>
+            ;
+        function changeFavor(isbn)
+        {
+            if (isFavor) {
+                cancelFavorBook(isbn);
+            }
+            else {
+                favorBook(isbn);
+            }
+        }
+
+        
         function favorBook(isbn)
-        {            
+        {
+            $('#favor-button').button('loading');
             $.post('<%:Url.Action("AddFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
-                if (data.result) {
-                    alert("成功");
+                
+                var button = document.getElementById("favor-button");
+                
+                if (data.result) {                    
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "取消收藏";
+                    isFavor = ! isFavor                    
                 }
-                else {
-                    alert("失败");
+                else {                    
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "收藏";
+                    alert("收藏失败，请稍后再试");
                 }
             });
         }
         function cancelFavorBook(isbn)
         {
+            $('#favor-button').button('loading');
             $.post('<%:Url.Action("RemoveFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                var button = document.getElementById("favor-button");
                 if (data.result) {
-                    alert("成功");
+                    isFavor = !isFavor;
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "收藏";
                 }
                 else {
-                    alert("失败");
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "取消收藏";
+                    alert("取消收藏失败，请稍后再试");
                 }
             });
         }
