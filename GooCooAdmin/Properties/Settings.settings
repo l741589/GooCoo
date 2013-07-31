@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="PORT" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">11681</Value>
+      <Value Profile="(Default)">10001</Value>
     </Setting>
     <Setting Name="CL_NOCHANGE" Type="System.Windows.Media.Color" Scope="Application">
       <Value Profile="(Default)">#00000000</Value>
