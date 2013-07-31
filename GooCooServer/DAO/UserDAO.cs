@@ -147,7 +147,7 @@ namespace GooCooServer.DAO
             string sqlQuery = "SELECT TOP 1 * FROM USERINFO WHERE id = @id";
             List<User> users = dbManagerList(myParam, sqlQuery);
 
-            if (users != null || users.Count != 0)
+            if (users != null && users.Count != 0)
                 return true;
             else
                 return false;

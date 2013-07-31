@@ -112,7 +112,7 @@ namespace GooCooServer.DAO
             SqlParameter time2 = new SqlParameter("@time2", SqlDbType.DateTime);
             time2.Value = end_time;
 
-            string sqlQuery = "SELECT * FROM LOG WHERE time >= @time1 AND time <= @time2";
+            string sqlQuery = "SELECT * FROM LOG WHERE time >= @time1 AND time <= @time2 ORDER BY time DESC";
             List<Log> logs = dbManagerList(sqlQuery, time1, time2);
 
             if (logs.Count != 0)
@@ -130,7 +130,7 @@ namespace GooCooServer.DAO
             {
                 int to = from - 1;
                 if (to < 0) to = 0;
-                sqlQuery = "SELECT TOP " + count + " * FROM LOG WHERE (id NOT IN (SELECT TOP " + to + " id FROM LOG))";
+                sqlQuery = "SELECT TOP " + count + " * FROM LOG WHERE (id NOT IN (SELECT TOP " + to + " id FROM LOG))  ORDER BY time DESC";
             }
 
             List<Log> logs = dbManagerList(sqlQuery, null, null);

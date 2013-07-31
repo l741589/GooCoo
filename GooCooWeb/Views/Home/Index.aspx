@@ -137,7 +137,7 @@
             <div class="carousel-caption">
               <h1>Google Camp 图书柜</h1>
               <p class="lead">Google Camp - GooCoo 图书计划课外科技书籍部分， 存有大量与计算机相关课外暑假供大家借阅， 只对Google Camp内部开放。</p>
-              <a class="btn btn-large btn-primary" href="#">Get Started!</a>
+              <a class="btn btn-large btn-primary" href="/SearchView/Index">Get Started!</a>
             </div>
           </div>
         </div>
