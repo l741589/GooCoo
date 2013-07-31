@@ -423,7 +423,6 @@ namespace GooCooServer.DAO
                             .Add("name", SqlDbType.VarChar, user.Name)
                             .Add("password", SqlDbType.Char, user.Password)
                             .Add("authority", SqlDbType.Int, (int)user.Authority)
-                            .Add("repvalue", SqlDbType.Int, user.Repvalue)
                             .Add("email", SqlDbType.VarChar, user.Email)
                             .Add("phonenumber", SqlDbType.VarChar, user.Phonenumber)
                             .Where("id = @id").Execute();

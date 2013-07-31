@@ -169,7 +169,16 @@ namespace GooCooWeb.Controllers
             IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
             User localUser = userDAO.Get((string)Session["UserSessionID"]);
             IUser_BookInfoDAO user_bookinfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
-            CollectInfoModel model = new CollectInfoModel(user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.FAVOR));
+            List<BookInfo> books = null;
+            try
+            {
+                books = user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.FAVOR);
+            }
+            catch (BMException)
+            {
+                books = new List<BookInfo>();
+            }
+            CollectInfoModel model = new CollectInfoModel(books);
             return View(model);
         }
 

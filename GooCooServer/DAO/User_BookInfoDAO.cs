@@ -25,7 +25,10 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, realation, time) " + "Values (" + user_id + ", " + isbn + ", " + (int)relation + ", " + DateTime.Now + ")", connecter);
+                SqlParameter time = new SqlParameter("@time", SqlDbType.DateTime);
+                time.Value = DateTime.Now;
+                SqlCommand myCommand = new SqlCommand("INSERT INTO USER_BOOKINFO (user_id, isbn, relation, time) " + "Values (" + user_id + ", " + isbn + ", " + (int)relation + ", @time)", connecter);
+                myCommand.Parameters.Add(time);
                 try
                 {
                     myCommand.ExecuteNonQuery();

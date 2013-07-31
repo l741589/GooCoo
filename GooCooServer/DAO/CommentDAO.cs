@@ -27,7 +27,15 @@ namespace GooCooServer.DAO
                 }
                 if (comment.Timestamp == null)
                     comment.Timestamp = DateTime.Now;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO COMMENT (content, time) " + "Values (" + comment.Content + ", " + comment.Timestamp + "); " + "select @@IDENTITY as 'Identity'", connecter);
+
+                SqlParameter time = new SqlParameter("@time", SqlDbType.DateTime);
+                time.Value = comment.Timestamp;
+
+                SqlParameter content = new SqlParameter("@content", SqlDbType.DateTime);
+                content.Value = comment.Content;
+                SqlCommand myCommand = new SqlCommand("INSERT INTO COMMENT (content, time) " + "Values (@content, @time); " + "select @@IDENTITY as 'Identity'", connecter);
+                myCommand.Parameters.Add(content);
+                myCommand.Parameters.Add(time);
                 int id = 0;
                 try
                 {

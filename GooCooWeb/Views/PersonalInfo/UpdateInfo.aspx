@@ -19,13 +19,13 @@
                     <div class="control-group">
                         <label class="control-label" for="Id">学号</label>
                         <div class="controls">
-                            <%: Html.TextBoxFor(model => model.Id, new { disabled = "disabled"})%>
+                            <%: Html.TextBoxFor(model => model.Id, new { @readonly = "readonly"})%>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="Name">姓名</label>
                         <div class="controls">
-                            <%: Html.TextBoxFor(model => model.Name, new { disabled = "disabled"})%>
+                            <%: Html.TextBoxFor(model => model.Name, new { @readonly = "readonly"})%>
                         </div>
                     </div>
                     <div class="control-group">
