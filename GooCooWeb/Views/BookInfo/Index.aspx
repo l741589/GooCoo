@@ -33,9 +33,9 @@
                             onclick=
                                 <%if (isLoggedOn){ %>
                                     <%if (ViewBag.HasOrder){ %>
-                                        "cancelOrderBook(<%:bookInfo.Isbn %>)"
+                                        "changeOrder(<%:bookInfo.Isbn %>)"
                                     <%} else { %>
-                                        "orderBook(<%:bookInfo.Isbn %>)"
+                                        "changeOrder(<%:bookInfo.Isbn %>)"
                                     <% } %>
                                 <%} else { %>
                                     "changeToLoginPage()"
@@ -58,9 +58,9 @@
                             onclick=
                                 <%if (isLoggedOn){ %>
                                     <%if (ViewBag.HasFavor){ %>
-                                        "cancelFavorBook(<%:bookInfo.Isbn %>)"
+                                        "changeFavor(<%:bookInfo.Isbn %>)"
                                     <%} else { %>
-                                        "favorBook(<%:bookInfo.Isbn %>)"
+                                        "changeFavor(<%:bookInfo.Isbn %>)"
                                     <%} %>
                                 <%} else { %>
                                     "changeToLoginPage()"
@@ -247,50 +247,118 @@
                 }
             });
         }
+
+
+        var isOrder =
+            <%if (ViewBag.HasOrder){%>
+            true
+            <%} else {%>
+        false
+        <%}%>
+        ;
+
+        function changeOrder(isbn)
+        {
+            if (isOrder) {
+                cancelOrderBook(isbn);
+            }
+            else {
+                orderBook(isbn);
+            }
+        }
         function orderBook(isbn)
         {            
             //$.post('upload.php',{'sign':base64, 'score':currentScore}, function(data){ alert(data);});
+            $('#order-button').button('loading');
+
             $.post('<%:Url.Action("AddOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data)
             {
+                var button = document.getElementById("order-button");
                 if (data.result) {
-                    alert("成功");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "取消预定";
+                    isOrder = !isOrder;
                 }
                 else {
-                    alert("失败");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "预定";
+                    alert("预定失败，请稍后再试");
                 }
             });
         }
         function cancelOrderBook(isbn)
         {
+            $('#order-button').button('loading');
             $.post('<%:Url.Action("RemoveOrder","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                var button = document.getElementById("order-button");
                 if (data.result) {
-                    alert("成功");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "预定";
+                    isOrder = !isOrder;
                 }
                 else {
-                    alert("失败");
+                    $('#order-button').button('reset');
+                    button.innerHTML = "取消预定";
+                    alert("取消预定失败，请稍后再试");
                 }
             });
         }
+        
+
+
+
+
+        var isFavor =
+            <%if (ViewBag.HasFavor){%>
+            true
+            <%} else {%>
+            false       
+            <%}%>
+            ;
+        function changeFavor(isbn)
+        {
+            if (isFavor) {
+                cancelFavorBook(isbn);
+            }
+            else {
+                favorBook(isbn);
+            }
+        }
+
+        
         function favorBook(isbn)
         {
-            
+            $('#favor-button').button('loading');
             $.post('<%:Url.Action("AddFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
-                if (data.result) {
-                    alert("成功");
+                
+                var button = document.getElementById("favor-button");
+                
+                if (data.result) {                    
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "取消收藏";
+                    isFavor = ! isFavor                    
                 }
-                else {
-                    alert("失败");
+                else {                    
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "收藏";
+                    alert("收藏失败，请稍后再试");
                 }
             });
         }
         function cancelFavorBook(isbn)
         {
+            $('#favor-button').button('loading');
             $.post('<%:Url.Action("RemoveFavor","AjaxBookInfoUser")%>', { 'isbn': isbn }, function (data) {
+                var button = document.getElementById("favor-button");
                 if (data.result) {
-                    alert("成功");
+                    isFavor = !isFavor;
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "收藏";
                 }
                 else {
-                    alert("失败");
+                    $('#favor-button').button('reset');
+                    button.innerHTML = "取消收藏";
+                    alert("取消收藏失败，请稍后再试");
                 }
             });
         }
