@@ -103,7 +103,7 @@
             <h4>评论：</h4>
 
             <textarea class="span8" id="comment-content" rows="5"></textarea>
-            <button class="btn btn-primary" id="add-comment-button" type="button"
+            <button class="btn btn-primary" id="add-comment-button" type="button" data-loading-text="Loading..."
                  onclick=
                     <%if (isLoggedOn){ %>
                         "addComment(<%:bookInfo.Isbn %>)"
@@ -177,6 +177,8 @@
         {
             var contentTextArea = document.getElementById("comment-content");
             var content = contentTextArea.value;
+            $().button('loading');
+
             $.post('<%:Url.Action("AddComment","AjaxComment")%>', { 'content': content, 'isbn': isbn }, function (data) {
                 if (data.result) {
                     alert("成功");
