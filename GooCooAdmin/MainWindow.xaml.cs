@@ -772,6 +772,7 @@ namespace GooCooAdmin
                 .Post(Properties.Resources.URL_GETLOG);
             if (s == null || s=="") { WebError(); return; }
             List<Log> logs = Util.DecodeJson<List<Log>>(s);
+            dg_log.Items.Clear();
             foreach (var log in logs)
             {
                 dg_log.Items.Add(log);
