@@ -66,6 +66,36 @@ namespace GooCooWeb.Controllers
         }
 
         [LoggedOnFilter]
+        public ActionResult UpdateInfo()
+        {
+            //获取用户基本信息
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User user = userDAO.Get((string)Session["UserSessionID"]);
+            PersonalInfoModel model = new PersonalInfoModel(user);
+            return View(model);
+        }
+
+        [LoggedOnFilter]
+        [HttpPost]
+        public ActionResult UpdateInfo(PersonalInfoModel model)
+        {
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+
+            User user = new User();
+            user.Id = model.Id;
+            user.Name = model.Name;
+            user.Password = model.Password;
+            user.Phonenumber = model.PhoneNumber;
+            user.Email = model.Email;
+            user.Repvalue = 0;
+            user.Authority = (GooCooServer.Entity.User.EAuthority)model.Authority;
+
+            string userSessionID = (string)Session["UserSessionID"];
+            userDAO.Set(userSessionID, user);
+            return Redirect("/PersonalInfo/Index");
+        }
+
+        [LoggedOnFilter]
         public ActionResult BorrowInfo()
         {
             BorrowInfoModel model = new BorrowInfoModel();
@@ -76,12 +106,14 @@ namespace GooCooWeb.Controllers
             {
                 List<Book> books = user_bookDAO.GetBook(localUser.Id, User_Book.ERelation.BORROW);
                 ViewBag.BorrowBookNumber = books.Count;
+
                 IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
                 foreach (Book book in books)
                 {
+                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
+
                     BorrowBookInfo borrowBookInfo = new BorrowBookInfo();
                     borrowBookInfo.Id = book.Id;
-                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
                     borrowBookInfo.Name = bookInfo.Name;
                     borrowBookInfo.BorrowTime = book.Timestamp;
                     borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(book.Timestamp);
@@ -106,12 +138,14 @@ namespace GooCooWeb.Controllers
             {
                 List<Book> books = user_bookDAO.GetBook(localUser.Id, User_Book.ERelation.DONATE);
                 ViewBag.DonateBookNumber = books.Count;
+
                 IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
                 foreach (Book book in books)
                 {
+                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
+
                     DonateBookInfo donateBookInfo = new DonateBookInfo();
                     donateBookInfo.Id = book.Id;
-                    BookInfo bookInfo = book_bookinfoDAO.GetBookInfo(book.Id);
                     donateBookInfo.Name = bookInfo.Name;
                     donateBookInfo.DonateTime = bookInfo.Timestamp;
                     model.Add(donateBookInfo);
