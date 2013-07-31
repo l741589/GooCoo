@@ -91,9 +91,9 @@ namespace GooCooServer.DAO
                         for (int j = i + 1; j < result.Count; j++)
                             if (result[i].Timestamp < result[j].Timestamp)
                             {
-                                DateTime temp = result[i].Timestamp;
-                                result[i].Timestamp = result[j].Timestamp;
-                                result[j].Timestamp = temp;
+                                Comment temp = result[i];
+                                result[i] = result[j];
+                                result[j] = temp;
                             }
                             return result;
                 }
