@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 ﻿using System;
-=======
-using System;
->>>>>>> origin/LYZ
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
-<<<<<<< HEAD
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
-=======
-using GooCooServer.Entity.Ex;
-using GooCooServer.Exception;
-using GooCooServer.IDAO;
-using GooCooServer.Utility;
->>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -39,7 +28,6 @@ namespace GooCooServer.Handler
 
         public void ProcessRequest(HttpContext context)
         {
-<<<<<<< HEAD
             //Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
@@ -50,32 +38,10 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     books.Add(bb.GetBookInfo(e.Id));
-=======
-            IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
-            IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
-            HashSet<BookEx> books = new HashSet<BookEx>();
-            String user_id=context.Request["user"];
-            if (bb != null && ub != null)
-            {
-                try
-                {
-                    List<Book> lbs = ub.GetBook(user_id);
-                    foreach (var e in lbs)
-                    {
-                        BookEx bookex = Util.CloneEntity<BookEx>(bb.GetBookInfo(e.Id));
-                        //bookex.Owner_id = user_id;
-                        books.Add(bookex);
-                    }
-                }
-                catch(BMException)
-                {
-                    books = new HashSet<BookEx>();
->>>>>>> origin/LYZ
                 }
             }
             else
             {
-<<<<<<< HEAD
                 if (context.Request["user"] == null) throw new BMException("参数错误");
                 BookInfo book;
                 book = new BookInfo();
@@ -102,37 +68,8 @@ namespace GooCooServer.Handler
             StringBuilder ret = new StringBuilder();
             new JavaScriptSerializer().Serialize(books, ret);
             context.Response.Output.Write(ret.ToString());
-=======
-                BookEx book;
-                book = new BookEx();
-                book.Isbn = "wwwewew32ee2";
-                book.Name = "sdfergw34sdsfdd";
-                book.Timestamp = DateTime.UtcNow;
-                //book.Owner_id = user_id;
-                books.Add(book);
-
-                book = new BookEx();
-                book.Isbn = "sd34t344rt3e";
-                book.Name = "供热为复位";
-                book.Timestamp = DateTime.UtcNow;
-                //book.Owner_id = user_id;
-                books.Add(book);
-
-                book = new BookEx();
-                book.Isbn = "2323ewew3232";
-                book.Name = "sdfergw34fdd";
-                book.Timestamp = DateTime.UtcNow;
-                //book.Owner_id = user_id;
-                books.Add(book);
-            }
-            context.Response.Output.Write(Util.EncodeJson(books));
->>>>>>> origin/LYZ
         }
 
         #endregion
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/LYZ

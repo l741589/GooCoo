@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 ﻿using System;
-=======
-using System;
->>>>>>> origin/LYZ
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
-<<<<<<< HEAD
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
-=======
-using GooCooServer.Entity.Ex;
-using GooCooServer.Exception;
-using GooCooServer.IDAO;
-using GooCooServer.Utility;
->>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -39,7 +28,6 @@ namespace GooCooServer.Handler
 
         public void ProcessRequest(HttpContext context)
         {
-<<<<<<< HEAD
             IBookInfoDAO bookInfoDAO = (IBookInfoDAO)DAOFactory.createDAO("BookDAO");
 
             List<BookInfo> books;
@@ -77,45 +65,6 @@ namespace GooCooServer.Handler
             StringBuilder ret = new StringBuilder();
             new JavaScriptSerializer().Serialize(books, ret);
             context.Response.Output.Write(ret.ToString());
-=======
-            IBookInfoDAO bookInfoDAO = (IBookInfoDAO)DAOFactory.createDAO("BookInfoDAO");
-            IBook_BookInfoDAO bb = (IBook_BookInfoDAO)DAOFactory.createDAO("Book_BookInfoDAO");
-
-            List<BookEx> books = new List<BookEx>();
-            if (bookInfoDAO != null)
-            {
-                try
-                {
-
-                    String keyword = context.Request["keyword"];
-                    bool flag = context.Request["flag"] == "1";
-                    if (keyword == null) keyword = "";
-                    List<BookInfo> infos = bookInfoDAO.GetByKeyWord(keyword);
-                    foreach (BookInfo info in infos)
-                    {
-                        BookEx bex = Util.CloneEntity<BookEx>(info);
-                        if (flag)
-                        {
-                            bex.Books = new List<BookEx.Book>();
-                            var bs = bb.GetBook(info.Isbn);
-                            foreach (var b in bs)
-                            {
-                                BookEx.Book bk = new BookEx.Book();
-                                bk.Id = b.Id;
-                                bk.Owner = null;
-                                bex.Books.Add(bk);
-                            }
-                        }
-                        books.Add(bex);
-                    }
-                }
-                catch (BMException)
-                {
-                    books = new List<BookEx>();
-                }
-            }
-            context.Response.Output.Write(Util.EncodeJson(books));
->>>>>>> origin/LYZ
         }
 
         #endregion

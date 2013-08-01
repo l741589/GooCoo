@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 ﻿using System;
-=======
-using System;
->>>>>>> origin/LYZ
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
-<<<<<<< HEAD
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
-=======
-using GooCooServer.Entity.Ex;
-using GooCooServer.Exception;
-using GooCooServer.IDAO;
-using GooCooServer.Utility;
->>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -40,7 +29,6 @@ namespace GooCooServer.Handler
         public void ProcessRequest(HttpContext context)
         {
             IUser_BookInfoDAO ub = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
-<<<<<<< HEAD
             List<BookInfo> books = new List<BookInfo>();
             if (ub != null)
             {
@@ -74,59 +62,8 @@ namespace GooCooServer.Handler
             StringBuilder ret = new StringBuilder();
             new JavaScriptSerializer().Serialize(books, ret);
             context.Response.Output.Write(ret.ToString());
-=======
-            List<BookEx> books = new List<BookEx>();
-            String user_id = context.Request["user"];
-            if (ub != null)
-            {
-                try
-                {
-                    List<BookInfo> lbs = ub.GetBookInfo(user_id);
-                    foreach (var e in lbs)
-                    {
-                        BookEx b = Util.CloneEntity<BookEx>(e);
-                        b.Orderer_id = user_id;
-                        books.Add(b);
-                    }
-                }
-                catch (BMException)
-                {
-                    books = new List<BookEx>();
-                }
-            }
-            else
-            {
-                if (user_id == null||user_id=="") throw new BMException("参数错误");
-                BookEx book;
-                book = new BookEx();
-                book.Isbn = "wwweweeww32ee2";
-                book.Name = "sdfergw34sdsfdd";
-                book.Timestamp = DateTime.UtcNow;
-                book.Orderer_id = user_id;
-                books.Add(book);
-
-                book = new BookEx();
-                book.Isbn = "sd34t344rt3e";
-                book.Name = "供sa热为复se位";
-                book.Timestamp = DateTime.UtcNow;
-                book.Orderer_id = user_id;
-                books.Add(book);
-
-                book = new BookEx();
-                book.Isbn = "额";
-                book.Name = "而谷歌";
-                book.Timestamp = DateTime.UtcNow;
-                book.Orderer_id = user_id;
-                books.Add(book);
-            }
-            context.Response.Output.Write(Util.EncodeJson(books));
->>>>>>> origin/LYZ
         }
 
         #endregion
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/LYZ

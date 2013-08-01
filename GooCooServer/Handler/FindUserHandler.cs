@@ -8,10 +8,6 @@ using GooCooServer.Exception;
 using System.Collections.Generic;
 using System.Text;
 using System.Web.Script.Serialization;
-<<<<<<< HEAD
-=======
-using GooCooServer.Utility;
->>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -40,27 +36,11 @@ namespace GooCooServer.Handler
             StringBuilder ret=new StringBuilder();
             if (userDAO != null)
             {
-<<<<<<< HEAD
                 users = userDAO.GetByID(context.Request["keyword"]);                
             }
             else
             {
                 if (context.Request["keyword"] == null) throw new BMException("参数错误");
-=======
-                try
-                {
-                    String keyword = context.Request["keyword"];
-                    if (keyword == null) keyword = "";
-                    users = userDAO.GetByKeyword(keyword);
-                }
-                catch(BMException e)
-                {
-                    users = new List<User>();
-                }
-            }
-            else
-            {
->>>>>>> origin/LYZ
                 users = new List<User>();
                 User user=new User();
                 user.Id = "1123345";
@@ -81,12 +61,8 @@ namespace GooCooServer.Handler
                 users.Add(user);
 
             }
-<<<<<<< HEAD
             new JavaScriptSerializer().Serialize(users, ret);
             context.Response.Output.Write(ret.ToString());
-=======
-            context.Response.Output.Write(Util.EncodeJson(users));
->>>>>>> origin/LYZ
         }
 
         #endregion
