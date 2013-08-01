@@ -25,7 +25,7 @@ namespace GooCooWeb.Controllers
             {
                 return View("Error");
             }
-            
+            //Request.RawUrl
 
             /*
             /////////////////
@@ -77,8 +77,40 @@ namespace GooCooWeb.Controllers
             ////////////////////////////////
             */
 
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            string userSessionID = (string)Session["UserSessionID"];
+            User user = null;
+            try
+            {
+                user = userDAO.Get(userSessionID);
+            }
+            catch (Exception) { }
+            IUser_BookInfoDAO user_bookInfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+
+            bool hasFavor = false, hasOrder = false;
+            try
+            {
+                User_BookInfo a = user_bookInfoDAO.Get(isbn, user.Id, User_BookInfo.ERelation.ORDER);
+                if (a != null)
+                {
+                    hasOrder = true;
+                }
+            }
+            catch (Exception) { }
+            try
+            {
+                User_BookInfo a = user_bookInfoDAO.Get(isbn, user.Id, User_BookInfo.ERelation.FAVOR);                
+                if (a != null)
+                {
+                    hasFavor = true;
+                }
+            }
+            catch (Exception) { }
+
+            ViewBag.HasOrder = hasOrder;
+            ViewBag.HasFavor = hasFavor;
+
             return View();
         }
-
     }
 }

@@ -20,7 +20,7 @@
                     <div class="alert">
                         捐赠册数 【<%: ViewBag.DonateBookNumber %>】
                     </div>
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>图书编号</th>
@@ -37,13 +37,13 @@
                                     if (idx % 2 == 0)
                                     {
                             %>
-                            <tr class="success">
+                            <tr class="success" onclick="LinkTo(<%: book.Isbn %>)">
                                 <%
                                     }
                                     else
                                     {
                                 %>
-                            <tr>
+                            <tr onclick="LinkTo(<%: book.Isbn %>)">
                                 <%
                                     }   
                                 %>

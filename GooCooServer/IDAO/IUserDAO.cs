@@ -20,6 +20,8 @@ namespace GooCooServer.IDAO
         int GetCountByKeyWord(String keyWord);
         List<User> GetByKeyword(String keyWord, int from = 0, int count = 0);
 
+        bool isExist(String ID);
+
         //对所有用户password置空
         User Get(String session);
         String Add(User user);

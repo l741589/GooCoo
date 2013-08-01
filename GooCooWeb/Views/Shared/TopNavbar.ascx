@@ -6,14 +6,14 @@
             <a class="brand" href="/">GooCoo</a>
 
             <ul class="nav pull-left">
-                <li><a href="#">首页</a></li>
+                <li><a href="<%:Url.Action("Index", "Home") %>">首页</a></li>
                 <li><a href="<%:Url.Action("Index","SearchView") %>">搜索</a></li>
             </ul>
 
             <ul class="nav pull-right">
                 <li>
-                    <form id="searchForm" class="navbar-search pull-right" action="#">
-                        <input type="text" class="search-query" placeholder="search" />
+                    <form id="searchForm" class="navbar-search pull-right" action="<%:Url.Action("Index","SearchView") %>">
+                        <input type="text" class="search-query" name="keyword" placeholder="search" />
                         <input type="submit" style="display: none" />
                     </form>
                 </li>

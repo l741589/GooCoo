@@ -79,20 +79,25 @@ namespace GooCooWeb.Controllers
         [HttpPost]
         public ActionResult UpdateInfo(PersonalInfoModel model)
         {
-            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            if (ModelState.IsValid)
+            {
+                IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
 
-            User user = new User();
-            user.Id = model.Id;
-            user.Name = model.Name;
-            user.Password = model.Password;
-            user.Phonenumber = model.PhoneNumber;
-            user.Email = model.Email;
-            user.Repvalue = 0;
-            user.Authority = (GooCooServer.Entity.User.EAuthority)model.Authority;
+                User user = new User();
+                user.Id = model.Id;
+                user.Name = model.Name;
+                user.Password = model.Password;
+                user.Phonenumber = model.PhoneNumber;
+                user.Email = model.Email;
+                user.Repvalue = 0;
+                user.Authority = (GooCooServer.Entity.User.EAuthority)model.Authority;
 
-            string userSessionID = (string)Session["UserSessionID"];
-            userDAO.Set(userSessionID, user);
-            return Redirect("/PersonalInfo/Index");
+                string userSessionID = (string)Session["UserSessionID"];
+                userDAO.Set(userSessionID, user);
+                return Redirect("/PersonalInfo/Index");
+            }
+
+            return View(model);
         }
 
         [LoggedOnFilter]
@@ -115,6 +120,7 @@ namespace GooCooWeb.Controllers
                     BorrowBookInfo borrowBookInfo = new BorrowBookInfo();
                     borrowBookInfo.Id = book.Id;
                     borrowBookInfo.Name = bookInfo.Name;
+                    borrowBookInfo.Isbn = bookInfo.Isbn;
                     borrowBookInfo.BorrowTime = user_bookDAO.Get(localUser.Id, book.Id, User_Book.ERelation.BORROW).Timestamp;
                     borrowBookInfo.ExpectedReturnTime = Book.getReturnTime(borrowBookInfo.BorrowTime);
                     model.Add(borrowBookInfo);
@@ -147,6 +153,7 @@ namespace GooCooWeb.Controllers
                     DonateBookInfo donateBookInfo = new DonateBookInfo();
                     donateBookInfo.Id = book.Id;
                     donateBookInfo.Name = bookInfo.Name;
+                    donateBookInfo.Isbn = bookInfo.Isbn;
                     donateBookInfo.DonateTime = book.Timestamp;
                     model.Add(donateBookInfo);
                 }
@@ -161,13 +168,61 @@ namespace GooCooWeb.Controllers
         [LoggedOnFilter]
         public ActionResult CollectInfo()
         {
-            return View();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
+            IUser_BookInfoDAO user_bookinfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+            List<BookInfo> books = null;
+            try
+            {
+                books = user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.FAVOR);
+            }
+            catch (BMException)
+            {
+                books = new List<BookInfo>();
+            }
+            CollectInfoModel model = new CollectInfoModel(books);
+            return View(model);
         }
 
         [LoggedOnFilter]
         public ActionResult PreorderInfo()
         {
-            return View();
+            PreorderInfoModel model = new PreorderInfoModel();
+            IUserDAO userDAO = DAOFactory.createDAO("UserDAO") as IUserDAO;
+            User localUser = userDAO.Get((string)Session["UserSessionID"]);
+            IUser_BookInfoDAO user_bookinfoDAO = DAOFactory.createDAO("User_BookInfoDAO") as IUser_BookInfoDAO;
+            try
+            {
+                List<BookInfo> books = user_bookinfoDAO.GetBookInfo(localUser.Id, User_BookInfo.ERelation.ORDER);
+                ViewBag.PreorderBookNumber = books.Count;
+ 
+                IBook_BookInfoDAO book_bookinfoDAO = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+                foreach (BookInfo bookInfo in books)
+                {
+                    PreorderBookInfo preorderBookInfo = new PreorderBookInfo();
+                    preorderBookInfo.Isbn = bookInfo.Isbn;
+                    preorderBookInfo.Name = bookInfo.Name;
+                    preorderBookInfo.Author = bookInfo.Author;
+                    preorderBookInfo.BorrowedNumber = book_bookinfoDAO.GetBook(bookInfo.Isbn).Count - book_bookinfoDAO.GetAvaliableBookNumber(bookInfo.Isbn);
+                    try
+                    {
+                        preorderBookInfo.PreorderNumber = user_bookinfoDAO.GetUser(bookInfo.Isbn, User_BookInfo.ERelation.ORDER).Count;
+                    }
+                    catch (BMException)
+                    {
+                        preorderBookInfo.PreorderNumber = 0;
+                    }
+
+                    User_BookInfo user_bookInfo = user_bookinfoDAO.Get(bookInfo.Isbn, localUser.Id, User_BookInfo.ERelation.ORDER);
+                    preorderBookInfo.PreorderDate = user_bookInfo.Timestamp;
+                    model.Add(preorderBookInfo);
+                }
+            }
+            catch (BMException)
+            {
+                ViewBag.PreorderBookNumber = 0;
+            }
+            return View(model);
         }
     }
 

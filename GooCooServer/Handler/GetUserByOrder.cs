@@ -46,6 +46,7 @@ namespace GooCooServer.Handler
                     foreach (var e in lus)
                     {
                         UserEx u = Util.CloneEntity<UserEx>(e);
+                        u.Orders = new List<string>();
                         u.Orders.Add(book_isbn);
                         users.Add(u);
                         book.Orderers.Add(e.Id);

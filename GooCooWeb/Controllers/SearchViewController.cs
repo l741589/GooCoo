@@ -15,7 +15,7 @@ namespace GooCooWeb.Controllers
     {
         //
         // GET: /SearchView/      
-        public ActionResult Index(string keyword, string type = "标题", int page = 0)
+        public ActionResult Index(string keyword, string type = "标题", int page = 1)
         {
             IBookInfoDAO bookInfoDao = DAOFactory.createDAO("BookInfoDAO") as IBookInfoDAO;
 

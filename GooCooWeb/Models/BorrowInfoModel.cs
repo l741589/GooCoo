@@ -9,6 +9,7 @@ namespace GooCooWeb.Models
 {
     public class BorrowBookInfo
     {
+        public String Isbn { get; set; }
         public int Id { get; set; }
         public String Name { get; set; }
         public DateTime BorrowTime { get; set; }

@@ -25,15 +25,23 @@ namespace GooCooServer.DAO
                 {
                     throw new BMException("Create Connnect Error");
                 }
-                if (comment.Timestamp == null)
+                if (comment.Timestamp == default(DateTime))
                     comment.Timestamp = DateTime.Now;
-                SqlCommand myCommand = new SqlCommand("INSERT INTO COMMENT (content, time) " + "Values (" + comment.Content + ", " + comment.Timestamp + "); " + "select @@IDENTITY as 'Identity'", connecter);
+
+                SqlParameter time = new SqlParameter("@time", SqlDbType.DateTime);
+                time.Value = comment.Timestamp;
+
+                SqlParameter content = new SqlParameter("@content", SqlDbType.VarChar);
+                content.Value = comment.Content;
+                SqlCommand myCommand = new SqlCommand("INSERT INTO COMMENT (content, time) " + "Values (@content, @time); " + "select @@IDENTITY as 'Identity'", connecter);
+                myCommand.Parameters.Add(content);
+                myCommand.Parameters.Add(time);
                 int id = 0;
                 try
                 {
                     id = Convert.ToInt32(myCommand.ExecuteScalar());
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
                     id = 0;
                 }

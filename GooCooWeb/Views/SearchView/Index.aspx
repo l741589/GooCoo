@@ -1,15 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/SearchViewLayout.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Index
+    搜索结果
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    
-
-    
-
-    <div class="span8"> 
+           
+    <div class="span8 offset1"> 
         <% Html.RenderPartial("searchBar"); %>
 
         <% if (ViewBag.SearchResult.HasSearch){ %>
@@ -19,7 +16,7 @@
                     int recordFrom = (ViewBag.SearchResult.CurrentPage - 1) * GooCooWeb.Models.SearchResultModel.recordPerPage + 1;
                     int recordTo = recordFrom + ViewBag.SearchResult.Results.Count - 1;
                  %>
-                搜索结果<%:recordFrom %>-<%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
+                搜索结果<%:recordFrom %> - <%:recordTo %> 共<%:ViewBag.SearchResult.ResultCount %>
             </p>
         
         <%foreach (GooCooServer.Entity.BookInfo bookInfo in ViewBag.SearchResult.Results)
@@ -27,15 +24,16 @@
 
         <div class="search-record">
         <div class="media">
-            <a class="pull-left" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
-                <img class="media-object" src="<%:bookInfo.Photourl %>">                
+            <a class="pull-left" target="_blank" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
+                <img class="media-object" src="<%:GooCooServer.Entity.BookInfo.getMidPhotoUrl(bookInfo) %>">
             </a>
             <div class="media-body">
-                <a class="book-title" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
+                <a class="book-title" target="_blank" href="<%:Url.Action("Index","BookInfo",new {isbn= bookInfo.Isbn}) %>">
                     <p class="media-heading"><%:bookInfo.Name %></p>
                 </a>
-                <p class="book-author">作者：</p>
-                <p class="book-description"><%:bookInfo.Summary %></p>
+                <p class="book-author">作者：<%:bookInfo.Author %></p>
+                <%const int description_length = 180; %>
+                <p class="book-description"><%:bookInfo.Summary.Length > description_length? bookInfo.Summary.Substring(0,description_length) + "..." : bookInfo.Summary %></p>
             </div>
         </div>
         </div>

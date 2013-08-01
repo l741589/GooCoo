@@ -20,7 +20,7 @@
                     <div class="alert">
                         借阅册数 【<%: ViewBag.BorrowBookNumber %>】
                     </div>
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>图书编号</th>
@@ -35,16 +35,23 @@
                                 for (int idx = 0; idx < books.Count; idx++)
                                 {
                                     GooCooWeb.Models.BorrowBookInfo book = books[idx];
+                                    if (book.ExpectedReturnTime < DateTime.Now)
+                                    {
+                           %>
+                                        <tr class="error" onclick="LinkTo(<%: book.Isbn %>)">
+                           <%
+                                    }
+                                    else
                                     if (idx % 2 == 0)
                                     {
-                            %>
-                                        <tr class="info">
+                            %> 
+                                        <tr class="info" onclick="LinkTo(<%: book.Isbn %>)">
                             <%
                                     }
                                     else
                                     {
                             %>
-                                        <tr>
+                                        <tr onclick="LinkTo(<%: book.Isbn %>)">
                             <%
                                     }   
                             %>
@@ -72,5 +79,9 @@
 <asp:Content ID="Content6" ContentPlaceHolderID="OtherJavascript" runat="server">
     <script type="text/javascript">
         document.getElementById("nav_borrowInfo").className = "active";
+
+        function LinkTo(addr) {
+            window.location.href = "/BookInfo?isbn=" + addr;
+        }
     </script>
 </asp:Content>
