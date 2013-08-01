@@ -120,8 +120,12 @@ namespace GooCooServer.Utility
 
         public static T DecodeJson<T>(String input)
         {
-            JavaScriptSerializer jss = new JavaScriptSerializer();
-            return jss.Deserialize<T>(input);
+            try
+            {
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                return jss.Deserialize<T>(input);
+            }
+            catch { return default(T); }
         }
 
         public static Object DecodeJson(String input, Type type)

@@ -156,10 +156,7 @@ namespace GooCooAdmin
         {
             
             //处理Enable
-            (cb_relation.Items[0] as Label).IsEnabled = (book != null) &&
-                ((book.Orderers.Count + book.BorrowedBook < book.Count) ||
-                (book.BorrowedBook < book.Count && user != null && book.Orderer_id == user.Id));
-
+            (cb_relation.Items[0] as Label).IsEnabled = (book != null) && (book.BorrowedBook < book.Count);
             (cb_relation.Items[1] as Label).IsEnabled = (book != null) && (book.BorrowedBook > 0);
             (cb_relation.Items[2] as Label).IsEnabled = true;
 
@@ -172,10 +169,9 @@ namespace GooCooAdmin
                 }
                 else
                 {//如果书籍没有多余的书                    
-                    if (book.Count <= book.BorrowedBook || book.Count <= book.Orderers.Count + book.BorrowedBook)
-                    {//如果是该用户预定，那么为借书，否则为捐书                        
-                        if (book.Count > book.BorrowedBook && book.Orderer_id == user.Id) cb_relation.SelectedIndex = 0;
-                        else cb_relation.SelectedIndex = 2;
+                    if (book.Count <= book.BorrowedBook)
+                    {
+                        cb_relation.SelectedIndex = 2;
                     }//如果有多余的书借书                  
                     else cb_relation.SelectedIndex = 0;
                 }
