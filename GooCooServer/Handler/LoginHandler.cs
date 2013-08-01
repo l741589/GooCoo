@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using System;
+=======
+using System;
+>>>>>>> origin/LYZ
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -6,6 +10,11 @@ using GooCooServer.DAO;
 using GooCooServer.Entity;
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+<<<<<<< HEAD
+=======
+using GooCooServer.Utility;
+using GooCooServer.Entity.Ex;
+>>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -32,26 +41,51 @@ namespace GooCooServer.Handler
             IUserDAO userDao = (IUserDAO)DAOFactory.createDAO("UserDAO");
             try
             {
+<<<<<<< HEAD
                 User user;
                 if (userDao != null)
                 {
                     String session = userDao.Login(id, pw);
                     user = userDao.Get(session);
                     
+=======
+                UserEx user;
+                String session;
+                if (userDao != null)
+                {
+                    session = userDao.Login(id, pw);
+                    User u = userDao.Get(session);
+                    user = Util.CloneEntity<UserEx>(u);
+                    user.Session = session;
+>>>>>>> origin/LYZ
                 }
                 else
                 {
                     if (id == "1152788" && pw == "1234")
                     {
+<<<<<<< HEAD
                         user = new User();
                         user.Name = "测试";
                         user.Id = "1152788";
                         user.Authority = User.EAuthority.ADMIN;
+=======
+                        user = new UserEx();
+                        user.Name = "测试";
+                        user.Id = "1152788";
+                        user.Authority = User.EAuthority.SUPERADMIN;
+                    }else if (id == "2789665" && pw == "1111")
+                    {
+                        user = new UserEx();
+                        user.Name = "小明";
+                        user.Id = "2789665";
+                        user.Authority = User.EAuthority.USER;
+>>>>>>> origin/LYZ
                     }
                     else
                     {
                         throw new BMException("登录失败");
                     }
+<<<<<<< HEAD
                 }
                 StringBuilder ret = new StringBuilder();
                 new JavaScriptSerializer().Serialize(user, ret);
@@ -61,6 +95,17 @@ namespace GooCooServer.Handler
             {
             }
             catch(NullReferenceException e)
+=======
+                    session = "1213234456767455465";
+                }
+                user.Session = session;
+                context.Response.Output.Write(Util.EncodeJson(user));
+            }
+            catch (BMException)
+            {
+            }
+            catch (NullReferenceException)
+>>>>>>> origin/LYZ
             {
             }
         }

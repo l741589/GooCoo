@@ -8,12 +8,14 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    interface IBook_BookInfoDAO : IBaseDAO
+    public interface IBook_BookInfoDAO : IBaseDAO
     {
         //Book_BookInfo Add(String isbn, int id);
         //bool Del(String isbn, int id);
         BookInfo GetBookInfo(int book_id);
         List<Book> GetBook(String isbn);
         int Count(String isbn);
+
+        int GetAvaliableBookNumber(String isbn);
     }
 }

@@ -117,8 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="INT_AUTHORYLIFETIME" xml:space="preserve">
+    <value>300</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>GooCoo图书管理系统</value>
+  </data>
+  <data name="URL_ADDBOOK" xml:space="preserve">
+    <value>AddBook</value>
+  </data>
+  <data name="URL_ADDUSER" xml:space="preserve">
+    <value>AddUser</value>
+  </data>
+  <data name="URL_BORROW" xml:space="preserve">
+    <value>BorrowHandler</value>
+  </data>
+  <data name="URL_DELBOOK" xml:space="preserve">
+    <value>DelBook</value>
+  </data>
+  <data name="URL_DELUSER" xml:space="preserve">
+    <value>DelUser</value>
+  </data>
+  <data name="URL_DONATE" xml:space="preserve">
+    <value>DonateHandler</value>
   </data>
   <data name="URL_FINDBOOK" xml:space="preserve">
     <value>FindBookHandler</value>
@@ -129,16 +150,34 @@
   <data name="URL_GETBOOKBYBORROW" xml:space="preserve">
     <value>GetBookByBorrow</value>
   </data>
+  <data name="URL_GETBOOKBYFAVOR" xml:space="preserve">
+    <value>GetBookByFavor</value>
+  </data>
   <data name="URL_GETBOOKBYORDER" xml:space="preserve">
     <value>GetBookByOrder</value>
   </data>
+  <data name="URL_GETLOG" xml:space="preserve">
+    <value>GetLogHandler</value>
+  </data>
   <data name="URL_GETUSERBYBORROW" xml:space="preserve">
     <value>GetUserByBorrow</value>
+  </data>
+  <data name="URL_GETUSERBYFAVOR" xml:space="preserve">
+    <value>GetUserByFavor</value>
   </data>
   <data name="URL_GETUSERBYORDER" xml:space="preserve">
     <value>GetUserByOrder</value>
   </data>
   <data name="URL_LOGIN" xml:space="preserve">
     <value>LoginHandler</value>
+  </data>
+  <data name="URL_RETURN" xml:space="preserve">
+    <value>ReturnHandler</value>
+  </data>
+  <data name="URL_UPDATEBOOK" xml:space="preserve">
+    <value>UpdateBook</value>
+  </data>
+  <data name="URL_UPDATEUSER" xml:space="preserve">
+    <value>UpdateUser</value>
   </data>
 </root>

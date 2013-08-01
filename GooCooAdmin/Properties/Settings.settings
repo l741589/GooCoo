@@ -1,5 +1,39 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GooCooAdmin.Properties" GeneratedClassName="Settings">
   <Profiles />
-  <Settings />
+  <Settings>
+    <Setting Name="PORT" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10001</Value>
+    </Setting>
+    <Setting Name="CL_NOCHANGE" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#00000000</Value>
+    </Setting>
+    <Setting Name="CL_CHANGED" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FF0000FF</Value>
+    </Setting>
+    <Setting Name="CL_DELETED" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FFFF0000</Value>
+    </Setting>
+    <Setting Name="CL_NEW" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FF00FF00</Value>
+    </Setting>
+    <Setting Name="CL_DELNEW" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FFFFFF00</Value>
+    </Setting>
+    <Setting Name="CL_BLACK" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FF000000</Value>
+    </Setting>
+    <Setting Name="CL_WHITE" Type="System.Windows.Media.Color" Scope="Application">
+      <Value Profile="(Default)">#FFFFFFFF</Value>
+    </Setting>
+    <Setting Name="SERVERADDR" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">10.60.36.35</Value>
+    </Setting>
+    <Setting Name="DEBUGSERVERADDR" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="DEBUGPORT" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">11681</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

@@ -14,7 +14,28 @@ namespace GooCooServer.Entity
         private String name;
         private String password;
         private EAuthority authority;
-        
+        private String email;
+        private String phonenumber;
+        private int repvalue;
+
+        public String Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+
+        public String Phonenumber
+        {
+            get { return phonenumber; }
+            set { phonenumber = value; }
+        }
+
+        public int Repvalue
+        {
+            get { return repvalue; }
+            set { repvalue = value; }
+        }
+
         public EAuthority Authority
         {
             get { return authority; }
@@ -41,16 +62,17 @@ namespace GooCooServer.Entity
 
         public static bool operator ==(User lhs, User rhs)
         {
-            return lhs.Equals(rhs);
+            return Object.Equals(lhs, rhs);
         }
 
         public static bool operator !=(User lhs, User rhs)
         {
-            return !lhs.Equals(rhs);
+            return !Object.Equals(lhs, rhs);
         }
 
         public override bool Equals(object obj)
         {
+            if (Object.Equals(obj, null)) return false;
             if (obj is User)
             {
                 return Id == (obj as User).Id;

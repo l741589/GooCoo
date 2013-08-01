@@ -1,0 +1,12 @@
+﻿<ToolBar x:Class="GooCooAdmin.Widget.FilterToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" ToolBarTray.IsLocked="False">
+    <CheckBox x:Name="cb_nochange" IsChecked="True" Content="无变化"/>
+    <CheckBox x:Name="cb_changed" IsChecked="True" Content="已修改"/>
+    <CheckBox x:Name="cb_deleted" IsChecked="True" Content="已删除"/>
+    <CheckBox x:Name="cb_new" IsChecked="True" Content="新建"/>
+    <CheckBox x:Name="cb_delnew" IsChecked="True" Content="新建并删除"/>
+</ToolBar>

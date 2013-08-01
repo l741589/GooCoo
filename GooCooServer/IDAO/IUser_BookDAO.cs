@@ -8,10 +8,10 @@ using GooCooServer.Entity;
 
 namespace GooCooServer.IDAO
 {
-    interface IUser_BookDAO : IBaseDAO
+    public interface IUser_BookDAO : IBaseDAO
     {
         void Add(String user_id, int book, User_Book.ERelation relation = User_Book.ERelation.BORROW);
-        bool Del(int book, User_Book.ERelation relation = User_Book.ERelation.BORROW);
+        void Del(int book, User_Book.ERelation relation = User_Book.ERelation.BORROW);
         List<Book> GetBook(String user_id, User_Book.ERelation relation = User_Book.ERelation.BORROW);
         User GetUser(int book, User_Book.ERelation relation = User_Book.ERelation.BORROW);
         User_Book Get(String user_id, int book, User_Book.ERelation relation = User_Book.ERelation.BORROW);

@@ -8,6 +8,6 @@ namespace GooCooServer.IDAO
 {
     public interface IBaseDAO
     {
-
+        void createConnection();
     }
 }

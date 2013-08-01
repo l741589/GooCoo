@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 ﻿using System;
+=======
+using System;
+>>>>>>> origin/LYZ
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using GooCooServer.DAO;
 using GooCooServer.Entity;
+<<<<<<< HEAD
 using GooCooServer.Exception;
 using GooCooServer.IDAO;
+=======
+using GooCooServer.Entity.Ex;
+using GooCooServer.Exception;
+using GooCooServer.IDAO;
+using GooCooServer.Utility;
+>>>>>>> origin/LYZ
 
 namespace GooCooServer.Handler
 {
@@ -30,6 +41,7 @@ namespace GooCooServer.Handler
         {
             IUser_BookDAO ub = DAOFactory.createDAO("User_BookDAO") as IUser_BookDAO;
             IBook_BookInfoDAO bb = DAOFactory.createDAO("Book_BookInfoDAO") as IBook_BookInfoDAO;
+<<<<<<< HEAD
             List<User> users = new List<User>();
             if (bb != null && ub != null)
             {
@@ -37,10 +49,60 @@ namespace GooCooServer.Handler
                 foreach (var e in lbs)
                 {
                     users.Add(ub.GetUser(e.Id));
+=======
+            List<UserEx> users = new List<UserEx>();
+            BookEx book = new BookEx();
+            book.Books = new List<BookEx.Book>();
+            String book_isbn = context.Request["isbn"];
+            if (bb != null && ub != null)
+            {
+                try
+                {
+                    List<Book> lbs = bb.GetBook(book_isbn);
+                    User owner = null;
+                    foreach (var e in lbs)
+                    {
+                        try
+                        {
+                            owner = ub.GetUser(e.Id);
+                            if (owner == null)
+                            {
+                                BookEx.Book b = new BookEx.Book();
+                                b.Id = e.Id;
+                                b.Owner = null;
+                                book.Books.Add(b);
+                            }
+                            else
+                            {
+                                UserEx u = Util.CloneEntity<UserEx>(owner);
+                                if (u.Holds == null) u.Holds = new List<string>();
+                                u.Holds.Add(book_isbn);
+                                users.Add(u);
+                                BookEx.Book b = new BookEx.Book();
+                                b.Id = e.Id;
+                                b.Owner = u.Id;
+                                if (book.Books == null) book.Books = new List<BookEx.Book>();
+                                book.Books.Add(b);
+                            }
+                        }
+                        catch (BMException ex)
+                        {
+                            BookEx.Book b = new BookEx.Book();
+                            b.Id = e.Id;
+                            b.Owner = null;
+                            book.Books.Add(b);
+                        }                       
+                    }
+                }
+                catch (BMException)
+                {
+                    users = new List<UserEx>();
+>>>>>>> origin/LYZ
                 }
             }
             else
             {
+<<<<<<< HEAD
                 if (context.Request["isbn"] == null) throw new BMException("参数错误");
                 User user = new User();
                 user.Id = "1123435";
@@ -67,3 +129,40 @@ namespace GooCooServer.Handler
         #endregion
     }
 }
+=======
+                UserEx user = new UserEx();
+                user.Id = "1123435";
+                user.Name = "ewrwrew";
+                user.Authority = UserEx.EAuthority.USER;
+                users.Add(user);
+                BookEx.Book b = new BookEx.Book();
+                b.Id = 23;
+                b.Owner = user.Id;
+                book.Books.Add(b);
+
+                user = new UserEx();
+                user.Id = "2342132";
+                user.Name = "书而已";
+                user.Authority = UserEx.EAuthority.USER;
+                users.Add(user);
+                b = new BookEx.Book();
+                b.Id = 24;
+                b.Owner = user.Id;
+                book.Books.Add(b);
+
+                user = new UserEx();
+                user.Id = "1123345";
+                user.Name = "孙建华";
+                user.Authority = UserEx.EAuthority.ADMIN;
+                users.Add(user);
+                b = new BookEx.Book();
+                b.Id = 25;
+                b.Owner = null;
+                book.Books.Add(b);
+            }
+            context.Response.Output.Write(Util.EncodeJson(users,book));
+        }
+        #endregion
+    }
+}
+>>>>>>> origin/LYZ
