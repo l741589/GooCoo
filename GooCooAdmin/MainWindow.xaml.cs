@@ -756,14 +756,19 @@ namespace GooCooAdmin
         {
             TabControl tc = sender as TabControl;
             if (tc.SelectedIndex != 3) return;
-            DateTime today = DateTime.Now;
+            DateTime yesterday = DateTime.Now;
+            DateTime today = yesterday.AddDays(1);
             dp_end.SelectedDate = today;
-            DateTime yesterday = today.AddDays(-1);
             dp_start.SelectedDate = yesterday;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (dp_end.SelectedDate <= dp_start.SelectedDate)
+            {
+                MessageBox.Show(this, "请选择正确的时间区间");
+                return;
+            }
             DateTime[] dates = new DateTime[2];
             dates[0] = (DateTime)dp_start.SelectedDate;
             dates[1] = (DateTime)dp_end.SelectedDate;
@@ -772,6 +777,7 @@ namespace GooCooAdmin
                 .Post(Properties.Resources.URL_GETLOG);
             if (s == null || s=="") { WebError(); return; }
             List<Log> logs = Util.DecodeJson<List<Log>>(s);
+            if (logs == null) return;
             dg_log.Items.Clear();
             foreach (var log in logs)
             {

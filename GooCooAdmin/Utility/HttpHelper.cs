@@ -42,16 +42,16 @@ namespace GooCooAdmin.Utility
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = byteArray.Length;
-                Stream dataStream = request.GetRequestStream();
-                dataStream.Write(byteArray, 0, byteArray.Length);
+                Stream dataStream = await request.GetRequestStreamAsync();
+                await dataStream.WriteAsync(byteArray, 0, byteArray.Length);
                 dataStream.Close();
 
                 WebResponse response = await request.GetResponseAsync();
-                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                //Console.WriteLine(((HttpWebResponse)response).StatusDescription);
                 dataStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
-                Console.Write(responseFromServer);
+                string responseFromServer = await reader.ReadToEndAsync();
+                //Console.Write(responseFromServer);
                 reader.Close();
                 dataStream.Close();
                 response.Close();
